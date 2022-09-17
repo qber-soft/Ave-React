@@ -8,6 +8,8 @@
 
 <div align="center">
 
+[![Build Status](https://github.com/qber-soft/Ave-React/workflows/build/badge.svg)](https://github.com/qber-soft/Ave-React/workflows/build/badge.svg)
+
  </div>
  
 # Introduction
