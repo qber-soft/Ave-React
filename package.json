@@ -1,21 +1,21 @@
 {
   "name": "ave-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ave-ui in react",
   "main": "dist/src/ave-react/index.js",
   "types": "dist/src/ave-react/index.d.ts",
   "keywords": [
-		"gui",
-		"desktop",
-		"avernakis",
-		"ave",
+    "gui",
+    "desktop",
+    "avernakis",
+    "ave",
     "react"
-	],
+  ],
   "homepage": "https://github.com/qber-soft/Ave-React/",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/qber-soft/Ave-React"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qber-soft/Ave-React"
+  },
   "scripts": {
     "prepare": "husky install .husky",
     "dev": "start npm run dev:draft && start npm run dev:script",
