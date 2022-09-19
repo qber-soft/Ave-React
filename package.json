@@ -18,6 +18,7 @@
   },
   "scripts": {
     "prepare": "husky install .husky",
+    "predev": "cross-env NODE_ENV=dev draft build",
     "dev": "start npm run dev:draft && start npm run dev:script",
     "dev:draft": "cross-env NODE_ENV=dev draft dev",
     "dev:script": "cross-env NODE_ENV=dev tsnd --respawn ./src/app.tsx",
