@@ -1,6 +1,6 @@
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
-import { Button as NativeButton, IconSource, Vec4, VisualTextLayout } from "ave-ui";
+import { Button as NativeButton, ButtonStyle, IconSource, Vec4, VisualTextLayout } from "ave-ui";
 
 export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
@@ -11,6 +11,7 @@ export interface IButtonComponentProps extends IComponentProps {
 
 export interface IButtonStyle extends IComponentStyle {
 	color?: Vec4;
+	visualStyle?: ButtonStyle;
 }
 
 class ButtonComponent extends AveComponent<IButtonComponentProps> {
@@ -57,6 +58,12 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 				case "color": {
 					const color = styles.color ?? new Vec4(0, 0, 0, 255);
 					this.button.SetTextColor(color);
+					break;
+				}
+
+				case "visualStyle": {
+					const style = styles.visualStyle ?? ButtonStyle.Push;
+					this.button.SetButtonStyle(style);
 					break;
 				}
 			}
