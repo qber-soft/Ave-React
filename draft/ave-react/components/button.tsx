@@ -6,7 +6,7 @@ export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
 	style?: IButtonStyle;
 	iconInfo?: { name: string; size?: number };
-	onClick?: (sender: NativeButton) => void;
+	onClick?: () => void;
 }
 
 export interface IButtonStyle extends IComponentStyle {
@@ -36,7 +36,7 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 				this.setValueForStyles(propValue);
 				break;
 			}
-			
+
 			case "iconInfo": {
 				const context = getAppContext();
 				const resMap = context.getIconResourceMap();
