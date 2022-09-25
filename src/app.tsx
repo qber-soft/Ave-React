@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestI18nButtonSwitch } from "./examples";
+import { TestKeyboardBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestI18nButtonSwitch />;
+const app = <TestKeyboardBasic />;
 
 AveRenderer.render(app);
