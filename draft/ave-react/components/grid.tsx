@@ -159,8 +159,6 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		}
 
 		const childControl = child.createUI(this.window);
-		child.nativeControl = childControl;
-
 		const childArea = child?.props?.style?.area ?? { row: 0, column: 0, rowSpan: 1, columnSpan: 1 };
 		this.grid.ControlAdd(childControl).SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
 		child.parentGrid = this.grid;

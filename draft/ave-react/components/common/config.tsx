@@ -10,6 +10,13 @@ export interface IComponentProps {
 	style?: IComponentStyle;
 	langKey?: string;
 	children?: any[] | any;
+
+	onPointerEnter?: Parameters<IControl["OnPointerEnter"]>[0];
+	onPointerLeave?: Parameters<IControl["OnPointerLeave"]>[0];
+	onPointerPress?: Parameters<IControl["OnPointerPress"]>[0];
+	onPointerRelease?: Parameters<IControl["OnPointerRelease"]>[0];
+	onPointerMove?: Parameters<IControl["OnPointerMove"]>[0];
+	onPointerHover?: Parameters<IControl["OnPointerHover"]>[0];
 }
 
 export interface IComponentStyle {
@@ -65,6 +72,7 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		}
 		this.window = window;
 		const control = this.onCreateUI();
+		this.nativeControl = control;
 		{
 			("use trace");
 			end: (id: number) => ({
@@ -115,7 +123,34 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		}
 	}
 
-	protected abstract onUpdateProp(propName: string, propValue: any);
+	protected onUpdateProp(propName: string, propValue: any) {
+		switch (propName) {
+			case "onPointerEnter": {
+				this.nativeControl.OnPointerEnter(propValue ?? (() => {}));
+				break;
+			}
+			case "onPointerLeave": {
+				this.nativeControl.OnPointerLeave(propValue ?? (() => {}));
+				break;
+			}
+			case "onPointerPress": {
+				this.nativeControl.OnPointerPress(propValue ?? (() => {}));
+				break;
+			}
+			case "onPointerRelease": {
+				this.nativeControl.OnPointerRelease(propValue ?? (() => {}));
+				break;
+			}
+			case "onPointerMove": {
+				this.nativeControl.OnPointerMove(propValue ?? (() => {}));
+				break;
+			}
+			case "onPointerHover": {
+				this.nativeControl.OnPointerHover(propValue ?? (() => {}));
+				break;
+			}
+		}
+	}
 
 	get gridControl() {
 		return this?.parentGrid?.ControlGet(this?.nativeControl) ?? null;

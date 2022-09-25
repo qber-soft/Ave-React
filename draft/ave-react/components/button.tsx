@@ -1,12 +1,12 @@
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
-import { Button as NativeButton, ButtonStyle, IconSource, Vec4, VisualTextLayout } from "ave-ui";
+import { Button as NativeButton, ButtonStyle, IButton, IconSource, Vec4, VisualTextLayout } from "ave-ui";
 
 export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
 	style?: IButtonStyle;
 	iconInfo?: { name: string; size?: number };
-	onClick?: () => void;
+	onClick?: IButton["OnClick"];
 }
 
 export interface IButtonStyle extends IComponentStyle {
@@ -26,6 +26,7 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IButtonComponentProps, propValue: any) {
+		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "text": {
 				this.button.SetText(propValue);
