@@ -13,13 +13,13 @@ export function TestButtonStyle() {
 	);
 }
 
-export interface IDemoLayoutProps {
+interface IDemoLayoutProps {
 	children?: any[] | any;
 	width?: string;
 	height?: string;
 }
 
-export function DemoLayout(props: IDemoLayoutProps) {
+function DemoLayout(props: IDemoLayoutProps) {
 	const width = props?.width ?? "120dpx";
 	const height = props?.height ?? "32dpx";
 
