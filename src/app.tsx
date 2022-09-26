@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestLabelSetText } from "./examples";
+import { TestLabelBackgroundColor } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestLabelSetText />;
+const app = <TestLabelBackgroundColor />;
 
 AveRenderer.render(app);

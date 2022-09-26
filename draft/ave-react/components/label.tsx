@@ -1,9 +1,14 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
+import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { Label as NativeLabel } from "ave-ui";
+import { Label as NativeLabel, Vec4 } from "ave-ui";
 
 export interface ILabelComponentProps extends IComponentProps {
 	text?: string;
+	style?: ILabelStyle;
+}
+
+export interface ILabelStyle extends IComponentStyle {
+	backgroundColor?: Vec4;
 }
 
 class LabelComponent extends AveComponent<ILabelComponentProps> {
@@ -18,11 +23,27 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 
 	protected onUpdateProp(propName: keyof ILabelComponentProps, propValue: any) {
 		switch (propName) {
+			case "style": {
+				this.setValueForStyles(propValue);
+				break;
+			}
 			case "text": {
 				this.label.SetText(propValue);
 				break;
 			}
 		}
+	}
+
+	private setValueForStyles(styles: ILabelStyle = {}) {
+		(Object.keys(styles) as Array<keyof ILabelStyle>).forEach((styleName) => {
+			switch (styleName) {
+				case "backgroundColor": {
+					const color = styles.backgroundColor ?? new Vec4(255, 255, 255, 255);
+					this.label.SetBackColor(color);
+					break;
+				}
+			}
+		});
 	}
 }
 

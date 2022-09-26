@@ -6,7 +6,7 @@ export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
 	style?: IButtonStyle;
 	iconInfo?: { name: string; size?: number };
-	onClick?: IButton["OnClick"];
+	onClick?: Parameters<IButton["OnClick"]>[0];
 }
 
 export interface IButtonStyle extends IComponentStyle {
