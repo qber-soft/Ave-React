@@ -9,6 +9,7 @@ export interface ILabelComponentProps extends IComponentProps {
 
 export interface ILabelStyle extends IComponentStyle {
 	backgroundColor?: Vec4;
+	color?: Vec4;
 	horizontalAlign?: AlignType
 }
 
@@ -46,6 +47,11 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 				case "horizontalAlign": {
 					const alignType = styles.horizontalAlign ?? AlignType.Near;
 					this.label.SetAlignHorz(alignType);
+					break;
+				}
+				case "color": {
+					const color = styles.color ?? new Vec4(0, 0, 0, 255);
+					this.label.SetTextColor(color);
 					break;
 				}
 			}
