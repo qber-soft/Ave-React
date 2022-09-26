@@ -1,6 +1,6 @@
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { Label as NativeLabel, Vec4 } from "ave-ui";
+import { AlignType, Label as NativeLabel, Vec4 } from "ave-ui";
 
 export interface ILabelComponentProps extends IComponentProps {
 	text?: string;
@@ -9,6 +9,7 @@ export interface ILabelComponentProps extends IComponentProps {
 
 export interface ILabelStyle extends IComponentStyle {
 	backgroundColor?: Vec4;
+	horizontalAlign?: AlignType
 }
 
 class LabelComponent extends AveComponent<ILabelComponentProps> {
@@ -40,6 +41,11 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 				case "backgroundColor": {
 					const color = styles.backgroundColor ?? new Vec4(255, 255, 255, 255);
 					this.label.SetBackColor(color);
+					break;
+				}
+				case "horizontalAlign": {
+					const alignType = styles.horizontalAlign ?? AlignType.Near;
+					this.label.SetAlignHorz(alignType);
 					break;
 				}
 			}
