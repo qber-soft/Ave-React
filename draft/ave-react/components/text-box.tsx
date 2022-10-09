@@ -6,6 +6,7 @@ export interface ITextBoxComponentProps extends IComponentProps {
 	text?: string;
 	readonly?: boolean;
 	border?: boolean;
+	ime?: boolean
 	onChange?: Parameters<ITextBox["OnChange"]>[0];
 }
 
@@ -33,6 +34,11 @@ class TextBoxComponent extends AveComponent<ITextBoxComponentProps> {
 
 			case "border": {
 				this.textBox.SetBorder(propValue ?? true);
+				break;
+			}
+
+			case "ime": {
+				this.textBox.SetIme(propValue ?? false);
 				break;
 			}
 

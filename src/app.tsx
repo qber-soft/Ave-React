@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestTextBoxOnChange } from "./examples";
+import { TestTextBoxIme } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestTextBoxOnChange />;
+const app = <TestTextBoxIme />;
 
 AveRenderer.render(app);
