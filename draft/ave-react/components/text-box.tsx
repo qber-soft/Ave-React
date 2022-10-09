@@ -1,11 +1,12 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { TextBox as NativeTextBox } from "ave-ui";
+import { ITextBox, TextBox as NativeTextBox } from "ave-ui";
 
 export interface ITextBoxComponentProps extends IComponentProps {
 	text?: string;
 	readonly?: boolean;
 	border?: boolean;
+	onChange?: Parameters<ITextBox["OnChange"]>[0];
 }
 
 class TextBoxComponent extends AveComponent<ITextBoxComponentProps> {
@@ -21,7 +22,7 @@ class TextBoxComponent extends AveComponent<ITextBoxComponentProps> {
 	protected onUpdateProp(propName: keyof ITextBoxComponentProps, propValue: any) {
 		switch (propName) {
 			case "text": {
-				this.textBox.SetText(propValue);
+				this.textBox.SetText(propValue ?? "");
 				break;
 			}
 
@@ -32,6 +33,11 @@ class TextBoxComponent extends AveComponent<ITextBoxComponentProps> {
 
 			case "border": {
 				this.textBox.SetBorder(propValue ?? true);
+				break;
+			}
+
+			case "onChange": {
+				this.textBox.OnChange(propValue ?? (() => {}));
 				break;
 			}
 		}

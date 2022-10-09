@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestLabelTextColor } from "./examples";
+import { TestTextBoxOnChange } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestLabelTextColor />;
+const app = <TestTextBoxOnChange />;
 
 AveRenderer.render(app);

@@ -29,7 +29,7 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "text": {
-				this.button.SetText(propValue);
+				this.button.SetText(propValue ?? "");
 				break;
 			}
 
