@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestTextBoxIme } from "./examples";
+import { TestImageBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestTextBoxIme />;
+const app = <TestImageBasic />;
 
 AveRenderer.render(app);

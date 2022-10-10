@@ -12,8 +12,6 @@ export function TestTextBoxIme() {
 	);
 }
 
-
-
 function DemoLayout(props: { children?: any[] }) {
 	const demoLayout = {
 		columns: `1 120dpx 120dpx 120dpx 1`,
