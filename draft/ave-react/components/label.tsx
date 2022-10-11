@@ -10,7 +10,7 @@ export interface ILabelComponentProps extends IComponentProps {
 export interface ILabelStyle extends IComponentStyle {
 	backgroundColor?: Vec4;
 	color?: Vec4;
-	horizontalAlign?: AlignType
+	horizontalAlign?: AlignType;
 }
 
 class LabelComponent extends AveComponent<ILabelComponentProps> {

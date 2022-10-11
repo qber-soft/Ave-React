@@ -6,7 +6,7 @@ export interface ITextBoxComponentProps extends IComponentProps {
 	text?: string;
 	readonly?: boolean;
 	border?: boolean;
-	ime?: boolean
+	ime?: boolean;
 	onChange?: Parameters<ITextBox["OnChange"]>[0];
 }
 

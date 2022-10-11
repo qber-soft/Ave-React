@@ -17,7 +17,7 @@ export function onInitI18n(app: App) {
 		switch(this: Ii18n, id) {
 			app.LangSetDefaultString(id, {
 				...DefaultString,
-				...this.lang[id]
+				...this.lang[id],
 			});
 			app.LangSetCurrent(id);
 		},

@@ -3,10 +3,10 @@ import { DefaultString, getAppContext, Ii18n, ILangBase } from "../../ave-react"
 
 export interface ILang extends ILangBase {
 	// ave built-in language key
-    AppTitle: string;
+	AppTitle: string;
 
-    // user defined key
-    SwitchLang: string;
+	// user defined key
+	SwitchLang: string;
 }
 
 export function onInitI18n(app: App) {
@@ -21,7 +21,7 @@ export function onInitI18n(app: App) {
 		switch(this: Ii18n, id) {
 			app.LangSetDefaultString(id, {
 				...DefaultString,
-				...this.lang[id]
+				...this.lang[id],
 			});
 			app.LangSetCurrent(id);
 		},
@@ -29,16 +29,16 @@ export function onInitI18n(app: App) {
 			[CultureId.en_us]: {
 				// ave built-in language key
 				__FontStd: "Segoe UI",
-				AppTitle: 'My App',
+				AppTitle: "My App",
 
 				// user defined key
-				SwitchLang: 'Switch Lang',
+				SwitchLang: "Switch Lang",
 			},
 			[CultureId.zh_cn]: {
 				__FontStd: "Microsoft YaHei UI",
-				AppTitle: '我的应用',
+				AppTitle: "我的应用",
 
-				SwitchLang: '切换语言'
+				SwitchLang: "切换语言",
 			},
 		},
 	};
