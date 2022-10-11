@@ -1,5 +1,5 @@
-import { App, ThemeImage, Window as NativeWindow, WindowCreation, WindowFlag, Grid as NativeGrid } from "ave-ui";
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
+import { App, ThemeImage, Window as NativeWindow, WindowCreation, WindowFlag, Grid as NativeGrid, CultureId } from "ave-ui";
+import { DefaultString, AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
 import { GridComponent } from "./grid";
 import { ToolbarComponent } from "./toolbar";
@@ -23,6 +23,9 @@ class WindowComponent extends AveComponent<IWindowComponentProps> {
 		this.app = new App();
 		if (this?.props?.onInit) {
 			this?.props?.onInit(this.app);
+		} else {
+			this.app.LangSetDefaultString(CultureId.en_us, DefaultString);
+			this.app.LangSetCurrent(CultureId.en_us);
 		}
 		const context = getAppContext();
 		context.setAveApp(this.app);

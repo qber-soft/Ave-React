@@ -1,5 +1,5 @@
 import { App, CultureId } from "ave-ui";
-import { getAppContext, Ii18n, ILangBase } from "../../ave-react";
+import { DefaultString, getAppContext, Ii18n, ILangBase } from "../../ave-react";
 
 export interface ILang extends ILangBase {
 	// ave built-in language key
@@ -19,7 +19,10 @@ export function onInitI18n(app: App) {
 			return result;
 		},
 		switch(this: Ii18n, id) {
-			app.LangSetDefaultString(id, this.lang[id]);
+			app.LangSetDefaultString(id, {
+				...DefaultString,
+				...this.lang[id]
+			});
 			app.LangSetCurrent(id);
 		},
 		lang: {
