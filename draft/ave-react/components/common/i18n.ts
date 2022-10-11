@@ -5,7 +5,7 @@ export const DefaultString = {
 
 	//----------------------------------------------------------------------------------------------------
 	// This is the default app title, also used in common dialoges like MessageBox, PickColor if you don't specify a title
-	AppTitle /**/: "Test Window",
+	AppTitle /**/: "Window",
 
 	//----------------------------------------------------------------------------------------------------
 	// Some common strings for common dialoges
