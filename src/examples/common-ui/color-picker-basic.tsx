@@ -13,9 +13,9 @@ export function TestColorPickerBasic() {
 						const context = getAppContext();
 						const window = context.getWindow();
 
-                        const commonUi = window.GetCommonUi();
-                        const result = await commonUi.PickColor(new Vec4(255, 255, 255, 255), false);
-                        sender.SetTextColor(result);
+						const commonUi = window.GetCommonUi();
+						const result = await commonUi.PickColor(new Vec4(255, 255, 255, 255), false);
+						sender.SetTextColor(result);
 					}}
 				></Button>
 			</DemoLayout>

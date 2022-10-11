@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestColorPickerBasic2 } from "./examples";
+import { TestMessageBoxBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestColorPickerBasic2 />;
+const app = <TestMessageBoxBasic />;
 
 AveRenderer.render(app);
