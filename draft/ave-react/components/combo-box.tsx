@@ -39,11 +39,15 @@ class ComboBoxComponent extends AveComponent<IComboBoxComponentProps> {
 				this.comboBox.Insert(option.text, index);
 			} else {
 				const prevKey = prevOption?.key;
-				const indexFound = this.options.findIndex((each) => each.key === prevKey);
-				if (indexFound === -1) {
-				} else if (indexFound === index) {
-					this.comboBox.Set(index, option.text);
+				const currKey = option?.key;
+				if (prevKey === currKey) {
+					if (prevOption?.text !== option?.text) {
+						this.comboBox.Set(index, option.text);
+					}
+					// else skip it
 				} else {
+					this.comboBox.Remove(index);
+					this.comboBox.Insert(option.text, index);
 				}
 			}
 		});
