@@ -8,21 +8,19 @@ const defaultOptions: IComboBoxComponentProps["options"] = [
 	{ key: "3", text: "c" },
 ];
 
-export function TestComboBoxAdd2() {
+export function TestComboBoxRemove() {
 	const [options, setOptions] = useState(defaultOptions);
 
 	useEffect(() => {
 		setTimeout(() => {
 			setOptions([
 				{ key: "1", text: "a" },
-				{ key: "4", text: "d" },
-				{ key: "3", text: "e" },
-				{ key: "2", text: "b" },
+				{ key: "3", text: "c" },
 			]);
 		}, 2000);
 	}, []);
 	return (
-		<Window title="ComboBox Add 2">
+		<Window title="ComboBox Remove 1">
 			<DemoLayout>
 				<ComboBox options={options}></ComboBox>
 			</DemoLayout>
