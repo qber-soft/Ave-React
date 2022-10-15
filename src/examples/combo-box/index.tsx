@@ -9,3 +9,4 @@ export * from "./combo-box-remove-2";
 export * from "./combo-box-complex";
 export * from "./combo-box-complex-2";
 export * from "./combo-box-default-selected";
+export * from "./combo-box-event-change";

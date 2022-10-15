@@ -1,10 +1,11 @@
-import { ComboBox as NativeComboBox } from "ave-ui";
+import { ComboBox as NativeComboBox, IComboBox } from "ave-ui";
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
 export interface IComboBoxComponentProps extends IComponentProps {
 	options: IComboBoxOption[];
 	defaultSelectedKey?: string;
+	onChange?: Parameters<IComboBox["OnSelectionChange"]>[0];
 }
 
 export interface IComboBoxOption {
@@ -36,6 +37,11 @@ class ComboBoxComponent extends AveComponent<IComboBoxComponentProps> {
 				if (index !== -1) {
 					this.comboBox.Select(index);
 				}
+				break;
+			}
+
+			case "onChange": {
+				this.comboBox.OnSelectionChange(propValue ?? (() => {}));
 				break;
 			}
 		}
