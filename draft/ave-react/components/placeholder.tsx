@@ -4,11 +4,6 @@ import { IControl, Placeholder as NativePlaceholder } from "ave-ui";
 
 export interface IPlaceholderComponentProps extends IComponentProps {
 	onPaintPost?: Parameters<IControl["OnPaintPost"]>[0];
-	onPointerEnter?: Parameters<IControl["OnPointerEnter"]>[0];
-	onPointerLeave?: Parameters<IControl["OnPointerLeave"]>[0];
-	onPointerPress?: Parameters<IControl["OnPointerPress"]>[0];
-	onPointerRelease?: Parameters<IControl["OnPointerRelease"]>[0];
-	onPointerMove?: Parameters<IControl["OnPointerMove"]>[0];
 }
 
 class PlaceholderComponent extends AveComponent<IPlaceholderComponentProps> {
@@ -22,29 +17,10 @@ class PlaceholderComponent extends AveComponent<IPlaceholderComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IPlaceholderComponentProps, propValue: any) {
+		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "onPaintPost": {
 				this.placeholder.OnPaintPost(propValue ?? (() => {}));
-				break;
-			}
-			case "onPointerEnter": {
-				this.placeholder.OnPointerEnter(propValue ?? (() => {}));
-				break;
-			}
-			case "onPointerLeave": {
-				this.placeholder.OnPointerLeave(propValue ?? (() => {}));
-				break;
-			}
-			case "onPointerPress": {
-				this.placeholder.OnPointerPress(propValue ?? (() => {}));
-				break;
-			}
-			case "onPointerRelease": {
-				this.placeholder.OnPointerRelease(propValue ?? (() => {}));
-				break;
-			}
-			case "onPointerMove": {
-				this.placeholder.OnPointerMove(propValue ?? (() => {}));
 				break;
 			}
 		}

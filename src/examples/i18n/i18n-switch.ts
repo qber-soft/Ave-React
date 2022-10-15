@@ -2,7 +2,11 @@ import { App, CultureId } from "ave-ui";
 import { DefaultString, getAppContext, Ii18n, ILangBase } from "../../ave-react";
 
 export interface ILang extends ILangBase {
-	Temp: string;
+	// ave built-in language key
+	AppTitle: string;
+
+	// user defined key
+	SwitchLang: string;
 }
 
 export function onInitI18n(app: App) {
@@ -24,17 +28,17 @@ export function onInitI18n(app: App) {
 		lang: {
 			[CultureId.en_us]: {
 				// ave built-in language key
-				AppTitle: "Test Window Title",
 				__FontStd: "Segoe UI",
+				AppTitle: "My App",
 
 				// user defined key
-				Temp: "Temp",
+				SwitchLang: "Switch Lang",
 			},
 			[CultureId.zh_cn]: {
-				AppTitle: "测试窗口标题",
 				__FontStd: "Microsoft YaHei UI",
+				AppTitle: "我的应用",
 
-				Temp: "临时",
+				SwitchLang: "切换语言",
 			},
 		},
 	};

@@ -9,11 +9,6 @@ export interface IImageComponentProps extends IComponentProps {
 	 */
 	src: string | AveImage;
 	onLoad?: (byo2: Byo2Image, data: ImageData, picture: NativePicture) => void;
-	onPointerMove?: Parameters<IControl["OnPointerMove"]>[0];
-	onPointerEnter?: Parameters<IControl["OnPointerEnter"]>[0];
-	onPointerLeave?: Parameters<IControl["OnPointerLeave"]>[0];
-	onPointerPress?: Parameters<IControl["OnPointerPress"]>[0];
-	onPointerRelease?: Parameters<IControl["OnPointerRelease"]>[0];
 }
 
 class ImageComponent extends AveComponent<IImageComponentProps> {
@@ -34,6 +29,7 @@ class ImageComponent extends AveComponent<IImageComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IImageComponentProps, propValue: any) {
+		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "src": {
 				this.updateSrc(propValue ?? "");
@@ -42,31 +38,6 @@ class ImageComponent extends AveComponent<IImageComponentProps> {
 
 			case "onLoad": {
 				this.onLoad = propValue ?? (() => {});
-				break;
-			}
-
-			case "onPointerMove": {
-				this.picture.OnPointerMove(propValue ?? (() => {}));
-				break;
-			}
-
-			case "onPointerEnter": {
-				this.picture.OnPointerEnter(propValue ?? (() => {}));
-				break;
-			}
-
-			case "onPointerLeave": {
-				this.picture.OnPointerLeave(propValue ?? (() => {}));
-				break;
-			}
-
-			case "onPointerPress": {
-				this.picture.OnPointerPress(propValue ?? (() => {}));
-				break;
-			}
-
-			case "onPointerRelease": {
-				this.picture.OnPointerRelease(propValue ?? (() => {}));
 				break;
 			}
 		}

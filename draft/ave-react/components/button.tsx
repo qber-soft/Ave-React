@@ -1,11 +1,17 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
+import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
-import { Button as NativeButton, IconSource, VisualTextLayout } from "ave-ui";
+import { Button as NativeButton, ButtonStyle, IButton, IconSource, Vec4, VisualTextLayout } from "ave-ui";
 
 export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
+	style?: IButtonStyle;
 	iconInfo?: { name: string; size?: number };
-	onClick?: (sender: NativeButton) => void;
+	onClick?: Parameters<IButton["OnClick"]>[0];
+}
+
+export interface IButtonStyle extends IComponentStyle {
+	color?: Vec4;
+	visualStyle?: ButtonStyle;
 }
 
 class ButtonComponent extends AveComponent<IButtonComponentProps> {
@@ -20,9 +26,15 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IButtonComponentProps, propValue: any) {
+		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "text": {
-				this.button.SetText(propValue);
+				this.button.SetText(propValue ?? "");
+				break;
+			}
+
+			case "style": {
+				this.setValueForStyles(propValue);
 				break;
 			}
 
@@ -39,6 +51,24 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 				break;
 			}
 		}
+	}
+
+	private setValueForStyles(styles: IButtonStyle = {}) {
+		(Object.keys(styles) as Array<keyof IButtonStyle>).forEach((styleName) => {
+			switch (styleName) {
+				case "color": {
+					const color = styles.color ?? new Vec4(0, 0, 0, 255);
+					this.button.SetTextColor(color);
+					break;
+				}
+
+				case "visualStyle": {
+					const style = styles.visualStyle ?? ButtonStyle.Push;
+					this.button.SetButtonStyle(style);
+					break;
+				}
+			}
+		});
 	}
 }
 

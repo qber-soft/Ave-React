@@ -20,7 +20,9 @@ This is [Avernakis UI](https://github.com/qber-soft/Ave-Nodejs) in React.
 
 ```bash
 > npm install
-> npm run dev 
+> npm run dev:draft
+# open another terminal
+> npm run dev:script 
 ```
 
 ## License

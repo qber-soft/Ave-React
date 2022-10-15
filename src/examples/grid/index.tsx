@@ -1,6 +1,7 @@
 export * from "./grid-basic";
 export * from "./grid-margin";
 export * from "./grid-background";
+export * from "./grid-opacity";
 export * from "./grid-layout";
 export * from "./grid-update-layout";
 export * from "./grid-update-background";
