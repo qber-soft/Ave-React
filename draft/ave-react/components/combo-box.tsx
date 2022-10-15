@@ -53,7 +53,7 @@ class ComboBoxComponent extends AveComponent<IComboBoxComponentProps> {
 		});
 
 		if (newOptions.length < this.options.length) {
-			for (let i = newOptions.length; i < this.options.length; ++i) {
+			for (let i = this.options.length - 1; i >= newOptions.length; --i) {
 				this.comboBox.Remove(i);
 			}
 		}

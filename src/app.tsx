@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestComboBoxRemove } from "./examples";
+import { TestComboBoxRemove2 } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestComboBoxRemove />;
+const app = <TestComboBoxRemove2 />;
 
 AveRenderer.render(app);
