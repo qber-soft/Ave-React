@@ -21,7 +21,7 @@ export function TestComboBoxUpdate2() {
 		}, 2000);
 	}, []);
 	return (
-		<Window title="ComboBox Update">
+		<Window title="ComboBox Update 2">
 			<DemoLayout>
 				<ComboBox options={options}></ComboBox>
 			</DemoLayout>
