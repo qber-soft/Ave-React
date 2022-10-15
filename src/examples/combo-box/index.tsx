@@ -8,3 +8,4 @@ export * from "./combo-box-remove";
 export * from "./combo-box-remove-2";
 export * from "./combo-box-complex";
 export * from "./combo-box-complex-2";
+export * from "./combo-box-default-selected";

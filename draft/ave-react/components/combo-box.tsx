@@ -4,6 +4,7 @@ import { AppContainer } from "../renderer";
 
 export interface IComboBoxComponentProps extends IComponentProps {
 	options: IComboBoxOption[];
+	defaultSelectedKey?: string;
 }
 
 export interface IComboBoxOption {
@@ -27,6 +28,14 @@ class ComboBoxComponent extends AveComponent<IComboBoxComponentProps> {
 		switch (propName) {
 			case "options": {
 				this.updateOptions(propValue ?? []);
+				break;
+			}
+
+			case "defaultSelectedKey": {
+				const index = this.options.findIndex((each) => each.key === propValue);
+				if (index !== -1) {
+					this.comboBox.Select(index);
+				}
 				break;
 			}
 		}
