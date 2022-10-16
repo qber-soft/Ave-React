@@ -1,4 +1,4 @@
-import { ProgressBar as NativeProgress } from "ave-ui";
+import { ProgressBar as NativeProgress, ProgressBarState } from "ave-ui";
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
@@ -9,6 +9,7 @@ export interface IProgressComponentProps extends IComponentProps {
 	 */
 	max?: number;
 	animation?: boolean;
+	state?: ProgressBarState;
 }
 
 class ProgressComponent extends AveComponent<IProgressComponentProps> {
@@ -33,6 +34,10 @@ class ProgressComponent extends AveComponent<IProgressComponentProps> {
 			}
 			case "animation": {
 				this.progress.SetAnimation(propValue ?? false);
+				break;
+			}
+			case "state": {
+				this.progress.SetState(propValue ?? ProgressBarState.Normal);
 				break;
 			}
 		}
