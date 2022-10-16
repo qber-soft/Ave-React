@@ -8,6 +8,7 @@ export interface IProgressComponentProps extends IComponentProps {
 	 * by default, max is 100
 	 */
 	max?: number;
+	animation?: boolean;
 }
 
 class ProgressComponent extends AveComponent<IProgressComponentProps> {
@@ -28,6 +29,10 @@ class ProgressComponent extends AveComponent<IProgressComponentProps> {
 			}
 			case "max": {
 				this.progress.SetMaximum(propValue ?? 100);
+				break;
+			}
+			case "animation": {
+				this.progress.SetAnimation(propValue ?? false);
 				break;
 			}
 		}
