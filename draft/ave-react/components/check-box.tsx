@@ -5,6 +5,7 @@ import { AppContainer } from "../renderer";
 export interface ICheckBoxComponentProps extends IComponentProps {
 	text: string;
 	style?: ICheckBoxStyle;
+	triple?: boolean;
 	onCheck?: Parameters<ICheckBox["OnCheck"]>[0];
 	onChecking?: Parameters<ICheckBox["OnChecking"]>[0];
 }
@@ -39,6 +40,10 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 			}
 			case "style": {
 				this.setValueForStyles(propValue);
+				break;
+			}
+			case "triple": {
+				this.checkBox.SetTriple(propValue ?? false);
 				break;
 			}
 		}

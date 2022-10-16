@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestCheckBoxStyle } from "./examples";
+import { TestCheckBoxTriple } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestCheckBoxStyle />;
+const app = <TestCheckBoxTriple />;
 
 AveRenderer.render(app);
