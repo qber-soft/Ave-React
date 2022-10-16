@@ -1,11 +1,16 @@
-import { CheckBox as NativeCheckBox, ICheckBox } from "ave-ui";
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
+import { CheckBox as NativeCheckBox, CheckBoxStyle, ICheckBox } from "ave-ui";
+import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
 export interface ICheckBoxComponentProps extends IComponentProps {
 	text: string;
+	style?: ICheckBoxStyle;
 	onCheck?: Parameters<ICheckBox["OnCheck"]>[0];
 	onChecking?: Parameters<ICheckBox["OnChecking"]>[0];
+}
+
+export interface ICheckBoxStyle extends IComponentStyle {
+	visualStyle?: CheckBoxStyle;
 }
 
 class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
@@ -32,7 +37,23 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 				this.checkBox.OnChecking(propValue ?? (() => {}));
 				break;
 			}
+			case "style": {
+				this.setValueForStyles(propValue);
+				break;
+			}
 		}
+	}
+
+	private setValueForStyles(styles: ICheckBoxStyle = {}) {
+		(Object.keys(styles) as Array<keyof ICheckBoxStyle>).forEach((styleName) => {
+			switch (styleName) {
+				case "visualStyle": {
+					const style = styles.visualStyle ?? CheckBoxStyle.Checking;
+					this.checkBox.SetCheckBoxStyle(style);
+					break;
+				}
+			}
+		});
 	}
 }
 
