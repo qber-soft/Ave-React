@@ -1,4 +1,4 @@
-import { CheckBox as NativeCheckBox, CheckBoxStyle, ICheckBox } from "ave-ui";
+import { CheckBox as NativeCheckBox, CheckBoxStyle, ICheckBox, Vec4 } from "ave-ui";
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
@@ -11,6 +11,7 @@ export interface ICheckBoxComponentProps extends IComponentProps {
 }
 
 export interface ICheckBoxStyle extends IComponentStyle {
+	color?: Vec4;
 	visualStyle?: CheckBoxStyle;
 }
 
@@ -52,6 +53,11 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 	private setValueForStyles(styles: ICheckBoxStyle = {}) {
 		(Object.keys(styles) as Array<keyof ICheckBoxStyle>).forEach((styleName) => {
 			switch (styleName) {
+				case "color": {
+					const color = styles.color ?? new Vec4(0, 0, 0, 255);
+					this.checkBox.SetTextColor(color);
+					break;
+				}
 				case "visualStyle": {
 					const style = styles.visualStyle ?? CheckBoxStyle.Checking;
 					this.checkBox.SetCheckBoxStyle(style);
