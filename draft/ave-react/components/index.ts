@@ -10,3 +10,4 @@ export * from "./color-view";
 export * from "./text-box";
 export * from "./label";
 export * from "./combo-box";
+export * from "./progress";
