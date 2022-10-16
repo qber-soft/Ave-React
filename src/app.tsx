@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestComboBoxOnChange } from "./examples";
+import { TestProgressStep } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestComboBoxOnChange />;
+const app = <TestProgressStep />;
 
 AveRenderer.render(app);
