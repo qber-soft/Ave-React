@@ -1,67 +1,67 @@
 {
-  "name": "ave-react",
-  "version": "0.0.4",
-  "description": "ave-ui in react",
-  "main": "dist/src/ave-react/index.js",
-  "types": "dist/src/ave-react/index.d.ts",
-  "keywords": [
-    "gui",
-    "desktop",
-    "avernakis",
-    "ave",
-    "react"
-  ],
-  "homepage": "https://github.com/qber-soft/Ave-React/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/qber-soft/Ave-React"
-  },
-  "scripts": {
-    "prepare": "husky install .husky",
-    "dev:draft": "cross-env NODE_ENV=dev draft dev",
-    "dev:script": "cross-env NODE_ENV=dev tsnd --respawn ./src/app.tsx",
-    "dev:once": "cross-env NODE_ENV=dev ts-node ./src/app.tsx",
-    "build:draft": "cross-env NODE_ENV=prod draft build",
-    "prebuild": "del-cli ./build && del-cli ./src/ave-react && npm run build:draft",
-    "build": "tsc",
-    "predist": "del-cli ./dist && npm run build",
-    "dist": "cd ./build && copyfiles ./src/ave-react/** ../dist",
-    "postdist": "del-cli ./dist/src/ave-react/dev",
-    "postbuild": "copyfiles ./assets/* ./build",
-    "prerelease": "npm run build",
-    "release": "ave-pack pack",
-    "format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\""
-  },
-  "author": "ivjtk; rerender2021",
-  "files": [
-    "dist"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^17.0.21",
-    "@types/react": "17.0.0",
-    "@types/react-reconciler": "0.26.1",
-    "ave-pack": "^0.9.2",
-    "copyfiles": "^2.4.1",
-    "cross-env": "^7.0.3",
-    "del-cli": "^4.0.1",
-    "fs-extra": "^10.1.0",
-    "husky": "^7.0.4",
-    "jest": "^27.0.4",
-    "prettier": "^2.6.0",
-    "pretty-quick": "^3.1.3",
-    "ts-jest": "^27.0.3",
-    "ts-node-dev": "^1.1.8",
-    "typedraft": "^0.2.9",
-    "typescript": "^4.6.2"
-  },
-  "dependencies": {
-    "ave-ui": "npm:ave-ui-devonly@^0.1.7-0",
-    "fast-deep-equal": "^3.1.3",
-    "react": "17.0.0",
-    "react-reconciler": "0.26.1",
-    "socket.io": "^4.5.2"
-  }
+	"name": "ave-react",
+	"version": "0.0.4",
+	"description": "ave-ui in react",
+	"main": "dist/src/ave-react/index.js",
+	"types": "dist/src/ave-react/index.d.ts",
+	"keywords": [
+		"gui",
+		"desktop",
+		"avernakis",
+		"ave",
+		"react"
+	],
+	"homepage": "https://github.com/qber-soft/Ave-React/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/qber-soft/Ave-React"
+	},
+	"scripts": {
+		"prepare": "husky install .husky",
+		"dev:draft": "cross-env NODE_ENV=dev draft dev",
+		"dev:script": "cross-env NODE_ENV=dev tsnd ./src/app.tsx",
+		"dev:once": "cross-env NODE_ENV=dev ts-node ./src/app.tsx",
+		"build:draft": "cross-env NODE_ENV=prod draft build",
+		"prebuild": "del-cli ./build && del-cli ./src/ave-react && npm run build:draft",
+		"build": "tsc",
+		"predist": "del-cli ./dist && npm run build",
+		"dist": "cd ./build && copyfiles ./src/ave-react/** ../dist",
+		"postdist": "del-cli ./dist/src/ave-react/dev",
+		"postbuild": "copyfiles ./assets/* ./build",
+		"prerelease": "npm run build",
+		"release": "ave-pack pack",
+		"format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\""
+	},
+	"author": "ivjtk; rerender2021",
+	"files": [
+		"dist"
+	],
+	"license": "MIT",
+	"devDependencies": {
+		"@types/fs-extra": "^9.0.13",
+		"@types/jest": "^26.0.23",
+		"@types/node": "^17.0.21",
+		"@types/react": "17.0.0",
+		"@types/react-reconciler": "0.26.1",
+		"ave-pack": "^0.9.2",
+		"copyfiles": "^2.4.1",
+		"cross-env": "^7.0.3",
+		"del-cli": "^4.0.1",
+		"fs-extra": "^10.1.0",
+		"husky": "^7.0.4",
+		"jest": "^27.0.4",
+		"prettier": "^2.6.0",
+		"pretty-quick": "^3.1.3",
+		"ts-jest": "^27.0.3",
+		"ts-node-dev": "^1.1.8",
+		"typedraft": "^0.2.9",
+		"typescript": "^4.6.2"
+	},
+	"dependencies": {
+		"ave-ui": "npm:ave-ui-devonly@^0.1.7-0",
+		"fast-deep-equal": "^3.1.3",
+		"react": "17.0.0",
+		"react-reconciler": "0.26.1",
+		"socket.io": "^4.5.2"
+	}
 }

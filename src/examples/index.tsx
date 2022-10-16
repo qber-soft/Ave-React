@@ -16,3 +16,4 @@ export * from "./label";
 export * from "./clipboard";
 export * from "./event";
 export * from "./common-ui";
+export * from "./combo-box";
