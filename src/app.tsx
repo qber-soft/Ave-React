@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestProgressBasic } from "./examples";
+import { TestProgressMax } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestProgressBasic />;
+const app = <TestProgressMax />;
 
 AveRenderer.render(app);
