@@ -1,9 +1,10 @@
-import { CheckBox as NativeCheckBox } from "ave-ui";
+import { CheckBox as NativeCheckBox, ICheckBox } from "ave-ui";
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
 export interface ICheckBoxComponentProps extends IComponentProps {
 	text: string;
+	onCheck?: Parameters<ICheckBox["OnCheck"]>[0];
 }
 
 class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
@@ -20,6 +21,10 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 		switch (propName) {
 			case "text": {
 				this.checkBox.SetText(propValue ?? "");
+				break;
+			}
+			case "onCheck": {
+				this.checkBox.OnCheck(propValue ?? (() => {}));
 				break;
 			}
 		}
