@@ -5,6 +5,7 @@ import { AppContainer } from "../renderer";
 export interface ICheckBoxComponentProps extends IComponentProps {
 	text: string;
 	onCheck?: Parameters<ICheckBox["OnCheck"]>[0];
+	onChecking?: Parameters<ICheckBox["OnChecking"]>[0];
 }
 
 class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
@@ -25,6 +26,10 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 			}
 			case "onCheck": {
 				this.checkBox.OnCheck(propValue ?? (() => {}));
+				break;
+			}
+			case "onChecking": {
+				this.checkBox.OnChecking(propValue ?? (() => {}));
 				break;
 			}
 		}
