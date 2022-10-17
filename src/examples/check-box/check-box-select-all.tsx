@@ -1,5 +1,5 @@
-import { CheckBox as NativeCheckBox, CheckValue } from "ave-ui";
-import React, { useEffect, useRef, useState } from "react";
+import { CheckValue } from "ave-ui";
+import React, { useEffect, useState } from "react";
 import { Window, CheckBox, Grid, ICheckBoxComponentProps } from "../../ave-react";
 
 /**
@@ -17,71 +17,51 @@ import { Window, CheckBox, Grid, ICheckBoxComponentProps } from "../../ave-react
  */
 export function TestCheckBoxSelectAll() {
 	const options = ["React", "Vue", "Svelte"];
-	const checkedSet = useRef(new Set());
-	const refCheckAll = useRef<NativeCheckBox>();
-	const [checkedList, setCheckedList] = useState([]);
-	const [value, setValue] = useState(CheckValue.Unchecked);
+	const [checkedSet, setCheckedSet] = useState(new Set<string>());
+	const [valueCheckAll, setValueCheckAll] = useState(CheckValue.Unchecked);
 
 	const onCheck: ICheckBoxComponentProps["onCheck"] = (sender) => {
 		const text = sender.GetText();
 		const checkValue = sender.GetValue();
+		const clone = new Set(checkedSet);
+
 		if (checkValue === CheckValue.Checked) {
-			checkedSet.current.add(text);
+			clone.add(text);
 		} else if (checkValue === CheckValue.Unchecked) {
-			checkedSet.current.delete(text);
+			clone.delete(text);
 		}
 
-		const checkedSize = checkedSet.current.size;
-		if (checkedSize === options.length) {
-			setValue(CheckValue.Checked);
-		} else if (checkedSize === 0) {
-			setValue(CheckValue.Unchecked);
-		} else {
-			setValue(CheckValue.Mixed);
-		}
-
-		setCheckedList([...checkedSet.current]);
-	};
-
-	const onCheckAll = () => {
-		options.forEach((each) => {
-			if (value === CheckValue.Checked) {
-				checkedSet.current.add(each);
-			} else if (value === CheckValue.Unchecked) {
-				checkedSet.current.delete(each);
-			}
-		});
-
-		setCheckedList([...checkedSet.current]);
+		setCheckedSet(clone);
 	};
 
 	const onCheckingAll: ICheckBoxComponentProps["onChecking"] = (sender) => {
-		refCheckAll.current = sender;
 		const next = sender.GetNextValue();
-
-		if (value === CheckValue.Unchecked && next === CheckValue.Checked) {
-			setValue(CheckValue.Checked);
-		} else if (value === CheckValue.Checked && next === CheckValue.Mixed) {
-			setValue(CheckValue.Unchecked);
-		} else if (value === CheckValue.Mixed && next === CheckValue.Unchecked) {
-			setValue(CheckValue.Checked);
+		if (valueCheckAll === CheckValue.Unchecked && next === CheckValue.Checked) {
+			setCheckedSet(new Set(options));
+		} else if (valueCheckAll === CheckValue.Checked && next === CheckValue.Mixed) {
+			setCheckedSet(new Set());
+		} else if (valueCheckAll === CheckValue.Mixed && next === CheckValue.Unchecked) {
+			setCheckedSet(new Set(options));
 		}
 
 		return false;
 	};
 
 	useEffect(() => {
-		onCheckAll();
-	}, [value]);
+		if (checkedSet.size === options.length) {
+			setValueCheckAll(CheckValue.Checked);
+		} else if (checkedSet.size === 0) {
+			setValueCheckAll(CheckValue.Unchecked);
+		} else {
+			setValueCheckAll(CheckValue.Mixed);
+		}
+	}, [checkedSet]);
 
 	return (
 		<Window title="CheckBox SelectAll">
 			<DemoLayout>
-				<CheckBox text="Use all" triple value={value} onChecking={onCheckingAll}></CheckBox>
-				{...options.map((each) => {
-					const value = checkedList.includes(each) ? CheckValue.Checked : CheckValue.Unchecked;
-					return <CheckBox key={each} text={each} onCheck={onCheck} value={value}></CheckBox>;
-				})}
+				<CheckBox text="Use all" triple value={valueCheckAll} onChecking={onCheckingAll}></CheckBox>
+				{...options.map((each) => <CheckBox key={each} text={each} onCheck={onCheck} value={checkedSet.has(each) ? CheckValue.Checked : CheckValue.Unchecked}></CheckBox>)}
 			</DemoLayout>
 		</Window>
 	);
