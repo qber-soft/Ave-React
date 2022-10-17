@@ -1,9 +1,10 @@
-import { CheckBox as NativeCheckBox, CheckBoxStyle, ICheckBox, Vec4 } from "ave-ui";
+import { CheckBox as NativeCheckBox, CheckBoxStyle, CheckValue, ICheckBox, Vec4 } from "ave-ui";
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 
 export interface ICheckBoxComponentProps extends IComponentProps {
 	text: string;
+	value?: CheckValue;
 	style?: ICheckBoxStyle;
 	triple?: boolean;
 	onCheck?: Parameters<ICheckBox["OnCheck"]>[0];
@@ -45,6 +46,10 @@ class CheckBoxComponent extends AveComponent<ICheckBoxComponentProps> {
 			}
 			case "triple": {
 				this.checkBox.SetTriple(propValue ?? false);
+				break;
+			}
+			case "value": {
+				this.checkBox.SetValue(propValue ?? CheckValue.Unchecked);
 				break;
 			}
 		}
