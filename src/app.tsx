@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestProgressStep } from "./examples";
+import { TestCheckBoxSelectAll } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestProgressStep />;
+const app = <TestCheckBoxSelectAll />;
 
 AveRenderer.render(app);
