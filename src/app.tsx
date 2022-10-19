@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestScrollBarBasic } from "./examples";
+import { TestScrollBarMinMax } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestScrollBarBasic />;
+const app = <TestScrollBarMinMax />;
 
 AveRenderer.render(app);
