@@ -19,7 +19,7 @@
 	"scripts": {
 		"prepare": "husky install .husky",
 		"dev:draft": "cross-env NODE_ENV=dev draft dev",
-		"dev:script": "cross-env NODE_ENV=dev tsnd ./src/app.tsx",
+		"dev:script": "cross-env NODE_ENV=dev tsnd --debounce --rs ./src/app.tsx",
 		"dev:once": "cross-env NODE_ENV=dev ts-node ./src/app.tsx",
 		"build:draft": "cross-env NODE_ENV=prod draft build",
 		"prebuild": "del-cli ./build && del-cli ./src/ave-react && npm run build:draft",

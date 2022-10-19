@@ -1,12 +1,13 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { ScrollBar as NativeScrollBar } from "ave-ui";
+import { IScrollBar, ScrollBar as NativeScrollBar } from "ave-ui";
 
 export interface IScrollBarComponentProps extends IComponentProps {
 	value: number;
 	shrink?: boolean;
 	min?: number;
 	max?: number;
+	onScrolling?: Parameters<IScrollBar["OnScrolling"]>[0];
 }
 
 class ScrollBarComponent extends AveComponent<IScrollBarComponentProps> {
@@ -39,6 +40,11 @@ class ScrollBarComponent extends AveComponent<IScrollBarComponentProps> {
 
 			case "max": {
 				this.scrollBar.SetMaximum(propValue ?? 100);
+				break;
+			}
+
+			case "onScrolling": {
+				this.scrollBar.OnScrolling(propValue ?? (() => {}));
 				break;
 			}
 		}
