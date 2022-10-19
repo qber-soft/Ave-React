@@ -21,10 +21,10 @@ class WindowComponent extends AveComponent<IWindowComponentProps> {
 
 	init() {
 		this.app = new App();
-		if (this?.props?.onInit) {
-			this?.props?.onInit(this.app);
+		if (this.props?.onInit) {
+			this.props?.onInit(this.app);
 		} else {
-			this.app.LangSetDefaultString(CultureId.en_us, DefaultString);
+			this.app.LangSetDefaultString(CultureId.en_us, { ...DefaultString, AppTitle: this.props?.title ?? "Window" });
 			this.app.LangSetCurrent(CultureId.en_us);
 		}
 		const context = getAppContext();
