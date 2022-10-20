@@ -3,12 +3,15 @@ import { AppContainer } from "../renderer";
 import { Hyperlink as NativeHyperlink, IHyperlink } from "ave-ui";
 
 export interface IHyperlinkComponentProps extends IComponentProps {
+	/**
+	 *  the format of text: it should be wrapped in "<>", eg. <https://github.com/>
+	 */
 	text: string;
 	onClick?: Parameters<IHyperlink["OnClick"]>[0];
 }
 
 class HyperlinkComponent extends AveComponent<IHyperlinkComponentProps> {
-	static tagName = "ave-hyper-link";
+	static tagName = "ave-hyperlink";
 
 	private hyperlink: NativeHyperlink;
 

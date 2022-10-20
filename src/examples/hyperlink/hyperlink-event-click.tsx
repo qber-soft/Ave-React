@@ -9,7 +9,7 @@ export function TestHyperlinkOnClick() {
 				<Hyperlink
 					text="<https://github.com/>"
 					onClick={() => {
-						console.log("hyper link clicked");
+						console.log("hyperlink clicked");
 					}}
 				/>
 			</DemoLayout>
