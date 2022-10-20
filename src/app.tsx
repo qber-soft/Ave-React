@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestScrollBarOnScrolling } from "./examples";
+import { TestHyperlinkBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestScrollBarOnScrolling />;
+const app = <TestHyperlinkBasic />;
 
 AveRenderer.render(app);
