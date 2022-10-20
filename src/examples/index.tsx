@@ -20,3 +20,4 @@ export * from "./combo-box";
 export * from "./progress";
 export * from "./check-box";
 export * from "./scroll-bar";
+export * from "./hyperlink";
