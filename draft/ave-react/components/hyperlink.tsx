@@ -1,9 +1,10 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from ".";
 import { AppContainer } from "../renderer";
-import { Hyperlink as NativeHyperlink } from "ave-ui";
+import { Hyperlink as NativeHyperlink, IHyperlink } from "ave-ui";
 
 export interface IHyperlinkComponentProps extends IComponentProps {
 	text: string;
+	onClick?: Parameters<IHyperlink["OnClick"]>[0];
 }
 
 class HyperlinkComponent extends AveComponent<IHyperlinkComponentProps> {
@@ -20,6 +21,11 @@ class HyperlinkComponent extends AveComponent<IHyperlinkComponentProps> {
 		switch (propName) {
 			case "text": {
 				this.hyperlink.SetText(propValue ?? "<blank>");
+				break;
+			}
+
+			case "onClick": {
+				this.hyperlink.OnClick(propValue ?? (() => {}));
 				break;
 			}
 		}
