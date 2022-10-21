@@ -1,10 +1,11 @@
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { Knob as NativeKnob, Vec4 } from "ave-ui";
+import { IKnob, Knob as NativeKnob, Vec4 } from "ave-ui";
 
 export interface IKnobComponentProps extends IComponentProps {
 	text: string;
 	style?: IKnobStyle;
+	onChange?: Parameters<IKnob["OnChange"]>[0];
 }
 
 export interface IKnobStyle extends IComponentStyle {
@@ -30,6 +31,11 @@ class KnobComponent extends AveComponent<IKnobComponentProps> {
 
 			case "style": {
 				this.setValueForStyles(propValue);
+				break;
+			}
+
+			case "onChange": {
+				this.knob.OnChange(propValue ?? (() => {}));
 				break;
 			}
 		}

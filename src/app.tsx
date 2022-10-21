@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestKnobBasic } from "./examples";
+import { TestKnobOnChange } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestKnobBasic />;
+const app = <TestKnobOnChange />;
 
 AveRenderer.render(app);
