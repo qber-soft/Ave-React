@@ -30,7 +30,7 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 				break;
 			}
 			case "text": {
-				this.label.SetText(propValue);
+				this.label.SetText(propValue ?? "");
 				break;
 			}
 		}
