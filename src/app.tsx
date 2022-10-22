@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestKnobOnChange } from "./examples";
+import { TestRadioBoxBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestKnobOnChange />;
+const app = <TestRadioBoxBasic />;
 
 AveRenderer.render(app);

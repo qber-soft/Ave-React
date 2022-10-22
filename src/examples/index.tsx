@@ -22,3 +22,4 @@ export * from "./check-box";
 export * from "./scroll-bar";
 export * from "./hyperlink";
 export * from "./knob";
+export * from "./radio-box";
