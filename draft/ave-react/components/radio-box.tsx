@@ -1,9 +1,11 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { RadioBox as NativeRadioBox } from "ave-ui";
+import { IRadioBox, RadioBox as NativeRadioBox } from "ave-ui";
 
 export interface IRadioBoxComponentProps extends IComponentProps {
 	text: string;
+	value?: boolean;
+	onCheck?: Parameters<IRadioBox["OnCheck"]>[0];
 }
 
 class RadioBoxComponent extends AveComponent<IRadioBoxComponentProps> {
@@ -20,6 +22,16 @@ class RadioBoxComponent extends AveComponent<IRadioBoxComponentProps> {
 		switch (propName) {
 			case "text": {
 				this.radioBox.SetText(propValue ?? "");
+				break;
+			}
+
+			case "value": {
+				this.radioBox.SetValue(propValue ?? false);
+				break;
+			}
+
+			case "onCheck": {
+				this.radioBox.OnCheck(propValue ?? (() => {}));
 				break;
 			}
 		}
