@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestRadioBoxOnCheck } from "./examples";
+import { TestTrackBarBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestRadioBoxOnCheck />;
+const app = <TestTrackBarBasic />;
 
 AveRenderer.render(app);

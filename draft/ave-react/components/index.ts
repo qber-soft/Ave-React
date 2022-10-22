@@ -16,3 +16,4 @@ export * from "./scroll-bar";
 export * from "./hyperlink";
 export * from "./knob";
 export * from "./radio-box";
+export * from "./track-bar";
