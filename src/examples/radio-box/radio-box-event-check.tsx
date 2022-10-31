@@ -9,10 +9,10 @@ export function TestRadioBoxOnCheck() {
 		const option = sender.GetText();
 		console.log(`${option} onCheck`);
 
-		if (option === "Option A") {
+		if (option === "Option A" && !valueA) {
 			setValueA(!valueA);
 			setValueB(false);
-		} else if (option === "Option B") {
+		} else if (option === "Option B" && !valueB) {
 			setValueB(!valueB);
 			setValueA(false);
 		}
