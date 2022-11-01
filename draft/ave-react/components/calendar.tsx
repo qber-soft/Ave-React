@@ -1,8 +1,10 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { Calendar as NativeCalendar } from "ave-ui";
+import { Calendar as NativeCalendar, ICalendar } from "ave-ui";
 
-export interface ICalendarComponentProps extends IComponentProps {}
+export interface ICalendarComponentProps extends IComponentProps {
+	onChange?: Parameters<ICalendar["OnChange"]>[0];
+}
 
 class CalendarComponent extends AveComponent<ICalendarComponentProps> {
 	static tagName = "ave-calendar";
@@ -14,7 +16,14 @@ class CalendarComponent extends AveComponent<ICalendarComponentProps> {
 		return this.calendar;
 	}
 
-	protected onUpdateProp(propName: keyof ICalendarComponentProps, propValue: any) {}
+	protected onUpdateProp(propName: keyof ICalendarComponentProps, propValue: any) {
+		switch (propName) {
+			case "onChange": {
+				this.calendar.OnChange(propValue ?? (() => {}));
+				break;
+			}
+		}
+	}
 }
 
 class Config extends ComponentConfig {
