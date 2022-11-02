@@ -1,9 +1,10 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { ListBox as NativeListBox } from "ave-ui";
+import { IListBox, ListBox as NativeListBox } from "ave-ui";
 
 export interface IListBoxComponentProps extends IComponentProps {
 	items?: string[];
+	onSelectionEnd?: Parameters<IListBox["OnSelectionEnd"]>[0];
 }
 
 class ListBoxComponent extends AveComponent<IListBoxComponentProps> {
@@ -22,6 +23,10 @@ class ListBoxComponent extends AveComponent<IListBoxComponentProps> {
 		switch (propName) {
 			case "items": {
 				this.updateItems(propValue ?? []);
+				break;
+			}
+			case "onSelectionEnd": {
+				this.listBox.OnSelectionEnd(propValue ?? (() => {}));
 				break;
 			}
 		}
