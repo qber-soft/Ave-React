@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestCalendarSet } from "./examples";
+import { TestListBoxBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestCalendarSet />;
+const app = <TestListBoxBasic />;
 
 AveRenderer.render(app);
