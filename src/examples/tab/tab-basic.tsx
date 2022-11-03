@@ -1,5 +1,5 @@
 import React from "react";
-import { Window, Tab, Grid } from "../../ave-react";
+import { Window, Tab } from "../../ave-react";
 import { DemoLayout } from "../common";
 
 export function TestTabBasic() {

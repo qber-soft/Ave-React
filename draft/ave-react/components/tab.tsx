@@ -34,18 +34,20 @@ class TabComponent extends AveComponent<ITabComponentProps> {
 
 	afterCreateUI(): void {
 		super.afterCreateUI();
-		if (this.children.length === this.items.length) {
-			this.items.forEach((item, index) => {
-				const tabItem = new TabItem();
-				tabItem.Id = item.id;
-				tabItem.Text = item.name;
-				this.tab.TabInsert(tabItem);
+		this.items.forEach((item, index) => {
+			const tabItem = new TabItem();
+			tabItem.Id = item.id;
+			tabItem.Text = item.name;
+			this.tab.TabInsert(tabItem);
 
-				const child = this.children[index];
+			const child = this.children[index];
+			if (child) {
 				const childControl = child.createUI(this.window);
 				this.tab.ContentSet(tabItem.Id, childControl);
-			});
-		} else {
+			}
+		});
+
+		if (this.children.length !== this.items.length) {
 			console.warn(`expect tab children size to be ${this.items.length}, but ${this.children.length} found`);
 		}
 	}
