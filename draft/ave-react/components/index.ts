@@ -20,3 +20,4 @@ export * from "./track-bar";
 export * from "./date-picker";
 export * from "./calendar";
 export * from "./list-box";
+export * from "./tab";
