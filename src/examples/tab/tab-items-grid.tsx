@@ -1,6 +1,6 @@
 import { Vec4 } from "ave-ui";
 import React from "react";
-import { Window, Tab, Grid } from "../../ave-react";
+import { Window, Tab, Grid, Button } from "../../ave-react";
 import { DemoLayout } from "../common";
 
 export function TestTabGrid() {

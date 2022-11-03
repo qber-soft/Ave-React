@@ -1,6 +1,7 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
 import { Tab as NativeTab, TabItem } from "ave-ui";
+import { GridComponent } from "./grid";
 
 export interface ITabComponentProps extends IComponentProps {
 	items: ITabItem[];
@@ -42,8 +43,12 @@ class TabComponent extends AveComponent<ITabComponentProps> {
 
 			const child = this.children[index];
 			if (child) {
-				const childControl = child.createUI(this.window);
-				this.tab.ContentSet(tabItem.Id, childControl);
+				if (child instanceof GridComponent) {
+					const childControl = child.createUI(this.window);
+					this.tab.ContentSet(tabItem.Id, childControl);
+				} else {
+					console.warn(`expect tab content to be Grid`);
+				}
 			}
 		});
 
