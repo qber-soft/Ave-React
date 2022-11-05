@@ -1,11 +1,12 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { HeaderItem, HeaderItemFormat, RichListBox as NativeRichListBox, RichListBoxItemVirtual } from "ave-ui";
+import { HeaderItem, HeaderItemFormat, RichListBox as NativeRichListBox, RichListBoxItemVirtual, IRichListBox } from "ave-ui";
 import { parseSize } from "./common";
 
 export interface IRichListBoxComponentProps extends IComponentProps {
 	headers: IRichListBoxHeader[];
 	data?: IRichListBoxData[];
+	onSelectionEnd?: Parameters<IRichListBox["OnSelectionEnd"]>[0];
 }
 
 export interface IRichListBoxHeader {
@@ -38,6 +39,11 @@ class RichListBoxComponent extends AveComponent<IRichListBoxComponentProps> {
 
 			case "data": {
 				this.setValueForData(propValue ?? []);
+				break;
+			}
+
+			case "onSelectionEnd": {
+				this.richListBox.OnSelectionEnd(propValue ?? (() => {}));
 				break;
 			}
 		}

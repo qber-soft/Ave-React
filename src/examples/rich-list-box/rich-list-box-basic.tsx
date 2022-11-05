@@ -20,7 +20,14 @@ export function TestRichListBoxBasic() {
 	return (
 		<Window title="RichListBox Basic">
 			<DemoLayout width="410dpx" height="300dpx">
-				<RichListBox headers={headers} data={data}></RichListBox>
+				<RichListBox
+					headers={headers}
+					data={data}
+					onSelectionEnd={(sender) => {
+						const itemIndex = sender.ItemGetSelection();
+						console.log(itemIndex);
+					}}
+				></RichListBox>
 			</DemoLayout>
 		</Window>
 	);
