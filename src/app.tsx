@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestStatusBarBasic } from "./examples";
+import { TestRichListBoxBasic } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestStatusBarBasic />;
+const app = <TestRichListBoxBasic />;
 
 AveRenderer.render(app);
