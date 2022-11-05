@@ -1,11 +1,23 @@
 import React from "react";
-import { Window, StatusBar, Grid } from "../../ave-react";
+import { Window, StatusBar, Grid, IStatusBarComponentProps } from "../../ave-react";
 
 export function TestStatusBarBasic() {
+	// prettier-ignore
+	const parts: IStatusBarComponentProps["parts"] = [
+		{ size: "120dpx", text: "feature/status-bar", clickable: true }, 
+		{ size: "100dpx", text: "Git Graph", clickable: true }, 
+		{ size: "1" }
+	];
+
 	return (
 		<Window title="StatusBar Basic">
 			<DemoLayout>
-				<StatusBar parts={[{ size: "120dpx", text: "feature/status-bar", clickable: true }, { size: "100dpx", text: "Git Graph", clickable: true }, { size: "1" }]}></StatusBar>
+				<StatusBar
+					parts={parts}
+					onClick={(sender, index) => {
+						console.log(`index: ${index}`);
+					}}
+				></StatusBar>
 			</DemoLayout>
 		</Window>
 	);

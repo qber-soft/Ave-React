@@ -1,10 +1,11 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { StatusBar as NativeStatusBar } from "ave-ui";
+import { StatusBar as NativeStatusBar, IStatusBar } from "ave-ui";
 import { parseSize } from "./common";
 
 export interface IStatusBarComponentProps extends IComponentProps {
 	parts: IStatusBarPart[];
+	onClick?: Parameters<IStatusBar["OnClick"]>[0];
 }
 
 export interface IStatusBarPart {
@@ -27,6 +28,11 @@ class StatusBarComponent extends AveComponent<IStatusBarComponentProps> {
 		switch (propName) {
 			case "parts": {
 				this.setValueForParts(propValue ?? []);
+				break;
+			}
+
+			case "onClick": {
+				this.statusBar.OnClick(propValue ?? (() => {}));
 				break;
 			}
 		}
