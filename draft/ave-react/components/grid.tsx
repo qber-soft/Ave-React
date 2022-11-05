@@ -1,5 +1,5 @@
-import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, IGridArea, registerComponent } from "./common";
-import { Grid as NativeGrid, Vec4, DpiSize, DockMode, DpiMargin } from "ave-ui";
+import { parseSize, AveComponent, ComponentConfig, IComponentProps, IComponentStyle, IGridArea, registerComponent, parseMargin } from "./common";
+import { Grid as NativeGrid, Vec4, DockMode } from "ave-ui";
 import { AppContainer } from "../renderer";
 import * as Trace from "../dev/trace";
 
@@ -21,24 +21,6 @@ export interface IGridLayout {
 	columns?: string;
 	rows?: string;
 	areas?: Record<string, IGridArea>;
-}
-
-function parseSize(size: string) {
-	if (size.endsWith("dpx")) {
-		return DpiSize.FromPixelScaled(parseFloat(size.replace("dpx", "")));
-	} else if (size.endsWith("px")) {
-		return DpiSize.FromPixel(parseFloat(size.replace("px", "")));
-	} else {
-		return DpiSize.FromSlice(parseFloat(size));
-	}
-}
-
-function parseMargin(margin: string) {
-	const [l, t, r, b] = margin
-		.trim()
-		.split(" ")
-		.map((each) => parseSize(each));
-	return new DpiMargin(l, t, r, b);
 }
 
 export class GridComponent extends AveComponent<IGridComponentProps> {
