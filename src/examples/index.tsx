@@ -28,3 +28,4 @@ export * from "./date-picker";
 export * from "./calendar";
 export * from "./list-box";
 export * from "./tab";
+export * from "./status-bar";
