@@ -30,3 +30,4 @@ export * from "./list-box";
 export * from "./tab";
 export * from "./status-bar";
 export * from "./rich-list-box";
+export * from "./tree";

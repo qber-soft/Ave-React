@@ -25,10 +25,10 @@
 		"build:draft": "cross-env NODE_ENV=prod draft build",
 		"prebuild": "del-cli ./build && del-cli ./src/ave-react && npm run build:draft",
 		"build": "tsc",
+		"postbuild": "copyfiles ./assets/* ./build",
 		"predist": "del-cli ./dist && npm run build",
 		"dist": "cd ./build && copyfiles ./src/ave-react/** ../dist",
 		"postdist": "del-cli ./dist/src/ave-react/dev",
-		"postbuild": "copyfiles ./assets/* ./build",
 		"prerelease": "npm run build",
 		"release": "ave-pack pack",
 		"format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\""
