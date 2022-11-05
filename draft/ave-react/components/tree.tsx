@@ -1,9 +1,10 @@
 import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
 import { AppContainer } from "../renderer";
-import { Tree as NativeTree, TreeGenericHandle, TreeInsert, TreeItem, TreeItemFlag, TreeItemHandle } from "ave-ui";
+import { Tree as NativeTree, TreeGenericHandle, TreeInsert, TreeItemFlag, TreeItemHandle } from "ave-ui";
 
 export interface ITreeComponentProps extends IComponentProps {
 	nodes: ITreeNode[];
+	onSelect?: (sender: NativeTree, selected: ITreeNode) => void;
 }
 
 export interface ITreeNode {
@@ -15,9 +16,11 @@ class TreeComponent extends AveComponent<ITreeComponentProps> {
 	static tagName = "ave-tree";
 
 	private tree: NativeTree;
+	private nodeMap: Map<TreeItemHandle, ITreeNode>;
 
 	protected onCreateUI() {
 		this.tree = new NativeTree(this.window);
+		this.nodeMap = new Map<TreeItemHandle, ITreeNode>();
 		return this.tree;
 	}
 
@@ -27,6 +30,19 @@ class TreeComponent extends AveComponent<ITreeComponentProps> {
 				this.setValuleForNodes(propValue ?? []);
 				break;
 			}
+
+			case "onSelect": {
+				this.tree.OnSelectionChange(
+					propValue
+						? (sender) => {
+								const handle = sender.ItemGetSelection();
+								const node = this.nodeMap.get(handle);
+								(propValue as ITreeComponentProps["onSelect"])(sender, node);
+						  }
+						: () => {}
+				);
+				break;
+			}
 		}
 	}
 
@@ -34,6 +50,7 @@ class TreeComponent extends AveComponent<ITreeComponentProps> {
 		{
 			// TODO: support update
 			this.tree.ItemClear();
+			this.nodeMap.clear();
 		}
 		nodes.forEach((root) => {
 			const rootInsert = new TreeInsert();
@@ -42,6 +59,7 @@ class TreeComponent extends AveComponent<ITreeComponentProps> {
 			rootInsert.Item.Flag = TreeItemFlag.Text;
 			rootInsert.Item.Text = root.text;
 			const rootHandle = this.tree.ItemInsert(rootInsert);
+			this.nodeMap.set(rootHandle, root);
 			this.buildTree(rootHandle, root);
 		});
 	}
@@ -54,6 +72,7 @@ class TreeComponent extends AveComponent<ITreeComponentProps> {
 			childInsert.Item.Flag = TreeItemFlag.Text;
 			childInsert.Item.Text = child.text;
 			const childHandle = this.tree.ItemInsert(childInsert);
+			this.nodeMap.set(childHandle, child);
 			this.buildTree(childHandle, child);
 		});
 	}

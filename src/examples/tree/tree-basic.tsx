@@ -15,7 +15,12 @@ export function TestTreeBasic() {
 	return (
 		<Window title="Tree Basic">
 			<DemoLayout width="500dpx" height="300dpx">
-				<Tree nodes={nodes}></Tree>
+				<Tree
+					nodes={nodes}
+					onSelect={(sender, selected) => {
+						console.log(`select ${selected.text}`);
+					}}
+				></Tree>
 			</DemoLayout>
 		</Window>
 	);
