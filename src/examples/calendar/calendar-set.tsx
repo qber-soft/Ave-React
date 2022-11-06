@@ -1,10 +1,12 @@
+import { TimePoint } from "ave-ui";
 import React, { useState } from "react";
 import { Window, Calendar } from "../../ave-react";
 import { DemoLayout } from "../common";
 
 export function TestCalendarSet() {
-	const [date, setDate] = useState(new Date(2021, 11, 5).getTime());
-	const [dateMark, setDateMark] = useState(new Date(2021, 11, 5).getTime());
+	const timestamp = new TimePoint(2021, 11, 5).JsDateTime;
+	const [date, setDate] = useState(timestamp);
+	const [dateMark, setDateMark] = useState(timestamp);
 
 	return (
 		<Window title="Calendar Set">
