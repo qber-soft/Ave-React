@@ -1,9 +1,12 @@
-name: build
+name: publish
 
-on: [push]
+on:
+    push:
+        branches:
+            - main
 
 jobs:
-    build:
+    publish:
         runs-on: windows-latest
 
         strategy:
@@ -16,10 +19,13 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: npm install, dist, and test
+            - name: publish npm package
               run: |
                   npm ci
                   npm run dist
                   npm run test
               env:
                   CI: true
+            - uses: JS-DevTools/npm-publish@v1
+              with:
+                  token: ${{ secrets.NPM_TOKEN }}
