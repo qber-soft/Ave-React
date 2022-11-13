@@ -1,6 +1,6 @@
 {
 	"name": "ave-react",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "ave-ui in react",
 	"main": "dist/src/ave-react/index.js",
 	"types": "dist/src/ave-react/index.d.ts",
