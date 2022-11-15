@@ -11,6 +11,7 @@ export interface IWindowComponentProps extends IComponentProps {
 	withBackground?: boolean;
 	withCaption?: boolean;
 	onInit?: (app: App) => void;
+	onClose?: (window: NativeWindow) => void;
 	onLanguageChange?: (app: App) => void;
 }
 
@@ -51,6 +52,9 @@ export class WindowComponent extends AveComponent<IWindowComponentProps> {
 		cpWindow.Theme = context.getThemeImage();
 
 		this.window = new NativeWindow(cpWindow);
+		if (this.props?.onClose) {
+			this.window.OnClose(this.props?.onClose);
+		}
 		context.setWindow(this.window);
 
 		this.window.OnCreateContent((sender) => {

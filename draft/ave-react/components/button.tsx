@@ -5,6 +5,7 @@ import { Button as NativeButton, ButtonStyle, IButton, IconSource, Vec4, VisualT
 export interface IButtonComponentProps extends IComponentProps {
 	text?: string;
 	style?: IButtonStyle;
+	enable?: boolean;
 	iconInfo?: { name: string; size?: number };
 	onClick?: Parameters<IButton["OnClick"]>[0];
 }
@@ -36,6 +37,11 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 		switch (propName) {
 			case "text": {
 				this.button.SetText(propValue ?? defaultValue.text);
+				break;
+			}
+
+			case "enable": {
+				this.button.SetEnable(propValue ?? true);
 				break;
 			}
 
