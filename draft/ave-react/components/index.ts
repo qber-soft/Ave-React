@@ -24,3 +24,4 @@ export * from "./tab";
 export * from "./status-bar";
 export * from "./rich-list-box";
 export * from "./tree";
+export * from "./code-editor";
