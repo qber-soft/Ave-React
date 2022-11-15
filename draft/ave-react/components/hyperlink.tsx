@@ -1,4 +1,4 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from ".";
+import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
 import { Hyperlink as NativeHyperlink, IHyperlink } from "ave-ui";
 

@@ -1,4 +1,4 @@
-import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "../components";
+import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
 import { IKnob, Knob as NativeKnob, Vec4 } from "ave-ui";
 

@@ -1,4 +1,4 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
+import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
 import { StatusBar as NativeStatusBar, IStatusBar } from "ave-ui";
 import { parseSize } from "./common";

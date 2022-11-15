@@ -1,7 +1,6 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
+import { parseSize, AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
 import { HeaderItem, HeaderItemFormat, RichListBox as NativeRichListBox, RichListBoxItemVirtual, IRichListBox } from "ave-ui";
-import { parseSize } from "./common";
 
 export interface IRichListBoxComponentProps extends IComponentProps {
 	headers: IRichListBoxHeader[];
