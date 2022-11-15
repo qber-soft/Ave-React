@@ -1,6 +1,6 @@
 import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
-import { Byo2Font, CodeEditor as NativeCodeEditor, CodeEditorStyleItem, Vec4 } from "ave-ui";
+import { AlignType, Byo2Font, CodeEditor as NativeCodeEditor, CodeEditorMargin, CodeEditorMarginType, CodeEditorStyleItem, Vec4 } from "ave-ui";
 
 export interface ICodeEditorComponentProps extends IComponentProps {
 	style?: ICodeEditorStyle;
@@ -8,7 +8,15 @@ export interface ICodeEditorComponentProps extends IComponentProps {
 
 export interface ICodeEditorStyle extends IComponentStyle {
 	defaultVisualStyle?: ICodeEditorVisualStyle;
+	lineNumberVisualStyle?: ICodeEditorVisualStyle;
 	defaultFontStyle?: ICodeEditorFontStyle;
+	editorMargin?: ICodeEditorMargin;
+}
+
+export interface ICodeEditorMargin {
+	type: CodeEditorMarginType;
+	styleIndex: number;
+	align?: AlignType;
 }
 
 export interface ICodeEditorVisualStyle {
@@ -32,6 +40,7 @@ class CodeEditorComponent extends AveComponent<ICodeEditorComponentProps> {
 	private editor: NativeCodeEditor;
 	protected onCreateUI() {
 		this.editor = new NativeCodeEditor(this.window);
+		this.editor.VsReset(StyleIndex.Count);
 		return this.editor;
 	}
 
@@ -53,9 +62,24 @@ class CodeEditorComponent extends AveComponent<ICodeEditorComponentProps> {
 					break;
 				}
 
+				case "lineNumberVisualStyle": {
+					const item = this.createVisualStyleItem(styles.lineNumberVisualStyle ?? {});
+					this.editor.VsSetStyle(StyleIndex.LineNumber, item);
+					break;
+				}
+
 				case "defaultFontStyle": {
 					const item = this.createFontStyleItem(styles.defaultFontStyle ?? {});
 					this.editor.VsSetFont(StyleIndex.Default, item);
+					break;
+				}
+
+				case "editorMargin": {
+					const margin = new CodeEditorMargin();
+					margin.Type = styles.editorMargin?.type ?? CodeEditorMarginType.LineNumber;
+					margin.Style = styles.editorMargin?.styleIndex ?? StyleIndex.LineNumber;
+					margin.Align = styles.editorMargin?.align ?? AlignType.Far;
+					this.editor.VmAdd(margin);
 					break;
 				}
 			}

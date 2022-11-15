@@ -1,14 +1,21 @@
-import { Vec4 } from "ave-ui";
+import { CodeEditorMarginType, Vec4 } from "ave-ui";
 import React from "react";
-import { Window, CodeEditor, ICodeEditorStyle } from "../../ave-react";
+import { Window, CodeEditor, ICodeEditorStyle, StyleIndex } from "../../ave-react";
 import { DemoLayout } from "../common";
 
 const style: ICodeEditorStyle = {
 	defaultVisualStyle: {
-		textColor: new Vec4(0, 0, 0, 255),
+		textColor: new Vec4(255, 0, 0, 255),
 	},
 	defaultFontStyle: {
 		size: 13,
+	},
+	lineNumberVisualStyle: {
+		textColor: new Vec4(0, 0, 255, 255),
+	},
+	editorMargin: {
+		type: CodeEditorMarginType.LineNumber,
+		styleIndex: StyleIndex.LineNumber,
 	},
 };
 
