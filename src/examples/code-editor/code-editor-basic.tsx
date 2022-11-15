@@ -8,7 +8,7 @@ const style: ICodeEditorStyle = {
 		textColor: new Vec4(255, 0, 0, 255),
 	},
 	defaultFontStyle: {
-		size: 13,
+		size: 12,
 	},
 	lineNumberVisualStyle: {
 		textColor: new Vec4(0, 0, 255, 255),
@@ -20,10 +20,12 @@ const style: ICodeEditorStyle = {
 };
 
 export function TestCodeEditorBasic() {
+	const text = `console.log("Hello World!");`;
+
 	return (
 		<Window title="CodeEditor Basic">
 			<DemoLayout width="500dpx" height="300dpx">
-				<CodeEditor style={style}></CodeEditor>
+				<CodeEditor style={style} text={text}></CodeEditor>
 			</DemoLayout>
 		</Window>
 	);

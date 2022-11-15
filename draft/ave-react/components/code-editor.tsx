@@ -3,6 +3,7 @@ import { AppContainer } from "../renderer";
 import { AlignType, Byo2Font, CodeEditor as NativeCodeEditor, CodeEditorMargin, CodeEditorMarginType, CodeEditorStyleItem, Vec4 } from "ave-ui";
 
 export interface ICodeEditorComponentProps extends IComponentProps {
+	text?: string;
 	style?: ICodeEditorStyle;
 }
 
@@ -48,6 +49,14 @@ class CodeEditorComponent extends AveComponent<ICodeEditorComponentProps> {
 		switch (propName) {
 			case "style": {
 				this.setValueForStyles(propValue ?? {});
+				break;
+			}
+
+			case "text": {
+				// TODO: support text update without remove?
+				const doc = this.editor.DocGet();
+				doc.CharRemove(0, doc.GetLength());
+				doc.CharInsert(0, propValue ?? "");
 				break;
 			}
 		}
