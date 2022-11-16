@@ -9,9 +9,11 @@ export interface ICodeEditorComponentProps extends IComponentProps {
 
 export interface ICodeEditorStyle extends IComponentStyle {
 	defaultVisualStyle?: ICodeEditorVisualStyle;
-	lineNumberVisualStyle?: ICodeEditorVisualStyle;
 	defaultFontStyle?: ICodeEditorFontStyle;
+	lineNumberVisualStyle?: ICodeEditorVisualStyle;
+	lineNumberFontStyle?: ICodeEditorFontStyle;
 	editorMargin?: ICodeEditorMargin;
+	caretColor?: Vec4;
 }
 
 export interface ICodeEditorMargin {
@@ -83,12 +85,23 @@ class CodeEditorComponent extends AveComponent<ICodeEditorComponentProps> {
 					break;
 				}
 
+				case "lineNumberFontStyle": {
+					const item = this.createFontStyleItem(styles.lineNumberFontStyle ?? {});
+					this.editor.VsSetFont(StyleIndex.LineNumber, item);
+					break;
+				}
+
 				case "editorMargin": {
 					const margin = new CodeEditorMargin();
 					margin.Type = styles.editorMargin?.type ?? CodeEditorMarginType.LineNumber;
 					margin.Style = styles.editorMargin?.styleIndex ?? StyleIndex.LineNumber;
 					margin.Align = styles.editorMargin?.align ?? AlignType.Far;
 					this.editor.VmAdd(margin);
+					break;
+				}
+
+				case "caretColor": {
+					this.editor.ViewSetCaretColor(styles.caretColor ?? new Vec4(255, 255, 255, 255));
 					break;
 				}
 			}

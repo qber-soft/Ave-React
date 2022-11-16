@@ -13,10 +13,14 @@ const style: ICodeEditorStyle = {
 	lineNumberVisualStyle: {
 		textColor: new Vec4(0, 0, 255, 255),
 	},
+	lineNumberFontStyle: {
+		size: 12,
+	},
 	editorMargin: {
 		type: CodeEditorMarginType.LineNumber,
 		styleIndex: StyleIndex.LineNumber,
 	},
+	caretColor: new Vec4(0, 255, 0, 255),
 };
 
 export function TestCodeEditorBasic() {
