@@ -5,6 +5,7 @@ import { AlignType, Byo2Font, CodeEditor as NativeCodeEditor, CodeEditorMargin, 
 export interface ICodeEditorComponentProps extends IComponentProps {
 	text?: string;
 	style?: ICodeEditorStyle;
+	onInit?: (editor: NativeCodeEditor) => void;
 }
 
 export interface ICodeEditorStyle extends IComponentStyle {
@@ -44,6 +45,9 @@ class CodeEditorComponent extends AveComponent<ICodeEditorComponentProps> {
 	protected onCreateUI() {
 		this.editor = new NativeCodeEditor(this.window);
 		this.editor.VsReset(StyleIndex.Count);
+		if (this.props?.onInit) {
+			this.props?.onInit(this.editor);
+		}
 		return this.editor;
 	}
 
