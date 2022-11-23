@@ -639,7 +639,12 @@ export function getAppContext() {
 
 export const AveRenderer = {
 	render(element: React.ReactNode) {
-		const app = new AppContainer(getAppContext());
+		const context = getAppContext();
+		context.clear();
+
+		const app = new AppContainer(context);
+		context.setAppContainer(app);
+
 		const reconcilerInstance = Reconciler(HostConfig as IHostConfig);
 		const container = reconcilerInstance.createContainer(app, 0 /** not concurrent */, false, null);
 
