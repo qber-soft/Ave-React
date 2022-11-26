@@ -7,6 +7,7 @@ import * as Trace from "../../dev/trace";
 export type ReactAveTag<Props> = string | React.ComponentType<Props>;
 
 export interface IComponentProps {
+	id?: string;
 	style?: IComponentStyle;
 	langKey?: string;
 	children?: any[] | any;

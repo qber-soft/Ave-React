@@ -5,14 +5,16 @@ import { TestContext, TestWindow } from "./common";
 
 jest.setTimeout(60 * 1000);
 
-afterEach(() => {
+beforeAll(async () => {
+	AveRenderer.render(<TestWindow />);
+	await waitFor("window ready", 1000);
+});
+
+afterAll(() => {
 	TestContext.end();
 });
 
 test("smoke testing: open window", async () => {
-	AveRenderer.render(<TestWindow />);
-	await waitFor("window ready", 1000);
-
 	const nativeWindow = TestContext.begin();
 	await waitFor("window active", 1000);
 

@@ -1,4 +1,4 @@
-import { mergeCoverage } from "../ave-testing";
+import { mergeCoverage } from "../common";
 
 async function main() {
 	mergeCoverage();
