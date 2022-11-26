@@ -33,6 +33,7 @@ export interface ITestWindowProps {
 
 export interface ITestContext {
 	defaultWindowTitle: string;
+	defaultComponentCount: number;
 
 	render: (content: any) => void;
 	updateTitle: (title: string) => void;
@@ -43,6 +44,7 @@ export interface ITestContext {
 
 class __TestContext implements ITestContext {
 	defaultWindowTitle = "Ave React E2E";
+	defaultComponentCount = 3; // window > grid > grid
 	render = null;
 	updateTitle = null;
 
@@ -70,7 +72,12 @@ export function TestWindow(props: ITestWindowProps) {
 	const [content, setContent] = useState(null);
 
 	useEffect(() => {
-		TestContext.render = setContent;
+		TestContext.render = (arg: any) => {
+			setContent(arg);
+			const context = getAppContext();
+			const window = context.getWindow();
+			window.Redraw();
+		};
 		TestContext.updateTitle = (title: string) => setTitle(`${TestContext.defaultWindowTitle}: ${title}`);
 		console.log(`[test window] assign setContent`);
 	}, []);

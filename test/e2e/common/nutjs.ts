@@ -1,5 +1,5 @@
 import { Rect } from "ave-ui";
-import { getActiveWindow, Region, Window, screen, getWindows } from "@nut-tree/nut-js";
+import { Button, getActiveWindow, Region, Window, screen, getWindows, Point, mouse } from "@nut-tree/nut-js";
 import { AveComponent } from "../../../src/ave-react";
 import { getRectRelativeToWindow } from "../../ave-testing";
 
@@ -11,6 +11,12 @@ export async function getRegionRelativeToScreenForComponent(window: Window, comp
 export async function getRegionRelativeToScreen(window: Window, rect: Rect) {
 	const windowRegion = await window.region;
 	return new Region(windowRegion.left + rect.Position.x, windowRegion.top + rect.Position.y, rect.Size.x, rect.Size.y);
+}
+
+export async function focusWindow(window: Window, offset = { left: 10, top: 10 }) {
+	const windowRegion = await window.region;
+	await mouse.setPosition(new Point(windowRegion.left + offset.left, windowRegion.top + offset.left));
+	await mouse.click(Button.LEFT);
 }
 
 export async function highlight(component: AveComponent, padding: number = 0) {
