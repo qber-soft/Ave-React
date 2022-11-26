@@ -49,10 +49,10 @@ export interface ITestContext {
 class __TestContext implements ITestContext {
 	defaultWindowTitle = "Ave React E2E";
 	defaultComponentCount = 3; // window > grid > grid
-	render = null;
-	updateTitle = null;
-	nativeWindow = null;
-	activeWindow = null;
+	render: ITestContext["render"];
+	updateTitle: ITestContext["updateTitle"] = null;
+	nativeWindow: NativeWindow = null;
+	activeWindow: NutjsWindow = null;
 
 	constructor() {}
 

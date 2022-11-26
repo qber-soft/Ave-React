@@ -6,3 +6,4 @@ temp
 src/ave-react
 dist
 coverage
+test-out

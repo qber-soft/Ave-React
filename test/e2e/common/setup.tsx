@@ -25,6 +25,7 @@ export function setupJest() {
 	afterEach(async () => {
 		// await waitFor("[debug only] review test result", 3000);
 		TestContext.render(<></>);
+		await waitFor("[after each] unmount test content", 1000);
 	});
 
 	afterAll(() => {

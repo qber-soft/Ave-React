@@ -1,5 +1,3 @@
-import isDeepEqual from "fast-deep-equal";
-
 export enum PropName {
 	Style = "style",
 	Children = "children",
