@@ -29,12 +29,12 @@
 		"predist": "del-cli ./dist && npm run build",
 		"dist": "cd ./build && copyfiles ./src/ave-react/** ../dist",
 		"postdist": "del-cli ./dist/src/ave-react/dev",
-		"test": "jest",
 		"prerelease": "npm run build",
 		"release": "ave-pack pack",
 		"format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\"",
-		"pree2e": "del-cli ./coverage",
-		"e2e": "ts-node ./test/e2e/index.ts"
+		"pretest": "del-cli ./coverage",
+		"test": "ts-node ./test/unit/index.ts",
+		"posttest": "ts-node ./test/e2e/index.ts"
 	},
 	"author": "ivjtk; rerender2021",
 	"files": [
