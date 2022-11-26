@@ -18,4 +18,8 @@ export class AppContainer {
 	appendChild(component: AveComponent) {
 		this.children.push(component);
 	}
+
+	getChildren() {
+		return [...this.children];
+	}
 }
