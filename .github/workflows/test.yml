@@ -7,8 +7,6 @@ on:
     workflow_call:
 
 jobs:
-    build:
-        uses: ./.github/workflows/build.yml
     test:
         runs-on: windows-latest
 
@@ -16,18 +14,16 @@ jobs:
             matrix:
                 node-version: [14.x]
 
-        needs: [build]
-
         steps:
             - uses: actions/checkout@v1
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: npm install and test
+            - name: npm install, dist and test
               run: |
                   npm ci
-                  npm run build
+                  npm run dist
                   npm run test
               env:
                   CI: true
