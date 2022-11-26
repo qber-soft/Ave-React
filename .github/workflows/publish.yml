@@ -6,12 +6,16 @@ on:
             - main
 
 jobs:
+    test:
+        uses: ./.github/workflows/test.yml
     publish:
         runs-on: windows-latest
 
         strategy:
             matrix:
                 node-version: [14.x]
+
+        needs: [test]
 
         steps:
             - uses: actions/checkout@v1
@@ -23,7 +27,6 @@ jobs:
               run: |
                   npm ci
                   npm run dist
-                  npm run test
               env:
                   CI: true
             - uses: JS-DevTools/npm-publish@v1

@@ -1,6 +1,6 @@
 name: build
 
-on: [push]
+on: [push, workflow_call]
 
 jobs:
     build:
@@ -16,10 +16,9 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
-            - name: npm install, dist, and test
+            - name: npm install, dist
               run: |
                   npm ci
                   npm run dist
-                  npm run test
               env:
                   CI: true

@@ -1,14 +1,18 @@
 name: test
 
-on: [push]
+on: [push, workflow_call]
 
 jobs:
+    build:
+        uses: ./.github/workflows/build.yml
     test:
         runs-on: windows-latest
 
         strategy:
             matrix:
                 node-version: [14.x]
+
+        needs: [build]
 
         steps:
             - uses: actions/checkout@v1
