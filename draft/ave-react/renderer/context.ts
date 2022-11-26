@@ -1,4 +1,5 @@
 import { App, CultureId, ThemeImage, ThemePredefined_Dark, Window } from "ave-ui";
+import { AppContainer } from "./container";
 
 export interface IIconResource {
 	size: number[];
@@ -31,6 +32,25 @@ export class AppContext {
 	private themeDark: ThemePredefined_Dark;
 	private aveApp: App;
 	private window: Window;
+	private appContainer: AppContainer;
+
+	clear() {
+		this.iconResourceMap = {};
+		this.iconResource = null;
+		this.i18n = null;
+		this.themeImage = null;
+		this.themeDark = null;
+		this.aveApp = null;
+		this.window = null;
+	}
+
+	setAppContainer(appContainer: AppContainer) {
+		this.appContainer = appContainer;
+	}
+
+	getAppContainer() {
+		return this.appContainer;
+	}
 
 	setWindow(window: Window) {
 		this.window = window;

@@ -5,3 +5,4 @@ bin
 temp
 src/ave-react
 dist
+coverage
