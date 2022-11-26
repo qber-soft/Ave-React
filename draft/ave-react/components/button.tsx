@@ -26,7 +26,6 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IButtonComponentProps, propValue: any) {
-		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "text": {
 				this.button.SetText(propValue ?? "");
