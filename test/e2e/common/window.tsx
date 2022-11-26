@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Window as NativeWindow } from "ave-ui";
+import { Window as NutjsWindow } from "@nut-tree/nut-js";
 import { getAppContext, Grid, Window } from "../../../src/ave-react";
 
 export interface ITestLayoutProps {
@@ -35,6 +36,9 @@ export interface ITestContext {
 	defaultWindowTitle: string;
 	defaultComponentCount: number;
 
+	nativeWindow: NativeWindow;
+	activeWindow: NutjsWindow;
+
 	render: (content: any) => void;
 	updateTitle: (title: string) => void;
 
@@ -47,6 +51,8 @@ class __TestContext implements ITestContext {
 	defaultComponentCount = 3; // window > grid > grid
 	render = null;
 	updateTitle = null;
+	nativeWindow = null;
+	activeWindow = null;
 
 	constructor() {}
 

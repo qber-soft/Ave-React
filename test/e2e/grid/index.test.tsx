@@ -1,35 +1,12 @@
-import { Vec4, Window as NativeWindow } from "ave-ui";
+import { Vec4 } from "ave-ui";
 import React from "react";
-import { AveRenderer, Grid } from "../../../src/ave-react";
+import { Grid } from "../../../src/ave-react";
 import { getComponentById, getComponents } from "../../ave-testing";
 import { waitFor } from "../../common";
-import { findWindowByTitle, focusWindow, getRegionRelativeToScreenForComponent, TestContext, TestWindow } from "../common";
-import { centerOf, screen, Window as NutjsWindow } from "@nut-tree/nut-js";
+import { getRegionRelativeToScreenForComponent, setupJest, TestContext } from "../common";
+import { centerOf, screen } from "@nut-tree/nut-js";
 
-jest.setTimeout(60 * 1000);
-
-let nativeWindow: NativeWindow = null;
-let activeWindow: NutjsWindow = null;
-
-beforeAll(async () => {
-	AveRenderer.render(<TestWindow />);
-	await waitFor("window ready", 1000);
-
-	nativeWindow = TestContext.begin();
-	await waitFor("window active", 1000);
-
-	activeWindow = await findWindowByTitle(TestContext.defaultWindowTitle);
-	await focusWindow(activeWindow);
-});
-
-afterEach(async () => {
-	// await waitFor("[debug only] review test result", 3000);
-	TestContext.render(<></>);
-});
-
-afterAll(() => {
-	TestContext.end();
-});
+setupJest();
 
 enum GridTestCases {
 	BackgroundColor = "display grid with background color",
@@ -74,7 +51,7 @@ describe("grid", () => {
 		await waitFor("render", 1000);
 
 		const root = getComponentById("root");
-		const region = await getRegionRelativeToScreenForComponent(activeWindow, root);
+		const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, root);
 
 		const pos = await centerOf(region);
 		const pixel = await screen.colorAt(pos);
