@@ -12,7 +12,6 @@ export enum PropValue {
 	Default = null,
 }
 
-// TODO: add unit test case
 export function diffProps(oldProps: object, newProps: object) {
 	oldProps = oldProps ?? {};
 	newProps = newProps ?? {};
@@ -64,13 +63,6 @@ export function diffProps(oldProps: object, newProps: object) {
 				for (const styleName in newProp) {
 					if (oldProp[styleName] !== newProp[styleName]) {
 						styleUpdates[styleName] = newProp[styleName];
-
-						// refine, avoid rerender, we need deep comparasion here
-						["layout", "backgroundColor", "area"].forEach((styleName) => {
-							if (isDeepEqual(oldProp[styleName], newProp[styleName])) {
-								delete styleUpdates[styleName];
-							}
-						});
 					}
 				}
 			} else {

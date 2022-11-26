@@ -27,9 +27,14 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 	static tagName = "ave-grid";
 
 	private grid: NativeGrid;
+	private layout: IGridLayout;
 
 	onCreateUI() {
 		this.grid = new NativeGrid(this.window);
+		this.layout = {
+			columns: "",
+			rows: "",
+		};
 		return this.grid;
 	}
 
@@ -96,18 +101,55 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 	}
 
 	private setLayout(layout: IGridLayout) {
-		const { columns, rows } = layout;
-		if (columns) {
-			columns
-				.trim()
-				.split(" ")
-				.forEach((col) => this.grid.ColAdd(parseSize(col)));
+		const { columns = "", rows = "" } = layout;
+
+		//
+		const newColumnList = columns.trim().split(" ");
+		const oldColumnList = (this.layout?.columns ?? "1").trim().split(" ");
+		newColumnList.forEach((column, index) => {
+			const prevColumn = oldColumnList[index];
+			if (!prevColumn) {
+				this.grid.ColInsert(index, parseSize(column));
+			} else {
+				if (prevColumn === column) {
+					// skip it
+				} else {
+					this.grid.ColRemove(index);
+					this.grid.ColInsert(index, parseSize(column));
+				}
+			}
+		});
+
+		if (newColumnList.length < oldColumnList.length) {
+			for (let i = oldColumnList.length - 1; i >= newColumnList.length; --i) {
+				this.grid.ColRemove(i);
+			}
 		}
-		if (rows) {
-			rows.trim()
-				.split(" ")
-				.forEach((row) => this.grid.RowAdd(parseSize(row)));
+
+		//
+		const newRowList = rows.trim().split(" ");
+		const oldRowList = (this.layout?.rows ?? "1").trim().split(" ");
+		newRowList.forEach((row, index) => {
+			const prevRow = oldRowList[index];
+			if (!prevRow) {
+				this.grid.RowInsert(index, parseSize(row));
+			} else {
+				if (prevRow === row) {
+					// skip it
+				} else {
+					this.grid.RowRemove(index);
+					this.grid.RowInsert(index, parseSize(row));
+				}
+			}
+		});
+
+		if (newRowList.length < oldRowList.length) {
+			for (let i = oldRowList.length - 1; i >= newRowList.length; --i) {
+				this.grid.RowRemove(i);
+			}
 		}
+
+		this.layout = { ...layout };
 	}
 
 	appendChild(child: GridComponent): void {

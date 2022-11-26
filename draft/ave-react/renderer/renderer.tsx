@@ -83,7 +83,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				type: "renderer",
 				detail: {
 					type,
-					rootContainer,
+					// rootContainer,
 				},
 			});
 		}
@@ -364,7 +364,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				name: "clearContainer",
 				type: "renderer",
 				detail: {
-					rootContainer,
+					// rootContainer,
 				},
 			});
 		}
@@ -394,7 +394,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				name: "appendChildToContainer",
 				type: "renderer",
 				detail: {
-					root: rootContainer,
+					// root: rootContainer,
 					child,
 				},
 			});
@@ -564,7 +564,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				name: "removeChildFromContainer",
 				type: "renderer",
 				detail: {
-					container,
+					// container,
 					child,
 				},
 			});
@@ -589,7 +589,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				name: "insertInContainerBefore",
 				type: "renderer",
 				detail: {
-					container,
+					// container,
 					child,
 					beforeChild,
 				},
