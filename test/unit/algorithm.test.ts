@@ -43,5 +43,38 @@ describe("algorithm", () => {
 				expect(updatePayload).toEqual(["text", null]);
 			}
 		});
+
+		test("update object", () => {
+			{
+				const updatePayload = diffProps({}, { option: { key: 1, text: "react" } });
+				expect(updatePayload).toEqual(["option", { key: 1, text: "react" }]);
+			}
+
+			{
+				const updatePayload = diffProps({ option: { key: 1, text: "react" } }, { option: { key: 1, text: "react" } });
+				expect(updatePayload).toEqual(["option", { key: 1, text: "react" }]);
+			}
+
+			{
+				const prop = { option: { key: 1, text: "react" } };
+				const updatePayload = diffProps(prop, prop);
+				expect(updatePayload).toEqual([]);
+			}
+
+			{
+				const updatePayload = diffProps({ option: { key: 1, text: "react" } }, { option: { key: 1, text: "react-update" } });
+				expect(updatePayload).toEqual(["option", { key: 1, text: "react-update" }]);
+			}
+
+			{
+				const updatePayload = diffProps({ option: { key: 1, text: "react" } }, {});
+				expect(updatePayload).toEqual(["option", null]);
+			}
+
+			{
+				const updatePayload = diffProps({ option: { key: 1, text: "react" } }, null);
+				expect(updatePayload).toEqual(["option", null]);
+			}
+		});
 	});
 });
