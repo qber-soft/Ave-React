@@ -8,7 +8,7 @@
 
 <div align="center">
 
-[![Build Status](https://github.com/qber-soft/Ave-React/workflows/build/badge.svg)](https://github.com/qber-soft/Ave-React/workflows/build/badge.svg)
+[![test](https://github.com/qber-soft/Ave-React/actions/workflows/test.yml/badge.svg)](https://github.com/qber-soft/Ave-React/actions/workflows/test.yml) [![publish](https://github.com/qber-soft/Ave-React/actions/workflows/publish.yml/badge.svg)](https://github.com/qber-soft/Ave-React/actions/workflows/publish.yml)
 
  </div>
  
