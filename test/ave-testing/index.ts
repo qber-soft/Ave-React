@@ -13,6 +13,7 @@ function renameCoverageFile() {
 	fs.renameSync(path.resolve(projectRoot, "./coverage/coverage-final.json"), path.resolve(projectRoot, `./coverage/coverage-final-${timestamp}.json`));
 }
 
+// https://github.com/facebook/jest/issues/2418
 export function mergeCoverage() {
 	const collector = new istanbul.Collector();
 	const reporter = new istanbul.Reporter();
@@ -20,7 +21,6 @@ export function mergeCoverage() {
 
 	const filePaths = fs.readdirSync(path.resolve(projectRoot, "./coverage"));
 	console.log(`coverage file paths`, filePaths);
-	// const countries = ['chile', 'peru'];
 
 	filePaths.forEach((relativePath) => {
 		if (relativePath.includes("coverage-final-")) {
@@ -30,7 +30,6 @@ export function mergeCoverage() {
 		}
 	});
 
-	// https://github.com/facebook/jest/issues/2418
 	reporter.addAll(["html", "lcov", "text", "clover", "json"]);
 	reporter.write(collector, sync, () => {
 		console.log("all reports generated");
