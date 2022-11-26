@@ -23,7 +23,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-	await waitFor("[debug only] review test result", 3000);
+	// await waitFor("[debug only] review test result", 3000);
 	TestContext.render(<></>);
 });
 
