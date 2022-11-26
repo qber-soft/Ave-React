@@ -128,5 +128,27 @@ describe("algorithm", () => {
 				expect(updatePayload).toEqual(["style", { visualStyle: null }]);
 			}
 		});
+
+		test("update children", () => {
+			{
+				const updatePayload = diffProps({}, { children: [] });
+				expect(updatePayload).toEqual([]);
+			}
+
+			{
+				const updatePayload = diffProps({ children: [] }, {});
+				expect(updatePayload).toEqual([]);
+			}
+
+			{
+				const updatePayload = diffProps({ children: [] }, { children: [] });
+				expect(updatePayload).toEqual([]);
+			}
+
+			{
+				const updatePayload = diffProps({ children: ["a"] }, { children: [] });
+				expect(updatePayload).toEqual([]);
+			}
+		});
 	});
 });
