@@ -33,8 +33,10 @@
 		"release": "ave-pack pack",
 		"format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\"",
 		"pretest": "del-cli ./coverage",
-		"test": "ts-node ./test/unit/index.ts",
-		"posttest": "ts-node ./test/e2e/index.ts"
+		"test": "npm run test:unit && npm run test:e2e",
+		"test:unit": "ts-node ./test/unit/index.ts",
+		"test:e2e": "ts-node ./test/e2e/index.ts",
+		"posttest": "ts-node ./test/script/merge-coverage.ts"
 	},
 	"author": "ivjtk; rerender2021",
 	"files": [
