@@ -14,6 +14,9 @@ export enum PropValue {
 
 // TODO: add unit test case
 export function diffProps(oldProps: object, newProps: object) {
+	oldProps = oldProps ?? {};
+	newProps = newProps ?? {};
+
 	const updatePayload: any[] = [];
 	let styleUpdates = {};
 
