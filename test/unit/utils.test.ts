@@ -1,4 +1,4 @@
-import { parseSize } from "../../draft/ave-react/components/common/utils";
+import { parseSize } from "../../src/ave-react/components/common/utils";
 
 describe("utils", () => {
 	test("parse size", () => {

@@ -10,3 +10,5 @@ export * from "./grid-update-background-3";
 export * from "./grid-remove-background";
 export * from "./grid-remove-background-2";
 export * from "./grid-layout-color-picker";
+export * from "./grid-update-area";
+export * from "./grid-update-area-2";

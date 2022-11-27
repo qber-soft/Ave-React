@@ -1,16 +1,21 @@
-import { Vec4 } from "ave-ui";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "../../../src/ave-react";
-import { getComponentById, getComponents } from "../../ave-testing";
-import { waitFor } from "../../common";
-import { getRegionRelativeToScreenForComponent, setupJest, TestContext } from "../common";
-import { centerOf, screen } from "@nut-tree/nut-js";
+import { getComponents } from "../../ave-testing";
+import { Color, waitFor } from "../../common";
+import { setupJest, TestContext } from "../common";
+import { toMatchImageSnapshot } from "jest-image-snapshot";
+import { assertColorAtCenter, imageSnapshotTest } from "../common/image";
+import { getUpdateFunction } from "../common/update";
 
+expect.extend({ toMatchImageSnapshot });
 setupJest();
 
 enum GridTestCases {
-	BackgroundColor = "display grid with background color",
 	MountAndUnMount = "display grid and remove",
+	// update props
+	UpdateBackgroundColor = "update background color",
+	UpdateLayout = "update layout",
+	UpdateArea = "update area",
 }
 
 describe("grid", () => {
@@ -18,44 +23,127 @@ describe("grid", () => {
 		TestContext.updateTitle(GridTestCases.MountAndUnMount);
 
 		function TestCase() {
-			return <Grid id="root" style={{ backgroundColor: new Vec4(0, 255, 0, 255) }}></Grid>;
+			return <Grid id="root" style={{ backgroundColor: Color.Green }}></Grid>;
 		}
 
 		{
+			await assertColorAtCenter(TestContext.containerId, "rgb(255,255,255)");
 			const components = getComponents();
 			expect(components.length).toEqual(TestContext.defaultComponentCount);
 		}
 
 		{
-			TestContext.render(<TestCase />);
-			await waitFor("render", 1000);
+			await TestContext.render(<TestCase />);
+			await assertColorAtCenter(TestContext.containerId, "rgb(0,255,0)");
+
 			const components = getComponents();
 			expect(components.length).toEqual(TestContext.defaultComponentCount + 1);
 		}
 
 		{
-			TestContext.render(<></>);
+			await TestContext.render(<></>);
+			await assertColorAtCenter(TestContext.containerId, "rgb(255,255,255)");
+
 			const components = getComponents();
 			expect(components.length).toEqual(TestContext.defaultComponentCount);
 		}
 	});
 
-	test(GridTestCases.BackgroundColor, async () => {
-		TestContext.updateTitle(GridTestCases.BackgroundColor);
+	test(GridTestCases.UpdateLayout, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout);
 
+		let fireUpdate = null;
 		function TestCase() {
-			return <Grid id="root" style={{ backgroundColor: new Vec4(0, 0, 255, 255) }}></Grid>;
+			const [shouldAppend, setShouldAppend] = useState(false);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`append grid`);
+					setShouldAppend(true);
+				});
+			}, []);
+
+			const containerLayout = {
+				columns: "1 1",
+				rows: "1",
+				areas: {
+					left: { row: 0, column: 0 },
+					right: { row: 0, column: 1 },
+				},
+			};
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
+					<Grid style={{ backgroundColor: Color.Blue, area: containerLayout.areas.left }}></Grid>
+					{shouldAppend ? <Grid style={{ backgroundColor: Color.Red, area: containerLayout.areas.right }}></Grid> : <></>}
+				</Grid>
+			);
 		}
 
-		TestContext.render(<TestCase />);
-		await waitFor("render", 1000);
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
 
-		const root = getComponentById("root");
-		const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, root);
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
 
-		const pos = await centerOf(region);
-		const pixel = await screen.colorAt(pos);
+	test(GridTestCases.UpdateArea, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateArea);
 
-		expect(pixel.toString()).toEqual("rgb(0,0,255)");
+		let fireUpdate = null;
+		function TestCase() {
+			const [shouldUpdate, setShouldUpdate] = useState(false);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update grid area`);
+					setShouldUpdate(true);
+				});
+			}, []);
+
+			const containerLayout = {
+				columns: "1 1",
+				rows: "1",
+				areas: {
+					left: { row: 0, column: 0 },
+					right: { row: 0, column: 1 },
+				},
+			};
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
+					<Grid style={{ backgroundColor: Color.Blue, area: shouldUpdate ? containerLayout.areas.right : containerLayout.areas.left }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateBackgroundColor, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateBackgroundColor);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [color, setColor] = useState(Color.Blue);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update background color`);
+					setColor(Color.Red);
+				});
+			}, []);
+			return <Grid id="root" style={{ backgroundColor: color }}></Grid>;
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
 	});
 });

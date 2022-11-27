@@ -17,7 +17,6 @@ class PlaceholderComponent extends AveComponent<IPlaceholderComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IPlaceholderComponentProps, propValue: any) {
-		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "onPaintPost": {
 				this.placeholder.OnPaintPost(propValue ?? (() => {}));

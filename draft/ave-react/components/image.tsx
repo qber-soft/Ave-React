@@ -29,7 +29,6 @@ class ImageComponent extends AveComponent<IImageComponentProps> {
 	}
 
 	protected onUpdateProp(propName: keyof IImageComponentProps, propValue: any) {
-		super.onUpdateProp(propName, propValue);
 		switch (propName) {
 			case "src": {
 				this.updateSrc(propValue ?? "");

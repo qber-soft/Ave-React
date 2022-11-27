@@ -112,6 +112,7 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 
 		for (const propName in props) {
 			const propValue = props[propName];
+			this.commonOnUpdateProp(propName, propValue);
 			this.onUpdateProp(propName, propValue);
 		}
 
@@ -124,7 +125,9 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		}
 	}
 
-	protected onUpdateProp(propName: string, propValue: any) {
+	protected onUpdateProp(propName: string, propValue: any) {}
+
+	private commonOnUpdateProp(propName: string, propValue: any) {
 		switch (propName) {
 			case "onPointerEnter": {
 				this.nativeControl.OnPointerEnter(propValue ?? (() => {}));
@@ -148,6 +151,13 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 			}
 			case "onPointerHover": {
 				this.nativeControl.OnPointerHover(propValue ?? (() => {}));
+				break;
+			}
+			case "style": {
+				if (propValue?.area && this.gridControl) {
+					const childArea = propValue?.area;
+					this.gridControl.SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
+				}
 				break;
 			}
 		}
@@ -183,6 +193,7 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		for (let i = 0; i < updatePayload.length; i += 2) {
 			const propName = updatePayload[i];
 			const propValue = updatePayload[i + 1];
+			this.commonOnUpdateProp(propName, propValue);
 			this.onUpdateProp(propName, propValue);
 		}
 		{
