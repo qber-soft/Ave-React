@@ -3,6 +3,9 @@ import { Vec4 } from "ave-ui";
 // ref: http://zhongguose.com/
 export const Color = {
 	White: new Vec4(255, 255, 255, 255),
+	Red: new Vec4(255, 0, 0, 255),
+	Green: new Vec4(0, 255, 0, 255),
+	Blue: new Vec4(0, 0, 255, 255),
 	Grey: new Vec4(255 * 0.9, 255 * 0.9, 255 * 0.9, 255),
 	HuangHunHui: new Vec4(71, 75, 76, 255),
 	DanShuHong: new Vec4(238, 39, 70, 255),

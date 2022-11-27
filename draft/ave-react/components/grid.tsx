@@ -164,6 +164,11 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		}
 	}
 
+	removeChild(child: AveComponent): void {
+		super.removeChild(child);
+		this.grid.ControlRemove(child.nativeControl);
+	}
+
 	private addControl(child: AveComponent) {
 		{
 			("use trace");
