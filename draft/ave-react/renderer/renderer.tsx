@@ -152,6 +152,7 @@ export const HostConfig: Partial<IHostConfig> = {
 		}
 		const component = getComponentByTagName(type);
 		const instance = component.createInstance(props, rootContainer, hostContext);
+		instance.setNodeName(type.replace("ave-", ""));
 		{
 			("use trace");
 			start: (id: number) => {

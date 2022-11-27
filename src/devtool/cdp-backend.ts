@@ -91,9 +91,9 @@ function getDocument() {
 function componentToNode(component: AveComponent) {
 	// console.log(component);
 	const node = {
-		nodeId: (component as any).__id__,
-		backendNodeId: (component as any).__id__,
-		nodeName: (component as any).__type__,
+		nodeId: component.nodeId,
+		backendNodeId: component.nodeId,
+		nodeName: component.nodeName,
 		childNodeCount: 0,
 		nodeType: 1, // element node: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
 		children: component.children.map((each) => componentToNode(each)),
