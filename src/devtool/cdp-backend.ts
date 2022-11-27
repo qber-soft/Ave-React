@@ -36,6 +36,31 @@ export async function startChromeDevtoolBackend() {
 					result: {},
 				});
 				ws.send(response);
+			} else if (message.method === "CSS.enable") {
+				const response = JSON.stringify({
+					id: message.id,
+					result: {},
+				});
+				ws.send(response);
+			} else if (message.method === "CSS.getComputedStyleForNode") {
+				// can be empty, but must send
+				const response = JSON.stringify({
+					id: message.id,
+					result: {
+						computedStyle: [],
+					},
+				});
+				ws.send(response);
+			} else if (message.method === "CSS.getMatchedStylesForNode") {
+				const { nodeId } = message.params;
+				const inlineStyle = getInlineStylesForNode(nodeId);
+				const response = JSON.stringify({
+					id: message.id,
+					result: {
+						inlineStyle,
+					},
+				});
+				ws.send(response);
 			}
 
 			// else if (message.method === "Inspector.enable") {
@@ -168,8 +193,55 @@ function getDocument() {
 	return document;
 }
 
+function getInlineStylesForNode(nodeId: number) {
+	const component = getComponents().find((each) => each.nodeId === nodeId);
+	const inlineStyles = { cssProperties: [], shorthandEntries: [] };
+
+	if (component) {
+		const style = component.props?.style ?? {};
+
+		Object.keys(style).forEach((name) => {
+			const value = style[name];
+			if (typeof value === "object") {
+				// TODO: fix displayed css crossed out
+				// const longhandProperties = [];
+				// Object.keys(value).forEach((key) => {
+				// 	const prop = value[key];
+				// 	if (typeof prop === "object") {
+				// 		longhandProperties.push({ name: key, value: JSON.stringify(prop) });
+				// 	} else {
+				// 		longhandProperties.push({ name: key, value: `${prop}` });
+				// 	}
+				// });
+				// inlineStyles.shorthandEntries.push({ name, value: "..." });
+				// inlineStyles.cssProperties.push({ name, value: "...", longhandProperties, disabled: false, implicit: false, parsedOk: true });
+				inlineStyles.cssProperties.push({ name, value: JSON.stringify(value) });
+			} else {
+				inlineStyles.cssProperties.push({ name, value: `${value}` });
+			}
+		});
+		return inlineStyles;
+	}
+	return inlineStyles;
+}
+
 function componentToNode(component: AveComponent) {
 	// console.log(component);
+
+	const attributes: Array<string> = [];
+	Object.keys(component.props)
+		.filter((name) => !["children", "style"].includes(name))
+		.forEach((name) => {
+			const prop = component.props[name];
+			if (typeof prop !== "function") {
+				if (typeof prop === "object") {
+					attributes.push(name, JSON.stringify(prop));
+				} else {
+					attributes.push(name, `${prop}`);
+				}
+			}
+		});
+
 	const node = {
 		nodeId: component.nodeId,
 		backendNodeId: component.nodeId,
@@ -177,6 +249,7 @@ function componentToNode(component: AveComponent) {
 		childNodeCount: 0,
 		nodeType: 1, // element node: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
 		children: component.children.map((each) => componentToNode(each)),
+		attributes,
 	};
 
 	return node;
