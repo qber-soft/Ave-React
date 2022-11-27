@@ -32,6 +32,8 @@ export interface IGridArea {
 	rowSpan?: number;
 }
 
+let nextNodeId = 1;
+
 export abstract class AveComponent<Props extends IComponentProps = IComponentProps> {
 	/**
 	 * used internally
@@ -45,6 +47,8 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 	children: AveComponent<IComponentProps>[];
 	parentGrid: NativeGrid;
 	nativeControl: IControl;
+	nodeName: string;
+	nodeId: number;
 
 	protected window: NativeWindow;
 
@@ -52,6 +56,13 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		this.props = initProps;
 		this.children = [];
 		this.parentGrid = null;
+		this.nodeId = nextNodeId;
+		++nextNodeId;
+		this.nodeName = "component";
+	}
+
+	setNodeName(name: string) {
+		this.nodeName = name;
 	}
 
 	createUI(window: NativeWindow): IControl {
