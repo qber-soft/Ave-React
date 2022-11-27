@@ -2,7 +2,7 @@
 // devtools://devtools/bundled/inspector.html?experiments=true&ws=localhost:6710
 
 import ws from "ws";
-import { Window as NativeWindow, Rect } from "ave-ui";
+import { Window as NativeWindow, Rect, AveImage, ImageDimension, ImageContainerType } from "ave-ui";
 import { AveComponent, getAppContext } from "../ave-react";
 import { Button, Region, Window, screen, getWindows, mouse, Point } from "@nut-tree/nut-js";
 
@@ -29,14 +29,13 @@ export async function startChromeDevtoolBackend() {
 				ws.send(response);
 			} else if (message.method === "DOM.setInspectedNode") {
 				const { nodeId } = message.params;
-				// console.log("received: %s", message, nodeId);
 				inspectNode(nodeId);
 				const response = JSON.stringify({
 					id: message.id,
 					result: {},
 				});
 				ws.send(response);
-			} else if (message.method === "CSS.enable") {
+			} else if (message.method === "Page.enable") {
 				const response = JSON.stringify({
 					id: message.id,
 					result: {},
@@ -61,6 +60,8 @@ export async function startChromeDevtoolBackend() {
 					},
 				});
 				ws.send(response);
+			} else if (message.method === "Page.startScreencast") {
+				startScreencast(ws, message);
 			}
 
 			// else if (message.method === "Inspector.enable") {
@@ -85,6 +86,50 @@ export async function startChromeDevtoolBackend() {
 			// }
 		});
 	});
+}
+
+async function startScreencast(ws: ws.WebSocket, message: any) {
+	const response = JSON.stringify({
+		id: message.id,
+		result: {},
+	});
+	ws.send(response);
+
+	const windowComponent = getWindowComponent();
+	let id = 0;
+	windowComponent.nativeControl.SetViewReadback((sender, data) => {
+		console.log("on view readback");
+		const aveImage = new AveImage();
+		aveImage.CreateFromImage(ImageDimension.Texture2D, data);
+
+		const context = getAppContext();
+		const app = context.getAveApp();
+		const codec = app.GetImageCodec();
+		const ab = codec.SaveArrayBuffer(aveImage, ImageContainerType.PNG);
+		const buffer = Buffer.from(ab);
+		const base64 = buffer.toString("base64");
+
+		// fs.writeFileSync("base64.txt", base64, "utf8");
+		// console.log(base64);
+		ws.send(
+			JSON.stringify({
+				method: "Page.screencastFrame",
+				params: {
+					data: base64,
+					metadata: {
+						offsetTop: 0,
+						pageScaleFactor: 1,
+						deviceWidth: 640,
+						deviceHeight: 480,
+						scrollOffsetX: 0,
+						scrollOffsetY: 0,
+					},
+					sessionId: id,
+				},
+			})
+		);
+		++id;
+	}, 0);
 }
 
 async function inspectNode(nodeId: number) {
