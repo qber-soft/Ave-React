@@ -170,6 +170,21 @@ function getDocument() {
 
 function componentToNode(component: AveComponent) {
 	// console.log(component);
+
+	const attributes: Array<string> = [];
+	Object.keys(component.props)
+		.filter((name) => !["children", "style"].includes(name))
+		.forEach((name) => {
+			const prop = component.props[name];
+			if (typeof prop !== "function") {
+				if (typeof prop === "object") {
+					attributes.push(name, JSON.stringify(prop, null, 4));
+				} else {
+					attributes.push(name, `${prop}`);
+				}
+			}
+		});
+
 	const node = {
 		nodeId: component.nodeId,
 		backendNodeId: component.nodeId,
@@ -177,6 +192,7 @@ function componentToNode(component: AveComponent) {
 		childNodeCount: 0,
 		nodeType: 1, // element node: https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
 		children: component.children.map((each) => componentToNode(each)),
+		attributes,
 	};
 
 	return node;
