@@ -36,6 +36,31 @@ export async function startChromeDevtoolBackend() {
 					result: {},
 				});
 				ws.send(response);
+			} else if (message.method === "CSS.enable") {
+				const response = JSON.stringify({
+					id: message.id,
+					result: {},
+				});
+				ws.send(response);
+			} else if (message.method === "CSS.getComputedStyleForNode") {
+				// can be empty, but must send
+				const response = JSON.stringify({
+					id: message.id,
+					result: {
+						computedStyle: [],
+					},
+				});
+				ws.send(response);
+			} else if (message.method === "CSS.getMatchedStylesForNode") {
+				const { nodeId } = message.params;
+				const inlineStyle = getInlineStylesForNode(nodeId);
+				const response = JSON.stringify({
+					id: message.id,
+					result: {
+						inlineStyle,
+					},
+				});
+				ws.send(response);
 			}
 
 			// else if (message.method === "Inspector.enable") {
@@ -168,6 +193,36 @@ function getDocument() {
 	return document;
 }
 
+function getInlineStylesForNode(nodeId: number) {
+	const component = getComponents().find((each) => each.nodeId === nodeId);
+	const inlineStyles = { cssProperties: [], shorthandEntries: [] };
+
+	if (component) {
+		const style = component.props?.style ?? {};
+
+		Object.keys(style).forEach((name) => {
+			const value = style[name];
+			if (typeof value === "object") {
+				const longhandProperties = [];
+				Object.keys(value).forEach((key) => {
+					const prop = value[key];
+					if (typeof prop === "object") {
+						longhandProperties.push({ name: key, value: JSON.stringify(prop) });
+					} else {
+						longhandProperties.push({ name: key, value: `${prop}` });
+					}
+				});
+				inlineStyles.shorthandEntries.push({ name, value: "..." });
+				inlineStyles.cssProperties.push({ name, value: "...", longhandProperties, disabled: false, implicit: false, parsedOk: true });
+			} else {
+				inlineStyles.cssProperties.push({ name, value: `${value}` });
+			}
+		});
+		return inlineStyles;
+	}
+	return inlineStyles;
+}
+
 function componentToNode(component: AveComponent) {
 	// console.log(component);
 
@@ -178,7 +233,7 @@ function componentToNode(component: AveComponent) {
 			const prop = component.props[name];
 			if (typeof prop !== "function") {
 				if (typeof prop === "object") {
-					attributes.push(name, JSON.stringify(prop, null, 4));
+					attributes.push(name, JSON.stringify(prop));
 				} else {
 					attributes.push(name, `${prop}`);
 				}
