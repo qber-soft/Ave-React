@@ -203,17 +203,19 @@ function getInlineStylesForNode(nodeId: number) {
 		Object.keys(style).forEach((name) => {
 			const value = style[name];
 			if (typeof value === "object") {
-				const longhandProperties = [];
-				Object.keys(value).forEach((key) => {
-					const prop = value[key];
-					if (typeof prop === "object") {
-						longhandProperties.push({ name: key, value: JSON.stringify(prop) });
-					} else {
-						longhandProperties.push({ name: key, value: `${prop}` });
-					}
-				});
-				inlineStyles.shorthandEntries.push({ name, value: "..." });
-				inlineStyles.cssProperties.push({ name, value: "...", longhandProperties, disabled: false, implicit: false, parsedOk: true });
+				// TODO: fix displayed css crossed out
+				// const longhandProperties = [];
+				// Object.keys(value).forEach((key) => {
+				// 	const prop = value[key];
+				// 	if (typeof prop === "object") {
+				// 		longhandProperties.push({ name: key, value: JSON.stringify(prop) });
+				// 	} else {
+				// 		longhandProperties.push({ name: key, value: `${prop}` });
+				// 	}
+				// });
+				// inlineStyles.shorthandEntries.push({ name, value: "..." });
+				// inlineStyles.cssProperties.push({ name, value: "...", longhandProperties, disabled: false, implicit: false, parsedOk: true });
+				inlineStyles.cssProperties.push({ name, value: JSON.stringify(value) });
 			} else {
 				inlineStyles.cssProperties.push({ name, value: `${value}` });
 			}
