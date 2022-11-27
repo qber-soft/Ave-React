@@ -1,6 +1,6 @@
 import { ButtonStyle } from "ave-ui";
-import { IButtonComponentProps } from "../../draft/ave-react/components";
-import { diffProps } from "../../draft/ave-react/components/common/algorithm";
+import { IButtonComponentProps } from "../../src/ave-react/components";
+import { diffProps } from "../../src/ave-react/components/common/algorithm";
 
 describe("algorithm", () => {
 	describe("diff props", () => {
