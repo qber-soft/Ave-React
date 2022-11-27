@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Window as NativeWindow } from "ave-ui";
 import { Window as NutjsWindow } from "@nut-tree/nut-js";
 import { getAppContext, Grid, Window } from "../../../src/ave-react";
-import { Color } from "../../common";
+import { Color, waitFor } from "../../common";
 
 export interface ITestLayoutProps {
 	children?: any[] | any;
@@ -23,7 +23,7 @@ export interface ITestContext {
 	nativeWindow: NativeWindow;
 	activeWindow: NutjsWindow;
 
-	render: (content: any) => void;
+	render: (content: any, wait?: number) => Promise<void>;
 	updateTitle: (title: string) => void;
 
 	begin(): void;
@@ -81,11 +81,12 @@ export function TestWindow(props: ITestWindowProps) {
 	const [content, setContent] = useState(null);
 
 	useEffect(() => {
-		TestContext.render = (arg: any) => {
-			setContent(arg);
+		TestContext.render = async (content: any, wait = 1000) => {
+			setContent(content);
 			const context = getAppContext();
 			const window = context.getWindow();
 			window.Redraw();
+			await waitFor("render and redraw", wait);
 		};
 		TestContext.updateTitle = (title: string) => setTitle(`${TestContext.defaultWindowTitle}: ${title}`);
 		console.log(`[test window] assign setContent`);

@@ -33,8 +33,7 @@ describe("grid", () => {
 		}
 
 		{
-			TestContext.render(<TestCase />);
-			await waitFor("render", 1000);
+			await TestContext.render(<TestCase />);
 			await assertColorAtCenter(TestContext.containerId, "rgb(0,255,0)");
 
 			const components = getComponents();
@@ -42,8 +41,7 @@ describe("grid", () => {
 		}
 
 		{
-			TestContext.render(<></>);
-			await waitFor("render", 1000);
+			await TestContext.render(<></>);
 			await assertColorAtCenter(TestContext.containerId, "rgb(255,255,255)");
 
 			const components = getComponents();
@@ -82,8 +80,7 @@ describe("grid", () => {
 			);
 		}
 
-		TestContext.render(<TestCase />);
-		await waitFor("render", 1000);
+		await TestContext.render(<TestCase />);
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
@@ -120,8 +117,7 @@ describe("grid", () => {
 			);
 		}
 
-		TestContext.render(<TestCase />);
-		await waitFor("render", 1000);
+		await TestContext.render(<TestCase />);
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
@@ -144,8 +140,7 @@ describe("grid", () => {
 			return <Grid id="root" style={{ backgroundColor: color }}></Grid>;
 		}
 
-		TestContext.render(<TestCase />);
-		await waitFor("render", 1000);
+		await TestContext.render(<TestCase />);
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
