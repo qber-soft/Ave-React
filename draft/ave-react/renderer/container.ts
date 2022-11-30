@@ -1,4 +1,4 @@
-import { AveComponent } from "../components";
+import { AveComponent, WindowComponent } from "../components";
 import { AppContext } from "./context";
 
 export class AppContainer {
@@ -15,8 +15,14 @@ export class AppContainer {
 		this.children = [];
 	}
 
-	appendChild(component: AveComponent) {
-		this.children.push(component);
+	appendChild(component: WindowComponent) {
+		if (component instanceof WindowComponent) {
+			component.init();
+			component.createUI(null);
+			this.children.push(component);
+		} else {
+			throw new Error(`Please use only a single Window as root`);
+		}
 	}
 
 	getChildren() {
