@@ -1,14 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "build/src",
-    "jsx": "react",
-    "esModuleInterop" : true,
-    "declaration": true
-  },
-  "include": [
-    "./src"
-  ]
+	"compilerOptions": {
+		"target": "es6",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"stripInternal": true,
+		"outDir": "build/src",
+		"jsx": "react",
+		"esModuleInterop": true,
+		"declaration": true
+	},
+	"include": ["./src"]
 }

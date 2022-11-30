@@ -14,7 +14,8 @@ export interface IWindowComponentProps extends IComponentProps {
 	onLanguageChange?: (app: App) => void;
 }
 
-class WindowComponent extends AveComponent<IWindowComponentProps> {
+/** @internal */
+export class WindowComponent extends AveComponent<IWindowComponentProps> {
 	static tagName = "ave-window";
 
 	private app: App;
@@ -164,15 +165,6 @@ class Config extends ComponentConfig {
 
 	createInstance(initProps: IWindowComponentProps, app: AppContainer, context: any): any {
 		return new WindowComponent(initProps);
-	}
-
-	finalizeInitialChildren(component: WindowComponent, type: string, props: IWindowComponentProps, rootContainer: AppContainer, hostContext: any) {
-		return true;
-	}
-
-	commitMount(component: WindowComponent, type: string, props: IWindowComponentProps): void {
-		component.init();
-		component.createUI(null);
 	}
 }
 
