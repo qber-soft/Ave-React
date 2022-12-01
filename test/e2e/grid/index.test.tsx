@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "../../../src/ave-react";
-import { getComponents } from "../../ave-testing";
+import { getComponentById, getComponents } from "../../ave-testing";
 import { Color, waitFor } from "../../common";
 import { setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
@@ -14,7 +14,8 @@ enum GridTestCases {
 	MountAndUnMount = "display grid and remove",
 	// update props
 	UpdateBackgroundColor = "update background color",
-	UpdateLayout = "update layout",
+	UpdateLayout = "update layout", // append
+	UpdateLayout2 = "update layout 2", // insert
 	UpdateArea = "update area",
 }
 
@@ -74,16 +75,60 @@ describe("grid", () => {
 
 			return (
 				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
-					<Grid style={{ backgroundColor: Color.Blue, area: containerLayout.areas.left }}></Grid>
-					{shouldAppend ? <Grid style={{ backgroundColor: Color.Red, area: containerLayout.areas.right }}></Grid> : <></>}
+					<Grid id="child 1" style={{ backgroundColor: Color.Blue, area: containerLayout.areas.left }}></Grid>
+					{shouldAppend ? <Grid id="child 2" style={{ backgroundColor: Color.Red, area: containerLayout.areas.right }}></Grid> : <></>}
 				</Grid>
 			);
 		}
 
 		await TestContext.render(<TestCase />);
+		const root = getComponentById("root");
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1"]);
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1", "child 2"]);
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateLayout2, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout2);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [shouldInsert, setShouldInsert] = useState(false);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`insert grid`);
+					setShouldInsert(true);
+				});
+			}, []);
+
+			const containerLayout = {
+				columns: "1 1",
+				rows: "1",
+				areas: {
+					left: { row: 0, column: 0 },
+					right: { row: 0, column: 1 },
+				},
+			};
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
+					{shouldInsert ? <Grid id="child 1" style={{ backgroundColor: Color.DanShuHong, area: containerLayout.areas.right }}></Grid> : <></>}
+					<Grid id="child 2" style={{ backgroundColor: Color.DarkBlue, area: containerLayout.areas.left }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		const root = getComponentById("root");
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 2"]);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1", "child 2"]);
 		await imageSnapshotTest("root");
 	});
 

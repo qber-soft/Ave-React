@@ -220,6 +220,13 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		this.children.push(child);
 	}
 
+	insertBefore(child: AveComponent<Props>, beforeChild: AveComponent<Props>): void {
+		const index = this.children.findIndex((each) => each === beforeChild);
+		if (index !== -1) {
+			this.children.splice(index, 0, child);
+		}
+	}
+
 	removeChild(child: AveComponent<Props>): void {
 		const index = this.children.findIndex((each) => each === child);
 		if (index !== -1) {

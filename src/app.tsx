@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestGridLayoutColorPicker } from "./examples";
+import { TestGridUpdateLayout2 } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestGridLayoutColorPicker />;
+const app = <TestGridUpdateLayout2 />;
 
 AveRenderer.render(app);
