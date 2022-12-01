@@ -75,16 +75,19 @@ describe("grid", () => {
 
 			return (
 				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
-					<Grid style={{ backgroundColor: Color.Blue, area: containerLayout.areas.left }}></Grid>
-					{shouldAppend ? <Grid style={{ backgroundColor: Color.Red, area: containerLayout.areas.right }}></Grid> : <></>}
+					<Grid id="child 1" style={{ backgroundColor: Color.Blue, area: containerLayout.areas.left }}></Grid>
+					{shouldAppend ? <Grid id="child 2" style={{ backgroundColor: Color.Red, area: containerLayout.areas.right }}></Grid> : <></>}
 				</Grid>
 			);
 		}
 
 		await TestContext.render(<TestCase />);
+		const root = getComponentById("root");
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1"]);
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1", "child 2"]);
 		await imageSnapshotTest("root");
 	});
 
