@@ -604,7 +604,7 @@ export const HostConfig: Partial<IHostConfig> = {
 			});
 		}
 	},
-	insertBefore(parent, child, beforeChild) {
+	insertBefore(parent: AveComponent, child: AveComponent, beforeChild: AveComponent) {
 		{
 			("use trace");
 			id: "auto";
@@ -622,6 +622,7 @@ export const HostConfig: Partial<IHostConfig> = {
 				},
 			});
 		}
+		parent.insertBefore(child, beforeChild);
 		{
 			("use trace");
 			end: (id: number) => ({

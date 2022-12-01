@@ -4,6 +4,7 @@ export * from "./grid-background";
 export * from "./grid-opacity";
 export * from "./grid-layout";
 export * from "./grid-update-layout";
+export * from "./grid-update-layout-2";
 export * from "./grid-update-background";
 export * from "./grid-update-background-2";
 export * from "./grid-update-background-3";

@@ -152,7 +152,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		this.layout = { ...layout };
 	}
 
-	appendChild(child: GridComponent): void {
+	appendChild(child: AveComponent): void {
 		super.appendChild(child);
 
 		// for update ui after first render
@@ -161,6 +161,15 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 			// TODO: redraw, so we can see update immediately, but how about performance?
 			// this.window.Redraw();
+		}
+	}
+
+	insertBefore(child: AveComponent<IGridComponentProps>, beforeChild: AveComponent<IGridComponentProps>): void {
+		super.insertBefore(child, beforeChild);
+
+		// for update ui after first render
+		if (this.created) {
+			this.addControl(child);
 		}
 	}
 
