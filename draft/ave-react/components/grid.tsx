@@ -164,7 +164,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		}
 	}
 
-	insertBefore(child: AveComponent<IGridComponentProps>, beforeChild: AveComponent<IGridComponentProps>): void {
+	insertBefore(child: AveComponent, beforeChild: AveComponent): void {
 		super.insertBefore(child, beforeChild);
 
 		// for update ui after first render
