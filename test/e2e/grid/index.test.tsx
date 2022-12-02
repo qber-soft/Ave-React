@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "../../../src/ave-react";
 import { getComponentById, getComponents } from "../../ave-testing";
-import { Color, waitFor } from "../../common";
+import { Color } from "../../common";
 import { setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { assertColorAtCenter, imageSnapshotTest } from "../common/image";
@@ -16,6 +16,7 @@ enum GridTestCases {
 	UpdateBackgroundColor = "update background color",
 	UpdateLayout = "update layout", // append
 	UpdateLayout2 = "update layout 2", // insert
+	UpdateLayout3 = "update layout 3", // remove
 	UpdateArea = "update area",
 }
 
@@ -129,6 +130,47 @@ describe("grid", () => {
 
 		await fireUpdate();
 		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1", "child 2"]);
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateLayout3, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout3);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [shouldRemove, setShouldRemove] = useState(false);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`remove grid`);
+					setShouldRemove(true);
+				});
+			}, []);
+
+			const containerLayout = {
+				columns: "1 1",
+				rows: "1",
+				areas: {
+					left: { row: 0, column: 0 },
+					right: { row: 0, column: 1 },
+				},
+			};
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.White, layout: containerLayout }}>
+					{shouldRemove ? <></> : <Grid id="child 1" style={{ backgroundColor: Color.DanShuHong, area: containerLayout.areas.right }}></Grid>}
+					<Grid id="child 2" style={{ backgroundColor: Color.DarkBlue, area: containerLayout.areas.left }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		const root = getComponentById("root");
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 1", "child 2"]);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		expect(root.children.map((each) => each.props?.id)).toEqual(["child 2"]);
 		await imageSnapshotTest("root");
 	});
 
