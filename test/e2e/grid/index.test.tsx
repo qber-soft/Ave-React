@@ -11,11 +11,12 @@ setupJest();
 enum GridTestCases {
 	MountAndUnMount = "display grid and remove",
 	// update props
-	UpdateBackgroundColor = "update background color",
 	UpdateLayout = "update layout", // append
 	UpdateLayout2 = "update layout 2", // insert
 	UpdateLayout3 = "update layout 3", // remove
 	UpdateArea = "update area",
+	UpdateBackgroundColor = "update background color",
+	UpdateOpacity = "update opacity",
 }
 
 describe("grid", () => {
@@ -229,6 +230,17 @@ describe("grid", () => {
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateOpacity, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateOpacity);
+
+		function TestCase() {
+			return <Grid id="root" style={{ opacity: 0.5, backgroundColor: Color.Blue }}></Grid>;
+		}
+
+		await TestContext.render(<TestCase />);
 		await imageSnapshotTest("root");
 	});
 });
