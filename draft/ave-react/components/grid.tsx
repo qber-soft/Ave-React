@@ -85,6 +85,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 							rows: "1",
 						}
 					);
+					this.updateChildren();
 					break;
 				}
 			}
@@ -186,23 +187,36 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		}
 
 		const childControl = child.createUI(this.window);
-		const childArea = child?.props?.style?.area ?? { row: 0, column: 0, rowSpan: 1, columnSpan: 1 };
-		this.grid.ControlAdd(childControl).SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
 		child.parentGrid = this.grid;
-
-		if (child?.props?.style?.margin) {
-			const margin = parseMargin(child?.props?.style?.margin);
-			child.gridControl?.SetMargin(margin);
-		}
+		this.grid.ControlAdd(childControl);
+		this.updateChildControl(child);
 
 		{
 			("use trace");
 			end: (id: number) => ({
 				id,
 				name: "addControl",
-				detail: {
-					childArea,
-				},
+				detail: {},
+			});
+		}
+	}
+
+	private updateChildControl(child: AveComponent) {
+		const childArea = child?.props?.style?.area ?? { row: 0, column: 0, rowSpan: 1, columnSpan: 1 };
+		child?.gridControl.SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
+
+		if (child?.props?.style?.margin) {
+			const margin = parseMargin(child?.props?.style?.margin);
+			child.gridControl?.SetMargin(margin);
+		}
+	}
+
+	private updateChildren() {
+		if (this.created) {
+			this.children.forEach((child) => {
+				if (child.created) {
+					this.updateChildControl(child);
+				}
 			});
 		}
 	}
