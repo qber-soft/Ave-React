@@ -49,15 +49,6 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		this.children.forEach((child) => {
 			this.addControl(child);
-			if (child instanceof GridComponent) {
-				// some props can only be set after child is created
-				["dockMode"].forEach((propName) => {
-					if (propName in child.props) {
-						const propValue = child.props[propName];
-						child.onUpdateProp(propName as keyof IGridComponentProps, propValue);
-					}
-				});
-			}
 		});
 	}
 
