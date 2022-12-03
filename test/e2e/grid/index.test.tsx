@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "../../../src/ave-react";
 import { getComponentById, getComponents } from "../../ave-testing";
 import { Color } from "../../common";
-import { setupJest, TestContext } from "../common";
+import { setupJest, TestContext, getUpdateFunction, assertColorAtCenter, imageSnapshotTest } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
-import { assertColorAtCenter, imageSnapshotTest } from "../common/image";
-import { getUpdateFunction } from "../common/update";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();

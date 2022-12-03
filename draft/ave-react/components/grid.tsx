@@ -40,7 +40,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 	afterCreateUI(): void {
 		super.afterCreateUI();
-		if (!this?.props?.style?.layout) {
+		if (!this.props?.style?.layout) {
 			this.setLayout({
 				columns: "1",
 				rows: "1",
@@ -111,12 +111,11 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 			if (!prevColumn) {
 				this.grid.ColInsert(index, parseSize(column));
 			} else {
-				if (prevColumn === column) {
-					// skip it
-				} else {
+				if (prevColumn !== column) {
 					this.grid.ColRemove(index);
 					this.grid.ColInsert(index, parseSize(column));
 				}
+				// else skip it
 			}
 		});
 
@@ -134,12 +133,11 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 			if (!prevRow) {
 				this.grid.RowInsert(index, parseSize(row));
 			} else {
-				if (prevRow === row) {
-					// skip it
-				} else {
+				if (prevRow !== row) {
 					this.grid.RowRemove(index);
 					this.grid.RowInsert(index, parseSize(row));
 				}
+				// else skip it
 			}
 		});
 

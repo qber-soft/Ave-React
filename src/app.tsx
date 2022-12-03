@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestGridUpdateLayout3 } from "./examples";
+import { TestWindowOpacity } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestGridUpdateLayout3 />;
+const app = <TestWindowOpacity />;
 
 AveRenderer.render(app);
