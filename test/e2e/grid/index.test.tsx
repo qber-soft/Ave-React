@@ -15,6 +15,7 @@ enum GridTestCases {
 	UpdateLayout2 = "update layout 2", // insert
 	UpdateLayout3 = "update layout 3", // remove
 	UpdateLayout4 = "update grid size",
+	UpdateLayout5 = "update grid columns and rows",
 	UpdateArea = "update area",
 	UpdateBackgroundColor = "update background color",
 	UpdateOpacity = "update opacity",
@@ -216,6 +217,48 @@ describe("grid", () => {
 		await imageSnapshotTest("root");
 	});
 
+	test(GridTestCases.UpdateLayout5, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout5);
+
+		let fireUpdate = null;
+		const defaultLayout = {
+			columns: `1 120dpx 1`,
+			rows: `1 32dpx 1`,
+			areas: {
+				center: { row: 1, column: 1 },
+			},
+		};
+
+		function TestCase() {
+			const [layout, setLayout] = useState(defaultLayout);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update grid columns and rows`);
+					setLayout({
+						columns: `1 16dpx`,
+						rows: `16dpx 1`,
+						areas: {
+							center: { row: 0, column: 1 },
+						},
+					});
+				});
+			}, []);
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Red, layout: layout }}>
+					<Grid style={{ backgroundColor: Color.Blue, area: layout.areas.center }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
 	test(GridTestCases.UpdateArea, async () => {
 		TestContext.updateTitle(GridTestCases.UpdateArea);
 
@@ -279,11 +322,23 @@ describe("grid", () => {
 	test(GridTestCases.UpdateOpacity, async () => {
 		TestContext.updateTitle(GridTestCases.UpdateOpacity);
 
+		let fireUpdate = null;
 		function TestCase() {
-			return <Grid id="root" style={{ opacity: 0.5, backgroundColor: Color.Blue }}></Grid>;
+			const [opacity, setOpacity] = useState(0.5);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update opacity`);
+					setOpacity(1);
+				});
+			}, []);
+			return <Grid id="root" style={{ opacity, backgroundColor: Color.Blue }}></Grid>;
 		}
 
 		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
 		await imageSnapshotTest("root");
 	});
 });

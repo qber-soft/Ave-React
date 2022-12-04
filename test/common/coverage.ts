@@ -6,11 +6,12 @@ import { projectRoot } from "./utils";
 
 export type ExecJestConfig = {
 	absolutePath: string;
+	name: string;
 };
 
-function renameCoverageFile() {
+function renameCoverageFile(name: string) {
 	const timestamp = Date.now();
-	fs.renameSync(path.resolve(projectRoot, "./coverage/coverage-final.json"), path.resolve(projectRoot, `./coverage/coverage-final-${timestamp}.json`));
+	fs.renameSync(path.resolve(projectRoot, "./coverage/coverage-final.json"), path.resolve(projectRoot, `./coverage/coverage-final-${name}-${timestamp}.json`));
 }
 
 // https://github.com/facebook/jest/issues/2418
@@ -42,5 +43,5 @@ export function execJest(config: ExecJestConfig) {
 	const command = `node "${jestPath}" ${args}`;
 	console.log(`exec command: ${command}`);
 	childProcess.execSync(command);
-	renameCoverageFile();
+	renameCoverageFile(config.name);
 }

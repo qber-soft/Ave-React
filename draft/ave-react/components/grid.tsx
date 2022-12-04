@@ -23,6 +23,17 @@ export interface IGridLayout {
 	areas?: Record<string, IGridArea>;
 }
 
+const defaultValue = {
+	backgroundColor: new Vec4(0, 146, 255, 255 * 0.75) /** blue */,
+	opacity: 1,
+	layout: {
+		columns: "1",
+		rows: "1",
+	},
+	area: { row: 0, column: 0, rowSpan: 1, columnSpan: 1 },
+	dockMode: DockMode.Fill,
+};
+
 export class GridComponent extends AveComponent<IGridComponentProps> {
 	static tagName = "ave-grid";
 
@@ -59,7 +70,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 				break;
 			}
 			case "dockMode": {
-				this.gridControl?.SetDock(propValue ?? DockMode.Fill);
+				this.gridControl?.SetDock(propValue ?? defaultValue.dockMode);
 				break;
 			}
 		}
@@ -69,22 +80,17 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		(Object.keys(styles) as Array<keyof IGridStyle>).forEach((styleName) => {
 			switch (styleName) {
 				case "backgroundColor": {
-					const color = styles.backgroundColor ?? new Vec4(0, 146, 255, 255 * 0.75); /** blue */
+					const color = styles.backgroundColor ?? defaultValue.backgroundColor;
 					this.grid.SetBackColor(color);
 					break;
 				}
 				case "opacity": {
-					const opacity = styles.opacity ?? 1;
+					const opacity = styles.opacity ?? defaultValue.opacity;
 					this.grid.SetOpacity(opacity);
 					break;
 				}
 				case "layout": {
-					this.setLayout(
-						styles.layout ?? {
-							columns: "1",
-							rows: "1",
-						}
-					);
+					this.setLayout(styles.layout ?? defaultValue.layout);
 					this.updateChildren();
 					break;
 				}
@@ -97,7 +103,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		//
 		const newColumnList = columns.trim().split(" ");
-		const oldColumnList = (this.layout?.columns ?? "1").trim().split(" ");
+		const oldColumnList = (this.layout?.columns ?? defaultValue.layout.columns).trim().split(" ");
 		newColumnList.forEach((column, index) => {
 			const prevColumn = oldColumnList[index];
 			if (!prevColumn) {
@@ -119,7 +125,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		//
 		const newRowList = rows.trim().split(" ");
-		const oldRowList = (this.layout?.rows ?? "1").trim().split(" ");
+		const oldRowList = (this.layout?.rows ?? defaultValue.layout.rows).trim().split(" ");
 		newRowList.forEach((row, index) => {
 			const prevRow = oldRowList[index];
 			if (!prevRow) {
@@ -202,11 +208,11 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 	}
 
 	private updateChildControl(child: AveComponent) {
-		const childArea = child?.props?.style?.area ?? { row: 0, column: 0, rowSpan: 1, columnSpan: 1 };
-		child?.gridControl.SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
+		const childArea = child.props?.style?.area ?? defaultValue.area;
+		child?.gridControl.SetGrid(childArea.column ?? defaultValue.area.column, childArea.row ?? defaultValue.area.row, childArea.columnSpan ?? defaultValue.area.columnSpan, childArea.rowSpan ?? defaultValue.area.rowSpan);
 
-		if (child?.props?.style?.margin) {
-			const margin = parseMargin(child?.props?.style?.margin);
+		if (child.props?.style?.margin) {
+			const margin = parseMargin(child.props?.style?.margin);
 			child.gridControl?.SetMargin(margin);
 		}
 	}
