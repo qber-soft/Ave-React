@@ -343,7 +343,7 @@ describe("grid", () => {
 		await imageSnapshotTest("root");
 	});
 
-	test("GridTestCases.UpdateMargin", async () => {
+	test(GridTestCases.UpdateMargin, async () => {
 		TestContext.updateTitle(GridTestCases.UpdateMargin);
 
 		let fireUpdate = null;
