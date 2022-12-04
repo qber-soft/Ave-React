@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "../../../src/ave-react";
 import { getComponentById, getComponents } from "../../ave-testing";
 import { Color } from "../../common";
-import { setupJest, TestContext } from "../common";
+import { setupJest, TestContext, getUpdateFunction, assertColorAtCenter, imageSnapshotTest } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
-import { assertColorAtCenter, imageSnapshotTest } from "../common/image";
-import { getUpdateFunction } from "../common/update";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -13,11 +11,15 @@ setupJest();
 enum GridTestCases {
 	MountAndUnMount = "display grid and remove",
 	// update props
-	UpdateBackgroundColor = "update background color",
 	UpdateLayout = "update layout", // append
 	UpdateLayout2 = "update layout 2", // insert
 	UpdateLayout3 = "update layout 3", // remove
+	UpdateLayout4 = "update grid size",
+	UpdateLayout5 = "update grid columns and rows",
 	UpdateArea = "update area",
+	UpdateBackgroundColor = "update background color",
+	UpdateOpacity = "update opacity",
+	UpdateMargin = "update margin",
 }
 
 describe("grid", () => {
@@ -174,6 +176,90 @@ describe("grid", () => {
 		await imageSnapshotTest("root");
 	});
 
+	test(GridTestCases.UpdateLayout4, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout4);
+
+		let fireUpdate = null;
+		const defaultLayout = {
+			columns: `1 120dpx 1`,
+			rows: `1 32dpx 1`,
+			areas: {
+				center: { row: 1, column: 1 },
+			},
+		};
+
+		function TestCase() {
+			const [layout, setLayout] = useState(defaultLayout);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update grid size`);
+					setLayout({
+						columns: `1 16dpx 1`,
+						rows: `1 16dpx 1`,
+						areas: {
+							center: { row: 1, column: 1 },
+						},
+					});
+				});
+			}, []);
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Red, layout: layout }}>
+					<Grid style={{ backgroundColor: Color.Blue, area: layout.areas.center }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateLayout5, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateLayout5);
+
+		let fireUpdate = null;
+		const defaultLayout = {
+			columns: `1 120dpx 1`,
+			rows: `1 32dpx 1`,
+			areas: {
+				center: { row: 1, column: 1 },
+			},
+		};
+
+		function TestCase() {
+			const [layout, setLayout] = useState(defaultLayout);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update grid columns and rows`);
+					setLayout({
+						columns: `1 16dpx`,
+						rows: `16dpx 1`,
+						areas: {
+							center: { row: 0, column: 1 },
+						},
+					});
+				});
+			}, []);
+
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Red, layout: layout }}>
+					<Grid style={{ backgroundColor: Color.Blue, area: layout.areas.center }}></Grid>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
 	test(GridTestCases.UpdateArea, async () => {
 		TestContext.updateTitle(GridTestCases.UpdateArea);
 
@@ -225,6 +311,56 @@ describe("grid", () => {
 				});
 			}, []);
 			return <Grid id="root" style={{ backgroundColor: color }}></Grid>;
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateOpacity, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateOpacity);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [opacity, setOpacity] = useState(0.5);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update opacity`);
+					setOpacity(1);
+				});
+			}, []);
+			return <Grid id="root" style={{ opacity, backgroundColor: Color.Blue }}></Grid>;
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(GridTestCases.UpdateMargin, async () => {
+		TestContext.updateTitle(GridTestCases.UpdateMargin);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [margin, setMargin] = useState("8dpx 8dpx 0dpx 0dpx");
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update margin`);
+					setMargin("4dpx 4dpx 8dpx 8dpx");
+				});
+			}, []);
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Blue }}>
+					<Grid style={{ margin, backgroundColor: Color.Red }}></Grid>
+				</Grid>
+			);
 		}
 
 		await TestContext.render(<TestCase />);

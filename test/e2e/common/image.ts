@@ -11,11 +11,16 @@ export async function imageSnapshotTest(id: string) {
 	expect(image).toMatchImageSnapshot();
 }
 
-export async function assertColorAtCenter(id: string, color: string) {
+export async function assertColorAtCenter(id: string, color: string, equal = true) {
 	const root = getComponentById(id);
 	const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, root);
 
 	const pos = await centerOf(region);
 	const pixel = await screen.colorAt(pos);
-	expect(pixel.toString()).toEqual(color);
+
+	if (equal) {
+		expect(pixel.toString()).toEqual(color);
+	} else {
+		expect(pixel.toString()).not.toEqual(color);
+	}
 }

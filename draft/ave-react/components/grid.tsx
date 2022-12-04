@@ -23,6 +23,18 @@ export interface IGridLayout {
 	areas?: Record<string, IGridArea>;
 }
 
+const defaultValue = {
+	backgroundColor: new Vec4(0, 146, 255, 255 * 0.75) /** blue */,
+	opacity: 1,
+	layout: {
+		columns: "1",
+		rows: "1",
+	},
+	area: { row: 0, column: 0, rowSpan: 1, columnSpan: 1 },
+	dockMode: DockMode.Fill,
+	margin: "0dpx 0dpx 0dpx 0dpx",
+};
+
 export class GridComponent extends AveComponent<IGridComponentProps> {
 	static tagName = "ave-grid";
 
@@ -40,7 +52,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 	afterCreateUI(): void {
 		super.afterCreateUI();
-		if (!this?.props?.style?.layout) {
+		if (!this.props?.style?.layout) {
 			this.setLayout({
 				columns: "1",
 				rows: "1",
@@ -49,15 +61,6 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		this.children.forEach((child) => {
 			this.addControl(child);
-			if (child instanceof GridComponent) {
-				// some props can only be set after child is created
-				["dockMode"].forEach((propName) => {
-					if (propName in child.props) {
-						const propValue = child.props[propName];
-						child.onUpdateProp(propName as keyof IGridComponentProps, propValue);
-					}
-				});
-			}
 		});
 	}
 
@@ -68,7 +71,7 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 				break;
 			}
 			case "dockMode": {
-				this.gridControl?.SetDock(propValue ?? DockMode.Fill);
+				this.gridControl?.SetDock(propValue ?? defaultValue.dockMode);
 				break;
 			}
 		}
@@ -78,22 +81,24 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		(Object.keys(styles) as Array<keyof IGridStyle>).forEach((styleName) => {
 			switch (styleName) {
 				case "backgroundColor": {
-					const color = styles.backgroundColor ?? new Vec4(0, 146, 255, 255 * 0.75); /** blue */
+					const color = styles.backgroundColor ?? defaultValue.backgroundColor;
 					this.grid.SetBackColor(color);
 					break;
 				}
 				case "opacity": {
-					const opacity = styles.opacity ?? 1;
+					const opacity = styles.opacity ?? defaultValue.opacity;
 					this.grid.SetOpacity(opacity);
 					break;
 				}
 				case "layout": {
-					this.setLayout(
-						styles.layout ?? {
-							columns: "1",
-							rows: "1",
-						}
-					);
+					this.setLayout(styles.layout ?? defaultValue.layout);
+					this.updateChildren();
+					break;
+				}
+
+				case "margin": {
+					const margin = parseMargin(styles.margin ?? defaultValue.margin);
+					this.gridControl?.SetMargin(margin);
 					break;
 				}
 			}
@@ -105,18 +110,17 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		//
 		const newColumnList = columns.trim().split(" ");
-		const oldColumnList = (this.layout?.columns ?? "1").trim().split(" ");
+		const oldColumnList = (this.layout?.columns ?? defaultValue.layout.columns).trim().split(" ");
 		newColumnList.forEach((column, index) => {
 			const prevColumn = oldColumnList[index];
 			if (!prevColumn) {
 				this.grid.ColInsert(index, parseSize(column));
 			} else {
-				if (prevColumn === column) {
-					// skip it
-				} else {
+				if (prevColumn !== column) {
 					this.grid.ColRemove(index);
 					this.grid.ColInsert(index, parseSize(column));
 				}
+				// else skip it
 			}
 		});
 
@@ -128,18 +132,17 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 
 		//
 		const newRowList = rows.trim().split(" ");
-		const oldRowList = (this.layout?.rows ?? "1").trim().split(" ");
+		const oldRowList = (this.layout?.rows ?? defaultValue.layout.rows).trim().split(" ");
 		newRowList.forEach((row, index) => {
 			const prevRow = oldRowList[index];
 			if (!prevRow) {
 				this.grid.RowInsert(index, parseSize(row));
 			} else {
-				if (prevRow === row) {
-					// skip it
-				} else {
+				if (prevRow !== row) {
 					this.grid.RowRemove(index);
 					this.grid.RowInsert(index, parseSize(row));
 				}
+				// else skip it
 			}
 		});
 
@@ -197,23 +200,36 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 		}
 
 		const childControl = child.createUI(this.window);
-		const childArea = child?.props?.style?.area ?? { row: 0, column: 0, rowSpan: 1, columnSpan: 1 };
-		this.grid.ControlAdd(childControl).SetGrid(childArea.column ?? 0, childArea.row ?? 0, childArea.columnSpan ?? 1, childArea.rowSpan ?? 1);
 		child.parentGrid = this.grid;
-
-		if (child?.props?.style?.margin) {
-			const margin = parseMargin(child?.props?.style?.margin);
-			child.gridControl?.SetMargin(margin);
-		}
+		this.grid.ControlAdd(childControl);
+		this.updateChildControl(child);
 
 		{
 			("use trace");
 			end: (id: number) => ({
 				id,
 				name: "addControl",
-				detail: {
-					childArea,
-				},
+				detail: {},
+			});
+		}
+	}
+
+	private updateChildControl(child: AveComponent) {
+		const childArea = child.props?.style?.area ?? defaultValue.area;
+		child?.gridControl.SetGrid(childArea.column ?? defaultValue.area.column, childArea.row ?? defaultValue.area.row, childArea.columnSpan ?? defaultValue.area.columnSpan, childArea.rowSpan ?? defaultValue.area.rowSpan);
+
+		if (child.props?.style?.margin) {
+			const margin = parseMargin(child.props?.style?.margin);
+			child.gridControl?.SetMargin(margin);
+		}
+	}
+
+	private updateChildren() {
+		if (this.created) {
+			this.children.forEach((child) => {
+				if (child.created) {
+					this.updateChildControl(child);
+				}
 			});
 		}
 	}

@@ -89,7 +89,6 @@ export function TestWindow(props: ITestWindowProps) {
 			await waitFor("render and redraw", wait);
 		};
 		TestContext.updateTitle = (title: string) => setTitle(`${TestContext.defaultWindowTitle}: ${title}`);
-		console.log(`[test window] assign setContent`);
 	}, []);
 
 	return (

@@ -2,9 +2,26 @@ import path from "path";
 import { execJest } from "../common";
 
 async function main() {
-	const cases = [path.resolve(__dirname, "./smoke.test.tsx"), path.resolve(__dirname, "./grid/index.test.tsx")];
+	// prettier-ignore
+	const components = [
+		"window", 
+		"grid"
+	];
+	// prettier-ignore
+	const cases = [
+		{
+			name: "smoke",
+			absolutePath: path.resolve(__dirname, "./smoke.test.tsx")
+		}, 
+		...components.map((each) => {
+			return {
+				name: each,
+				absolutePath: path.resolve(__dirname, `./${each}/index.test.tsx`)
+			}
+		})
+	];
 	cases.forEach((each) => {
-		execJest({ absolutePath: each });
+		execJest(each);
 	});
 }
 

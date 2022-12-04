@@ -21,7 +21,7 @@ export class AppContainer {
 			component.createUI(null);
 			this.children.push(component);
 		} else {
-			throw new Error(`Please use only a single Window as root`);
+			console.warn("Please use only a single Window as root");
 		}
 	}
 
