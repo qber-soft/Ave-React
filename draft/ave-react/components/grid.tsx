@@ -32,6 +32,7 @@ const defaultValue = {
 	},
 	area: { row: 0, column: 0, rowSpan: 1, columnSpan: 1 },
 	dockMode: DockMode.Fill,
+	margin: "0dpx 0dpx 0dpx 0dpx",
 };
 
 export class GridComponent extends AveComponent<IGridComponentProps> {
@@ -92,6 +93,12 @@ export class GridComponent extends AveComponent<IGridComponentProps> {
 				case "layout": {
 					this.setLayout(styles.layout ?? defaultValue.layout);
 					this.updateChildren();
+					break;
+				}
+
+				case "margin": {
+					const margin = parseMargin(styles.margin ?? defaultValue.margin);
+					this.gridControl?.SetMargin(margin);
 					break;
 				}
 			}

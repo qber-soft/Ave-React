@@ -19,6 +19,7 @@ enum GridTestCases {
 	UpdateArea = "update area",
 	UpdateBackgroundColor = "update background color",
 	UpdateOpacity = "update opacity",
+	UpdateMargin = "update margin",
 }
 
 describe("grid", () => {
@@ -333,6 +334,33 @@ describe("grid", () => {
 				});
 			}, []);
 			return <Grid id="root" style={{ opacity, backgroundColor: Color.Blue }}></Grid>;
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test("GridTestCases.UpdateMargin", async () => {
+		TestContext.updateTitle(GridTestCases.UpdateMargin);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [margin, setMargin] = useState("8dpx 8dpx 0dpx 0dpx");
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update margin`);
+					setMargin("4dpx 4dpx 8dpx 8dpx");
+				});
+			}, []);
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Blue }}>
+					<Grid style={{ margin, backgroundColor: Color.Red }}></Grid>
+				</Grid>
+			);
 		}
 
 		await TestContext.render(<TestCase />);
