@@ -3,7 +3,7 @@ import { Button, Grid } from "../../../src/ave-react";
 import { clickComponent, getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
-import { waitFor } from "../../common";
+import { Color, waitFor } from "../../common";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -12,6 +12,7 @@ enum ButtonTestCases {
 	MountAndUnMount = "display button and remove",
 	// update props
 	UpdateText = "update text",
+	UpdateColor = "update color",
 	UpdateOnClick = "update onClick",
 }
 
@@ -58,6 +59,33 @@ describe("button", () => {
 			return (
 				<Grid id="root">
 					<Button text={text}></Button>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(ButtonTestCases.UpdateColor, async () => {
+		TestContext.updateTitle(ButtonTestCases.UpdateColor);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [color, setColor] = useState(Color.Blue);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update color`);
+					setColor(Color.Red);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Button text="Button" style={{ color }}></Button>
 				</Grid>
 			);
 		}
