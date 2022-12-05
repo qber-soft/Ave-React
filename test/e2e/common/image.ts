@@ -5,15 +5,15 @@ import { getRegionRelativeToScreenForComponent } from "./nutjs";
 import { TestContext } from "./window";
 
 export async function imageSnapshotTest(id: string) {
-	const root = getComponentById(id);
-	const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, root);
+	const component = getComponentById(id);
+	const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, component);
 	const image = await saveRegionImage(region);
 	expect(image).toMatchImageSnapshot();
 }
 
 export async function assertColorAtCenter(id: string, color: string, equal = true) {
-	const root = getComponentById(id);
-	const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, root);
+	const component = getComponentById(id);
+	const region = await getRegionRelativeToScreenForComponent(TestContext.activeWindow, component);
 
 	const pos = await centerOf(region);
 	const pixel = await screen.colorAt(pos);
