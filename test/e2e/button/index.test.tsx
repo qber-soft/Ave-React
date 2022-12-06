@@ -4,6 +4,7 @@ import { clickComponent, getUpdateFunction, imageSnapshotTest, setupJest, TestCo
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { Color, waitFor } from "../../common";
+import { ButtonStyle } from "ave-ui";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -13,6 +14,7 @@ enum ButtonTestCases {
 	// update props
 	UpdateText = "update text",
 	UpdateColor = "update color",
+	UpdateVisualStyle = "update visual style",
 	UpdateOnClick = "update onClick",
 }
 
@@ -86,6 +88,33 @@ describe("button", () => {
 			return (
 				<Grid id="root">
 					<Button text="Button" style={{ color }}></Button>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(ButtonTestCases.UpdateVisualStyle, async () => {
+		TestContext.updateTitle(ButtonTestCases.UpdateVisualStyle);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [visualStyle, setVisualStyle] = useState(ButtonStyle.Command);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update visual style`);
+					setVisualStyle(ButtonStyle.Push);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Button text="Button" style={{ visualStyle }}></Button>
 				</Grid>
 			);
 		}
