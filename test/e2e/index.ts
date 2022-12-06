@@ -5,7 +5,8 @@ async function main() {
 	// prettier-ignore
 	const components = [
 		"window", 
-		"grid"
+		"grid",
+		"button"
 	];
 	// prettier-ignore
 	const cases = [
