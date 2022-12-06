@@ -14,6 +14,13 @@ export interface IButtonStyle extends IComponentStyle {
 	visualStyle?: ButtonStyle;
 }
 
+const defaultValue = {
+	text: "Button",
+	noop: () => {},
+	color: new Vec4(0, 0, 0, 255),
+	visualStyle: ButtonStyle.Push,
+};
+
 class ButtonComponent extends AveComponent<IButtonComponentProps> {
 	static tagName = "ave-button";
 
@@ -28,7 +35,7 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 	protected onUpdateProp(propName: keyof IButtonComponentProps, propValue: any) {
 		switch (propName) {
 			case "text": {
-				this.button.SetText(propValue ?? "");
+				this.button.SetText(propValue ?? defaultValue.text);
 				break;
 			}
 
@@ -48,7 +55,7 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 			}
 
 			case "onClick": {
-				this.button.OnClick(propValue ?? (() => {}));
+				this.button.OnClick(propValue ?? defaultValue.noop);
 				break;
 			}
 		}
@@ -58,13 +65,13 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 		(Object.keys(styles) as Array<keyof IButtonStyle>).forEach((styleName) => {
 			switch (styleName) {
 				case "color": {
-					const color = styles.color ?? new Vec4(0, 0, 0, 255);
+					const color = styles.color ?? defaultValue.color;
 					this.button.SetTextColor(color);
 					break;
 				}
 
 				case "visualStyle": {
-					const style = styles.visualStyle ?? ButtonStyle.Push;
+					const style = styles.visualStyle ?? defaultValue.visualStyle;
 					this.button.SetButtonStyle(style);
 					break;
 				}
