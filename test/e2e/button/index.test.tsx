@@ -15,6 +15,7 @@ enum ButtonTestCases {
 	UpdateText = "update text",
 	UpdateColor = "update color",
 	UpdateVisualStyle = "update visual style",
+	UpdateIcon = "update icon",
 	UpdateOnClick = "update onClick",
 }
 
@@ -115,6 +116,33 @@ describe("button", () => {
 			return (
 				<Grid id="root">
 					<Button text="Button" style={{ visualStyle }}></Button>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(ButtonTestCases.UpdateIcon, async () => {
+		TestContext.updateTitle(ButtonTestCases.UpdateIcon);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [iconInfo, setIconInfo] = useState({ name: "open-file", size: 16 });
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update icon info`);
+					setIconInfo({ name: "open-recent", size: 16 });
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Button text="Button" iconInfo={iconInfo}></Button>
 				</Grid>
 			);
 		}

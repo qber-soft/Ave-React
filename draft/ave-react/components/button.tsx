@@ -40,8 +40,10 @@ class ButtonComponent extends AveComponent<IButtonComponentProps> {
 			case "iconInfo": {
 				const context = getAppContext();
 				const resMap = context.getIconResourceMap();
-				const { name, size = 16 } = propValue ?? { name: "", size: 16 };
-				this.button.SetVisual(this.window.CreateManagedIcon(new IconSource(resMap[name], size)));
+				if (propValue && propValue?.name) {
+					const { name, size = 16 } = propValue;
+					this.button.SetVisual(this.window.CreateManagedIcon(new IconSource(resMap[name], size)));
+				}
 				break;
 			}
 
