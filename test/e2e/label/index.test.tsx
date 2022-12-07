@@ -4,6 +4,7 @@ import { getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "..
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { Color } from "../../common";
+import { AlignType } from "ave-ui";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -14,6 +15,7 @@ enum LabelTestCases {
 	UpdateText = "update text",
 	UpdateColor = "update color",
 	UpdateBackgroundColor = "update background color",
+	UpdateAlignment = "update alignment",
 }
 
 describe("label", () => {
@@ -121,6 +123,41 @@ describe("label", () => {
 		await imageSnapshotTest("root");
 
 		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(LabelTestCases.UpdateAlignment, async () => {
+		TestContext.updateTitle(LabelTestCases.UpdateAlignment);
+
+		let fireUpdateA = null;
+		let fireUpdateB = null;
+		function TestCase() {
+			const [alignment, setAlignment] = useState(AlignType.Center);
+
+			useEffect(() => {
+				fireUpdateA = getUpdateFunction(() => {
+					console.log(`update alignment far`);
+					setAlignment(AlignType.Far);
+				});
+				fireUpdateB = getUpdateFunction(() => {
+					console.log(`update alignment near`);
+					setAlignment(AlignType.Near);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Label text="Label" style={{ horizontalAlign: alignment }}></Label>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdateA();
+		await imageSnapshotTest("root");
+
+		await fireUpdateB();
 		await imageSnapshotTest("root");
 	});
 });
