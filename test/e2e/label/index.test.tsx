@@ -3,6 +3,7 @@ import { Grid, Label } from "../../../src/ave-react";
 import { getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
+import { Color } from "../../common";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -11,6 +12,7 @@ enum LabelTestCases {
 	MountAndUnMount = "display label and remove",
 	// update props
 	UpdateText = "update text",
+	UpdateColor = "update color",
 }
 
 describe("label", () => {
@@ -56,6 +58,33 @@ describe("label", () => {
 			return (
 				<Grid id="root">
 					<Label text={text}></Label>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(LabelTestCases.UpdateColor, async () => {
+		TestContext.updateTitle(LabelTestCases.UpdateColor);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [color, setColor] = useState(Color.Blue);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update color`);
+					setColor(Color.Red);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Label text="Label" style={{ color }}></Label>
 				</Grid>
 			);
 		}
