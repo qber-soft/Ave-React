@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, Label } from "../../../src/ave-react";
-import { imageSnapshotTest, setupJest, TestContext } from "../common";
+import { getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 
@@ -10,6 +10,7 @@ setupJest();
 enum LabelTestCases {
 	MountAndUnMount = "display label and remove",
 	// update props
+	UpdateText = "update text",
 }
 
 describe("label", () => {
@@ -37,5 +38,32 @@ describe("label", () => {
 			expect(components.length).toEqual(TestContext.defaultComponentCount + 1);
 			await imageSnapshotTest("root");
 		}
+	});
+
+	test(LabelTestCases.UpdateText, async () => {
+		TestContext.updateTitle(LabelTestCases.UpdateText);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [text, setText] = useState("Label");
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update text`);
+					setText("Update");
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Label text={text}></Label>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
 	});
 });
