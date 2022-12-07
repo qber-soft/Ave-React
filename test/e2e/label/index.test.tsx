@@ -13,6 +13,7 @@ enum LabelTestCases {
 	// update props
 	UpdateText = "update text",
 	UpdateColor = "update color",
+	UpdateBackgroundColor = "update background color",
 }
 
 describe("label", () => {
@@ -85,6 +86,33 @@ describe("label", () => {
 			return (
 				<Grid id="root">
 					<Label text="Label" style={{ color }}></Label>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(LabelTestCases.UpdateBackgroundColor, async () => {
+		TestContext.updateTitle(LabelTestCases.UpdateBackgroundColor);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [color, setColor] = useState(Color.Blue);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update background color`);
+					setColor(Color.Red);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Label text="Label" style={{ backgroundColor: color }}></Label>
 				</Grid>
 			);
 		}
