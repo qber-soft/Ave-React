@@ -13,6 +13,13 @@ export interface ILabelStyle extends IComponentStyle {
 	horizontalAlign?: AlignType;
 }
 
+const defaultValue = {
+	text: "Label",
+	backgroundColor: new Vec4(255, 255, 255, 255),
+	horizontalAlign: AlignType.Near,
+	color: new Vec4(0, 0, 0, 255),
+};
+
 class LabelComponent extends AveComponent<ILabelComponentProps> {
 	static tagName = "ave-label";
 
@@ -30,7 +37,7 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 				break;
 			}
 			case "text": {
-				this.label.SetText(propValue ?? "");
+				this.label.SetText(propValue ?? defaultValue.text);
 				break;
 			}
 		}
@@ -40,17 +47,17 @@ class LabelComponent extends AveComponent<ILabelComponentProps> {
 		(Object.keys(styles) as Array<keyof ILabelStyle>).forEach((styleName) => {
 			switch (styleName) {
 				case "backgroundColor": {
-					const color = styles.backgroundColor ?? new Vec4(255, 255, 255, 255);
+					const color = styles.backgroundColor ?? defaultValue.backgroundColor;
 					this.label.SetBackColor(color);
 					break;
 				}
 				case "horizontalAlign": {
-					const alignType = styles.horizontalAlign ?? AlignType.Near;
+					const alignType = styles.horizontalAlign ?? defaultValue.horizontalAlign;
 					this.label.SetAlignHorz(alignType);
 					break;
 				}
 				case "color": {
-					const color = styles.color ?? new Vec4(0, 0, 0, 255);
+					const color = styles.color ?? defaultValue.color;
 					this.label.SetTextColor(color);
 					break;
 				}
