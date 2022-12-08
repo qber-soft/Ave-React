@@ -7,7 +7,8 @@ async function main() {
 		"window", 
 		"grid",
 		"button",
-		"label"
+		"label",
+		"text-box"
 	];
 	// prettier-ignore
 	const cases = [
