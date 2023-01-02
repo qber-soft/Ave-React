@@ -12,6 +12,7 @@ export interface IComponentProps {
 	langKey?: string;
 	children?: any[] | any;
 
+	onInit?: (nativeControl: any) => void;
 	onPointerEnter?: Parameters<IControl["OnPointerEnter"]>[0];
 	onPointerLeave?: Parameters<IControl["OnPointerLeave"]>[0];
 	onPointerPress?: Parameters<IControl["OnPointerPress"]>[0];
@@ -85,6 +86,10 @@ export abstract class AveComponent<Props extends IComponentProps = IComponentPro
 		this.window = window;
 		const control = this.onCreateUI();
 		this.nativeControl = control;
+		const isWindow = this.nativeControl instanceof NativeWindow;
+		if (this.props?.onInit && !isWindow) {
+			this.props?.onInit(this.nativeControl);
+		}
 		{
 			("use trace");
 			end: (id: number) => ({

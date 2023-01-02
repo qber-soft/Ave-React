@@ -3,7 +3,7 @@ import { Button, Grid } from "../../../src/ave-react";
 import { clickComponent, getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
-import { Color, waitFor } from "../../common";
+import { Color, waitFor, WaitForDelay } from "../../common";
 import { ButtonStyle } from "ave-ui";
 
 expect.extend({ toMatchImageSnapshot });
@@ -196,7 +196,7 @@ describe("button", () => {
 		//
 		await clickComponent("target");
 		console.time("click");
-		await waitFor("invoke click callback", 16); // wait, because callback is not invoked immediately
+		await waitFor("invoke click callback", WaitForDelay.ClickCallback); // wait, because callback is not invoked immediately
 
 		expect(defaultOnClick).toHaveBeenCalledTimes(1);
 		expect(newOnClick).toHaveBeenCalledTimes(0);
@@ -204,7 +204,7 @@ describe("button", () => {
 		//
 		await fireUpdate();
 		await clickComponent("target");
-		await waitFor("invoke click callback", 16);
+		await waitFor("invoke click callback", WaitForDelay.ClickCallback);
 
 		expect(defaultOnClick).toHaveBeenCalledTimes(1);
 		expect(newOnClick).toHaveBeenCalledTimes(1);
