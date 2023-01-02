@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Grid, TextBox } from "../../../src/ave-react";
-import { clickComponent, imageSnapshotTest, setupJest, TestContext } from "../common";
+import { clickComponent, getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { keyboard } from "@nut-tree/nut-js";
@@ -14,6 +14,7 @@ enum TextBoxTestCases {
 	MountAndUnMount = "display text box and remove",
 	Type = "enter and display text",
 	// update props
+	UpdateText = "update text",
 }
 
 describe("text-box", () => {
@@ -69,5 +70,32 @@ describe("text-box", () => {
 
 		const text = nativeTextBox.GetText();
 		expect(text).toEqual(input);
+	});
+
+	test(TextBoxTestCases.UpdateText, async () => {
+		TestContext.updateTitle(TextBoxTestCases.UpdateText);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [text, setText] = useState("TextBox");
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update text`);
+					setText("Update");
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<TextBox text={text}></TextBox>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
 	});
 });
