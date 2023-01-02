@@ -5,6 +5,7 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { keyboard } from "@nut-tree/nut-js";
 import { TextBox as NativeTextBox } from "ave-ui";
+import { waitFor } from "../../common";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -64,8 +65,9 @@ describe("text-box", () => {
 		await clickComponent("root");
 		const input = "Ave React";
 		await keyboard.type(input);
+		await waitFor("enter text", 100);
 
 		const text = nativeTextBox.GetText();
-		expect(text).toEqual("abc");
+		expect(text).toEqual(input);
 	});
 });
