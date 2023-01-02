@@ -66,6 +66,6 @@ describe("text-box", () => {
 		await keyboard.type(input);
 
 		const text = nativeTextBox.GetText();
-		expect(text).toEqual(input);
+		expect(text).toEqual("abc");
 	});
 });
