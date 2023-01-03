@@ -16,6 +16,7 @@ enum TextBoxTestCases {
 	// update props
 	UpdateText = "update text",
 	UpdateReadOnly = "update readonly",
+	UpdateBorder = "update border",
 }
 
 describe("text-box", () => {
@@ -140,6 +141,34 @@ describe("text-box", () => {
 			return (
 				<Grid id="root">
 					<TextBox text={text}></TextBox>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(TextBoxTestCases.UpdateBorder, async () => {
+		TestContext.updateTitle(TextBoxTestCases.UpdateBorder);
+
+		let fireUpdate = null;
+		function TestCase() {
+			const [border, setBorder] = useState(true);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update border`);
+					setBorder(false);
+				});
+			}, []);
+
+			return (
+				<Grid id="root">
+					<TextBox text="Default" border={border}></TextBox>
 				</Grid>
 			);
 		}
