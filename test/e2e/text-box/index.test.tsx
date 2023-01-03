@@ -13,6 +13,7 @@ setupJest();
 enum TextBoxTestCases {
 	MountAndUnMount = "display text box and remove",
 	Type = "enter and display text",
+	ReadOnly = "readonly",
 	// update props
 	UpdateText = "update text",
 }
@@ -70,6 +71,38 @@ describe("text-box", () => {
 
 		const text = nativeTextBox.GetText();
 		expect(text).toEqual(input);
+	});
+
+	test(TextBoxTestCases.ReadOnly, async () => {
+		TestContext.updateTitle(TextBoxTestCases.ReadOnly);
+
+		let nativeTextBox: NativeTextBox = null;
+		const defaultText = "Default";
+
+		function TestCase() {
+			const onInit = (textBox: NativeTextBox) => {
+				nativeTextBox = textBox;
+			};
+
+			return (
+				<Grid id="root">
+					<TextBox text={defaultText} readonly onInit={onInit}></TextBox>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+		expect(nativeTextBox).not.toEqual(null);
+
+		await clickComponent("root");
+		const input = "Ave React";
+		await keyboard.type(input);
+		await waitFor("enter text", 100);
+
+		const text = nativeTextBox.GetText();
+		expect(text).not.toEqual(input);
+		expect(text).toEqual(defaultText);
 	});
 
 	test(TextBoxTestCases.UpdateText, async () => {
