@@ -7,7 +7,8 @@ async function main() {
 		"window", 
 		"grid",
 		"button",
-		"label"
+		"label",
+		"text-box"
 	];
 	// prettier-ignore
 	const cases = [
@@ -22,9 +23,20 @@ async function main() {
 			}
 		})
 	];
+
+	const errors = [];
 	cases.forEach((each) => {
-		execJest(each);
+		try {
+			execJest(each);
+		} catch (error) {
+			errors.push(error);
+		}
 	});
+
+	if (errors.length !== 0) {
+		console.error("Test Failed!");
+		process.exit(1);
+	}
 }
 
 main();

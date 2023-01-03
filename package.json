@@ -36,7 +36,8 @@
 		"test": "npm run test:unit && npm run test:e2e",
 		"test:unit": "ts-node ./test/unit/index.ts",
 		"test:e2e": "ts-node ./test/e2e/index.ts",
-		"posttest": "ts-node ./test/script/merge-coverage.ts"
+		"posttest": "ts-node ./test/script/merge-coverage.ts",
+		"test:manual": "ts-node ./test/manual/index.ts"
 	},
 	"author": "ivjtk; rerender2021",
 	"files": [
