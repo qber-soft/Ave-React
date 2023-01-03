@@ -13,9 +13,9 @@ setupJest();
 enum TextBoxTestCases {
 	MountAndUnMount = "display text box and remove",
 	Type = "enter and display text",
-	ReadOnly = "readonly",
 	// update props
 	UpdateText = "update text",
+	UpdateReadOnly = "update readonly",
 }
 
 describe("text-box", () => {
@@ -73,20 +73,30 @@ describe("text-box", () => {
 		expect(text).toEqual(input);
 	});
 
-	test(TextBoxTestCases.ReadOnly, async () => {
-		TestContext.updateTitle(TextBoxTestCases.ReadOnly);
+	test(TextBoxTestCases.UpdateReadOnly, async () => {
+		TestContext.updateTitle(TextBoxTestCases.UpdateReadOnly);
 
 		let nativeTextBox: NativeTextBox = null;
 		const defaultText = "Default";
 
+		let fireUpdate = null;
 		function TestCase() {
+			const [readonly, setReadOnly] = useState(true);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update readonly`);
+					setReadOnly(false);
+				});
+			}, []);
+
 			const onInit = (textBox: NativeTextBox) => {
 				nativeTextBox = textBox;
 			};
 
 			return (
 				<Grid id="root">
-					<TextBox text={defaultText} readonly onInit={onInit}></TextBox>
+					<TextBox text={defaultText} readonly={readonly} onInit={onInit}></TextBox>
 				</Grid>
 			);
 		}
@@ -96,13 +106,22 @@ describe("text-box", () => {
 		expect(nativeTextBox).not.toEqual(null);
 
 		await clickComponent("root");
-		const input = "Ave React";
+		const input = " Update";
 		await keyboard.type(input);
 		await waitFor("enter text", 100);
 
 		const text = nativeTextBox.GetText();
 		expect(text).not.toEqual(input);
 		expect(text).toEqual(defaultText);
+
+		//
+		await fireUpdate();
+		await clickComponent("root");
+		await keyboard.type(input);
+		await waitFor("enter text", 100);
+
+		const textUpdated = nativeTextBox.GetText();
+		expect(textUpdated).toEqual(`${defaultText}${input}`);
 	});
 
 	test(TextBoxTestCases.UpdateText, async () => {
