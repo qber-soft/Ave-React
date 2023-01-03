@@ -8,6 +8,7 @@ function sleep(ms: number) {
 
 export enum WaitForDelay {
 	ClickCallback = 100,
+	ChangeCallback = 100,
 }
 
 export async function waitFor(reason: string, time: number) {

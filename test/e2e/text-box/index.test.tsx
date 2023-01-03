@@ -5,7 +5,7 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { keyboard } from "@nut-tree/nut-js";
 import { TextBox as NativeTextBox } from "ave-ui";
-import { waitFor } from "../../common";
+import { waitFor, WaitForDelay } from "../../common";
 
 expect.extend({ toMatchImageSnapshot });
 setupJest();
@@ -17,6 +17,7 @@ enum TextBoxTestCases {
 	UpdateText = "update text",
 	UpdateReadOnly = "update readonly",
 	UpdateBorder = "update border",
+	UpdateOnChange = "update onChange",
 }
 
 describe("text-box", () => {
@@ -178,5 +179,67 @@ describe("text-box", () => {
 
 		await fireUpdate();
 		await imageSnapshotTest("root");
+	});
+
+	test(TextBoxTestCases.UpdateOnChange, async () => {
+		TestContext.updateTitle(TextBoxTestCases.UpdateOnChange);
+
+		let fireUpdate = null;
+
+		const defaultOnChange = jest.fn((sender) => {
+			expect(sender.GetText()).toEqual("AB");
+		});
+
+		let count = 1;
+		const newOnChange = jest.fn((sender) => {
+			if (count === 1) {
+				expect(sender.GetText()).toEqual("ABC");
+				++count;
+			} else if (count === 2) {
+				expect(sender.GetText()).toEqual("ABCD");
+			} else {
+				throw new Error("unexpected text change");
+			}
+		});
+
+		function TestCase() {
+			const [update, setUpdate] = useState(false);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					console.log(`update onChange`);
+					setUpdate(true);
+				});
+			}, []);
+
+			return (
+				<Grid id="root">
+					<TextBox text="A" onChange={update ? newOnChange : defaultOnChange}></TextBox>
+				</Grid>
+			);
+		}
+
+		//
+		await TestContext.render(<TestCase />);
+
+		expect(defaultOnChange).toHaveBeenCalledTimes(0);
+		expect(newOnChange).toHaveBeenCalledTimes(0);
+
+		//
+		await clickComponent("root");
+		await keyboard.type("B");
+		await waitFor("invoke change callback", WaitForDelay.ChangeCallback);
+
+		expect(defaultOnChange).toHaveBeenCalledTimes(1);
+		expect(newOnChange).toHaveBeenCalledTimes(0);
+
+		//
+		await fireUpdate();
+		await clickComponent("root");
+		await keyboard.type("CD");
+		await waitFor("invoke change callback", WaitForDelay.ChangeCallback);
+
+		expect(defaultOnChange).toHaveBeenCalledTimes(1);
+		expect(newOnChange).toHaveBeenCalledTimes(2);
 	});
 });
