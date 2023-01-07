@@ -24,11 +24,16 @@ export interface ITestContext {
 	nativeWindow: NativeWindow;
 	activeWindow: NutjsWindow;
 
+	width: string;
+	height: string;
+
 	render: (content: any, wait?: number) => Promise<void>;
 	updateTitle: (title: string) => void;
 
 	begin(): void;
 	end(): void;
+	restore(): void;
+	updateLayout(width: string, height: string): void;
 }
 
 class __TestContext implements ITestContext {
@@ -39,6 +44,8 @@ class __TestContext implements ITestContext {
 	nativeWindow: NativeWindow = null;
 	activeWindow: NutjsWindow = null;
 	containerId = "__container__";
+	width: string = "120dpx";
+	height: string = "32dpx";
 
 	constructor() {}
 
@@ -55,13 +62,22 @@ class __TestContext implements ITestContext {
 		const window = context.getWindow();
 		window.CloseWindow();
 	}
+
+	restore() {
+		this.updateLayout("120dpx", "32dpx");
+	}
+
+	updateLayout(width: string, height: string) {
+		this.width = width;
+		this.height = height;
+	}
 }
 
 export const TestContext = new __TestContext();
 
 export function TestLayout(props: ITestLayoutProps) {
-	const width = props?.width ?? "120dpx";
-	const height = props?.height ?? "32dpx";
+	const width = props?.width ?? TestContext.width;
+	const height = props?.height ?? TestContext.height;
 
 	const demoLayout = {
 		columns: `1 ${width} 1`,

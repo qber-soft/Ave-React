@@ -1,9 +1,10 @@
 import path from "path";
 
-function assetsPath(name: string) {
+export function assetsPath(name: string) {
 	const root = path.resolve(__dirname, "../../../assets");
 	return path.resolve(root, `./${name}`);
 }
+
 const iconResource = {
 	size: [16],
 	path: {
