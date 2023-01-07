@@ -8,7 +8,8 @@ async function main() {
 		"grid",
 		"button",
 		"label",
-		"text-box"
+		"text-box",
+		"image"
 	];
 	// prettier-ignore
 	const cases = [
