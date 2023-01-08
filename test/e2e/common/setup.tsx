@@ -25,6 +25,9 @@ export function setupJest() {
 
 	afterEach(async () => {
 		// await waitFor("[debug only] review test result", 3000);
+		TestContext.restore();
+
+		//
 		await TestContext.render(<></>);
 		const components = getComponents();
 		expect(components.length).toEqual(TestContext.defaultComponentCount);
