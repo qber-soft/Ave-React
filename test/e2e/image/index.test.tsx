@@ -5,7 +5,7 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
 import { Color } from "../../common";
 import { assetsPath } from "../common/icon-resource";
-import { AveImage, ResourceSource } from "ave-ui";
+import { AveImage, Byo2Image, ResourceSource, Picture as NativePicture, ImageData } from "ave-ui";
 import fs from "fs";
 
 expect.extend({ toMatchImageSnapshot });
@@ -13,6 +13,7 @@ setupJest();
 
 enum ImageTestCases {
 	MountAndUnMount = "display image and remove",
+	OnLoad = "onLoad",
 	// update props
 	UpdateSrc = "update src",
 	UpdateSrcAveImage = "update src ave image",
@@ -107,5 +108,36 @@ describe("image", () => {
 
 		await fireUpdate();
 		await imageSnapshotTest("root");
+	});
+
+	test(ImageTestCases.OnLoad, async () => {
+		TestContext.updateTitle(ImageTestCases.OnLoad);
+		TestContext.updateLayout("128dpx", "128dpx");
+
+		const onLoad = jest.fn((byo2: Byo2Image, data: ImageData, picture: NativePicture) => {
+			expect(byo2.GetWidth()).toEqual(128);
+			expect(byo2.GetHeight()).toEqual(128);
+
+			expect(data.Width).toEqual(128);
+			expect(data.Height).toEqual(128);
+
+			const size = picture.GetSize();
+			expect(size.x).toEqual(128);
+			expect(size.y).toEqual(128);
+		});
+
+		function TestCase() {
+			const src = assetsPath("color-wheel.png");
+			return (
+				<Grid id="root" style={{ backgroundColor: Color.Grey }}>
+					<Image src={src} onLoad={onLoad} />
+				</Grid>
+			);
+		}
+
+		//
+		await TestContext.render(<TestCase />);
+
+		expect(onLoad).toHaveBeenCalledTimes(1);
 	});
 });
