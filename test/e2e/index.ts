@@ -9,7 +9,8 @@ async function main() {
 		"button",
 		"label",
 		"text-box",
-		"image"
+		"image",
+		"hyperlink"
 	];
 	// prettier-ignore
 	const cases = [
