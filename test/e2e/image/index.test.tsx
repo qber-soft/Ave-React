@@ -3,7 +3,7 @@ import { Image, Grid, getAppContext } from "../../../src/ave-react";
 import { getUpdateFunction, imageSnapshotTest, setupJest, TestContext } from "../common";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { getComponents } from "../../ave-testing";
-import { Color } from "../../common";
+import { Color, waitFor } from "../../common";
 import { assetsPath } from "../common/icon-resource";
 import { AveImage, Byo2Image, ResourceSource, Picture as NativePicture, ImageData } from "ave-ui";
 import fs from "fs";
@@ -137,6 +137,8 @@ describe("image", () => {
 
 		//
 		await TestContext.render(<TestCase />);
+		TestContext.nativeWindow.Redraw();
+		await waitFor("render and redraw", 100);
 
 		expect(onLoad).toHaveBeenCalledTimes(1);
 	});
