@@ -1,4 +1,4 @@
-import { TimePoint } from "ave-ui";
+import { TimePoint, Calendar as NativeCalendar } from "ave-ui";
 import React, { useState } from "react";
 import { Calendar, Grid, TextBox } from "../../src/ave-react";
 import { setupJest, TestContext, waitForTestEnd } from "./common";
@@ -28,7 +28,14 @@ describe("manual test", () => {
 		function TestCase() {
 			return (
 				<Grid id="root">
-					<Calendar></Calendar>
+					<Calendar
+						onInit={(calendar: NativeCalendar) => {
+							const timestamp = calendar.GetDate().JsDateTime;
+							const date = new Date(timestamp);
+							const now = new Date(Date.now());
+							expect(date.toLocaleDateString()).toEqual(now.toLocaleDateString());
+						}}
+					></Calendar>
 				</Grid>
 			);
 		}
