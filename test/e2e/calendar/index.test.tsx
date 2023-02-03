@@ -12,6 +12,7 @@ enum CalendarTestCases {
 	MountAndUnMount = "display calendar and remove",
 	// update props
 	UpdateDate = "update date",
+	UpdateDateMark = "update date mark",
 }
 
 describe("calendar", () => {
@@ -61,6 +62,39 @@ describe("calendar", () => {
 			return (
 				<Grid id="root">
 					<Calendar date={date}></Calendar>
+				</Grid>
+			);
+		}
+
+		await TestContext.render(<TestCase />);
+		await imageSnapshotTest("root");
+
+		await fireUpdate();
+		await imageSnapshotTest("root");
+	});
+
+	test(CalendarTestCases.UpdateDateMark, async () => {
+		TestContext.updateTitle(CalendarTestCases.UpdateDateMark);
+		TestContext.updateLayout("400dpx", "400dpx");
+
+		let fireUpdate = null;
+		function TestCase() {
+			const timestamp = new TimePoint(2021, 11, 5).JsDateTime;
+			const [date, setDate] = useState(timestamp);
+			const [dateMark, setDateMark] = useState(timestamp);
+
+			useEffect(() => {
+				fireUpdate = getUpdateFunction(() => {
+					const date = new TimePoint(2022, 1, 29).JsDateTime;
+					setDate(date);
+
+					const dateMark = new TimePoint(2022, 1, 15).JsDateTime;
+					setDateMark(dateMark);
+				});
+			}, []);
+			return (
+				<Grid id="root">
+					<Calendar date={date} dateMark={dateMark}></Calendar>
 				</Grid>
 			);
 		}
