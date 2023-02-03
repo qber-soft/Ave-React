@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { App, Window as NativeWindow } from "ave-ui";
+import { App, CultureId, Window as NativeWindow } from "ave-ui";
 import { Window as NutjsWindow } from "@nut-tree/nut-js";
 import { Button, getAppContext, Grid, IIconResource, Window } from "../../../src/ave-react";
 import { Color, waitFor } from "../../common";
@@ -41,6 +41,8 @@ class __TestContext implements ITestContext {
 	activeWindow: NutjsWindow = null;
 	containerId = "__container__";
 	result = null;
+	width: string = "120dpx";
+	height: string = "32dpx";
 
 	constructor() {}
 
@@ -57,13 +59,22 @@ class __TestContext implements ITestContext {
 		const window = context.getWindow();
 		window.CloseWindow();
 	}
+
+	restore() {
+		this.updateLayout("120dpx", "32dpx");
+	}
+
+	updateLayout(width: string, height: string) {
+		this.width = width;
+		this.height = height;
+	}
 }
 
 export const TestContext = new __TestContext();
 
 export function TestLayout(props: ITestLayoutProps) {
-	const width = props?.width ?? "120dpx";
-	const height = props?.height ?? "32dpx";
+	const width = props?.width ?? TestContext.width;
+	const height = props?.height ?? TestContext.height;
 
 	const demoLayout = {
 		columns: `1 ${width} 1`,
@@ -107,6 +118,7 @@ export function TestLayout(props: ITestLayoutProps) {
 function onInit(app: App) {
 	const context = getAppContext();
 	context.setIconResource(iconResource as unknown as IIconResource);
+	app.LangSetCurrent(CultureId.en_us);
 }
 
 export function ManualTestWindow(props: ITestWindowProps) {

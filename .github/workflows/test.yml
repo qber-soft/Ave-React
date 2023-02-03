@@ -29,6 +29,8 @@ jobs:
                   CI: true
             - uses: actions/upload-artifact@v3
               with:
-                  name: coverage
-                  path: "./coverage"
+                  name: artifacts
+                  path: |
+                      ./coverage
+                      ./test-out
                   if-no-files-found: error

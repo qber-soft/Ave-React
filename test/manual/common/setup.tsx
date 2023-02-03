@@ -1,6 +1,7 @@
 import React from "react";
 import { AveRenderer } from "../../../src/ave-react";
 import { waitFor } from "../../common";
+import { findWindowByTitle, focusWindow } from "../../e2e/common";
 import { TestContext, ManualTestWindow } from "../common";
 
 export function setupJest() {
@@ -12,9 +13,14 @@ export function setupJest() {
 
 		TestContext.nativeWindow = TestContext.begin();
 		await waitFor("window active", 1000);
+
+		TestContext.activeWindow = await findWindowByTitle(TestContext.defaultWindowTitle);
+		await focusWindow(TestContext.activeWindow);
 	});
 
 	afterEach(async () => {
+		TestContext.restore();
+
 		await TestContext.render(<></>);
 
 		expect(TestContext.result).toEqual(true);

@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { App, Window as NativeWindow } from "ave-ui";
+import { App, CultureId, Window as NativeWindow } from "ave-ui";
 import { Window as NutjsWindow } from "@nut-tree/nut-js";
 import { getAppContext, Grid, IIconResource, Window } from "../../../src/ave-react";
 import { Color, waitFor } from "../../common";
@@ -96,6 +96,7 @@ export function TestLayout(props: ITestLayoutProps) {
 function onInit(app: App) {
 	const context = getAppContext();
 	context.setIconResource(iconResource as unknown as IIconResource);
+	app.LangSetCurrent(CultureId.en_us);
 }
 
 export function TestWindow(props: ITestWindowProps) {

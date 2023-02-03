@@ -10,7 +10,8 @@ async function main() {
 		"label",
 		"text-box",
 		"image",
-		"hyperlink"
+		"hyperlink",
+		"calendar"
 	];
 	// prettier-ignore
 	const cases = [
