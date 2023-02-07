@@ -1,6 +1,6 @@
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
+import { AveComponent, ComponentConfig, IComponentProps, IComponentStyle, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
-import { Byo2Image, Byo2ImageCreation, Byo2ImageDataType, IControl, Picture as NativePicture, ResourceSource, StretchMode, ImageData, AveImage } from "ave-ui";
+import { Byo2Image, Byo2ImageCreation, Byo2ImageDataType, Picture as NativePicture, ResourceSource, StretchMode, ImageData, AveImage } from "ave-ui";
 import fs from "fs";
 
 export interface IImageComponentProps extends IComponentProps {
@@ -8,7 +8,12 @@ export interface IImageComponentProps extends IComponentProps {
 	 * absolute path of image file
 	 */
 	src: string | AveImage;
+	style?: IImageStyle;
 	onLoad?: (byo2: Byo2Image, data: ImageData, picture: NativePicture) => void;
+}
+
+export interface IImageStyle extends IComponentStyle {
+	stretchMode?: StretchMode;
 }
 
 class ImageComponent extends AveComponent<IImageComponentProps> {
@@ -35,11 +40,27 @@ class ImageComponent extends AveComponent<IImageComponentProps> {
 				break;
 			}
 
+			case "style": {
+				this.setValueForStyles(propValue ?? {});
+				break;
+			}
+
 			case "onLoad": {
 				this.onLoad = propValue ?? (() => {});
 				break;
 			}
 		}
+	}
+
+	private setValueForStyles(styles: IImageStyle = {}) {
+		(Object.keys(styles) as Array<keyof IImageStyle>).forEach((styleName) => {
+			switch (styleName) {
+				case "stretchMode": {
+					this.picture.SetStretchMode(styles.stretchMode ?? StretchMode.Center);
+					break;
+				}
+			}
+		});
 	}
 
 	private async updateSrc(src: string | AveImage) {

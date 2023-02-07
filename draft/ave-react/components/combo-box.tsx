@@ -1,5 +1,5 @@
 import { ComboBox as NativeComboBox, IComboBox } from "ave-ui";
-import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "../components";
+import { AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer } from "../renderer";
 
 export interface IComboBoxComponentProps extends IComponentProps {

@@ -29,8 +29,6 @@
 		"predist": "del-cli ./dist && npm run build",
 		"dist": "cd ./build && copyfiles ./src/ave-react/** ../dist",
 		"postdist": "del-cli ./dist/src/ave-react/dev",
-		"prerelease": "npm run build",
-		"release": "ave-pack pack",
 		"format": "prettier --write \"{draft,src}/**/*.{js,jsx,ts,tsx,md,mdx}\"",
 		"pretest": "del-cli ./coverage",
 		"test": "npm run test:unit && npm run test:e2e",
@@ -72,7 +70,7 @@
 		"typescript": "^4.6.2"
 	},
 	"dependencies": {
-		"ave-ui": "^0.1.7",
+		"ave-ui": "0.1.8",
 		"react": "17.0.0",
 		"react-reconciler": "0.26.1"
 	}

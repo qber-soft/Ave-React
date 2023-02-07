@@ -1,12 +1,12 @@
 import React from "react";
 import { AveRenderer } from "./ave-react";
 import { startDevtoolBackend } from "./devtool";
-import { TestGridUpdateMargin } from "./examples";
+import { TestCodeEditorDark } from "./examples";
 
 if (process.env.NODE_ENV === "dev") {
 	startDevtoolBackend();
 }
 
-const app = <TestGridUpdateMargin />;
+const app = <TestCodeEditorDark />;
 
 AveRenderer.render(app);
