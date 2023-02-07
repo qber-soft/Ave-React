@@ -114,14 +114,16 @@ describe("image", () => {
 		TestContext.updateTitle(ImageTestCases.OnLoad);
 		TestContext.updateLayout("128dpx", "128dpx");
 
-		const onLoad = jest.fn((byo2: Byo2Image, data: ImageData, picture: NativePicture) => {
+		const onLoad = jest.fn(async (byo2: Byo2Image, data: ImageData, picture: NativePicture) => {
 			expect(byo2.GetWidth()).toEqual(128);
 			expect(byo2.GetHeight()).toEqual(128);
 
 			expect(data.Width).toEqual(128);
 			expect(data.Height).toEqual(128);
 
+			// TODO: size of picture component may not be available immediately
 			const size = picture.GetSize();
+			await waitFor("size of picture ready", 100);
 			expect(size.x).toEqual(128);
 			expect(size.y).toEqual(128);
 		});
