@@ -5,3 +5,4 @@ export * from "./window-icon";
 export * from "./window-with-background";
 export * from "./window-opacity";
 export * from "./window-no-caption";
+export * from "./window-size";
