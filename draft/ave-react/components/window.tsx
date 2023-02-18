@@ -1,4 +1,4 @@
-import { App, ThemeImage, Window as NativeWindow, WindowCreation, WindowFlag, Grid as NativeGrid, CultureId } from "ave-ui";
+import { App, ThemeImage, Window as NativeWindow, WindowCreation, WindowFlag, Grid as NativeGrid, CultureId, Vec2 } from "ave-ui";
 import { DefaultString, AveComponent, ComponentConfig, IComponentProps, registerComponent } from "./common";
 import { AppContainer, getAppContext } from "../renderer";
 import { GridComponent } from "./grid";
@@ -7,6 +7,7 @@ import * as Trace from "../dev/trace";
 
 export interface IWindowComponentProps extends IComponentProps {
 	title?: string;
+	size?: { width: number; height: number };
 
 	withBackground?: boolean;
 	withCaption?: boolean;
@@ -50,6 +51,10 @@ export class WindowComponent extends AveComponent<IWindowComponentProps> {
 		cpWindow.Title = this.props.title ?? "Window";
 		cpWindow.Flag |= WindowFlag.Layered;
 		cpWindow.Theme = context.getThemeImage();
+		if (this.props.size) {
+			const { width = 800, height = 600 } = this.props.size;
+			cpWindow.Layout.Size = new Vec2(width, height);
+		}
 
 		this.window = new NativeWindow(cpWindow);
 		if (this.props?.onClose) {
